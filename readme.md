@@ -1,0 +1,1 @@
+- Initialize vite with `npm create vite@latest .`
