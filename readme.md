@@ -12,21 +12,21 @@ Check that the project is running correctly
 
 ### Set initial files structure
 
-- Remove files `App.css` and `index.css`
-- Rename files `App.jsx` to `app.jsx`
-- Change the `main.jsx` content as show below
+Remove files `App.css` and `index.css`
+Rename files `App.jsx` to `app.jsx`
+Change the `main.jsx` content as show below
 
-  ```jsx
-  import React from "react";
-  import ReactDOM from "react-dom/client";
-  import App from "./app";
+```jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./app";
 
-  ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
-  ```
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
 
 - Change the `app.jsx` content as show below
 
