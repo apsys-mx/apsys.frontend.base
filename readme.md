@@ -12,11 +12,9 @@ Check that the project is running correctly
 
 ### Set initial files structure
 
-Remove files `App.css` and `index.css`
-
-Rename files `App.jsx` to `app.jsx`
-
-Change the `main.jsx` content as show below
+- Remove files `App.css` and `index.css`
+- Rename files `App.jsx` to `app.jsx`
+- Change the `main.jsx` content as show below
 
 ```jsx
 import React from "react";
