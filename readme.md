@@ -74,3 +74,20 @@ const RootView = (props) => {
 }
 export default RootView
 ```
+
+-   Modify the `main.jsx` as show below in order to inject the store in the root of the application
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './app'
+import RootView from './root-view'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+	<React.StrictMode>
+		<RootView>
+			<App />
+		</RootView>
+	</React.StrictMode>
+)
+```
