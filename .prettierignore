@@ -1,0 +1,5 @@
+_env
+.env
+.env.*
+/.env
+/.env.*
