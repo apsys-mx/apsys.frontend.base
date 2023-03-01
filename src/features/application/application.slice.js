@@ -7,7 +7,12 @@ const initialState = {
 export const applicationSlice = createSlice({
 	name: 'applicationSlice',
 	initialState,
-	reducers: {},
+	reducers: {
+		setTitle: (state, action) => {
+			state.title = action.payload
+		},
+	},
 })
 
+export const { setTitle } = applicationSlice.actions
 export default applicationSlice.reducer
