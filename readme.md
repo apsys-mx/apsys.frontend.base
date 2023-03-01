@@ -192,3 +192,117 @@ const App = () => {
 
 export default App
 ```
+
+## Create environment files
+
+-   Create three environment files: `.env` for development environment, `.env.qas` for qas environment, and `.env.prd` for production environment.
+-   In the three files add the next line
+
+```text
+VITE_APP_ROOT='/'
+```
+
+## Configure routing
+
+-   Install routing library `npm install react-router-dom`
+-   Create the files `features/landing/landing.jsx` and `features/landing/landing.template.jsx` for a landing page used for not authenticated users
+
+```jsx, landing.jsx
+import React from 'react'
+import DesktopTemplate from './landing.template'
+
+const Landing = () => {
+	return <DesktopTemplate />
+}
+export default Landing
+```
+
+```jsx, landing.template.jsx
+import React from 'react'
+
+const LandingTemplate = () => {
+	return <h1>Landing page template</h1>
+}
+export default LandingTemplate
+```
+
+-   Create the files `features/home/home.jsx` and `features/home/home.template.jsx` for a home page used for authenticated users
+
+```jsx, home.jsx
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getTitle } from '../../features/application/application.selectors'
+import { setTitle } from '../../features/application/application.slice'
+
+import DesktopTemplate from './home.template'
+
+const Home = () => {
+	var dispatch = useDispatch()
+	const title = useSelector((state) => getTitle(state))
+
+	const onchangeTitle = (event) => dispatch(setTitle(event.target.value))
+
+	return <DesktopTemplate title={title} onchangeTitle={onchangeTitle} />
+}
+
+export default Home
+```
+
+```jsx, home.template.jsx
+import React from 'react'
+
+const HomeTemplate = ({ title, onchangeTitle }) => {
+	return (
+		<div>
+			<h1>Home page</h1>
+			<h2>{title}</h2>
+			<input onChange={onchangeTitle} />
+		</div>
+	)
+}
+
+export default HomeTemplate
+
+```
+
+-   Modify `main.jsx` in order to define the routes for a landing page
+
+```jsx, main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './app'
+import RootView from './root-view'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Landing from './features/landing/landing'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+	<React.StrictMode>
+		<RootView>
+			<BrowserRouter basename={`${import.meta.env.BASE_URL}`}>
+				<Routes>
+					<Route path='/*' element={<App />} />
+					<Route path='login' element={<Landing />} />
+				</Routes>
+			</BrowserRouter>
+		</RootView>
+	</React.StrictMode>
+)
+```
+
+-   Modify `app.jsx` in order to define the routes for a home page
+
+```jsx, app.jsx
+import React from 'react'
+import Home from './features/home/home'
+import { Routes, Route } from 'react-router-dom'
+
+const App = () => {
+	return (
+		<Routes>
+			<Route index path='/' element={<Home />} />
+		</Routes>
+	)
+}
+
+export default App
+```
