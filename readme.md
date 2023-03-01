@@ -206,7 +206,7 @@ export default App
 ## Create environment files
 
 -   Create three environment files: `.env` for development environment, `.env.qas` for qas environment, and `.env.prd` for production environment in the root folder
--   In the three files add the next line
+-   Add the next line in the three files
 
 ```text
 VITE_APP_ROOT='/'
