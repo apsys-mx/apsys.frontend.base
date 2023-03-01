@@ -340,6 +340,8 @@ VITE_APP_CLIENT_ID = 'apsys.frontend.base'
 VITE_IDENTITY_SERVER_URL = 'https://identity.efemsa.com/v4.0/'
 ```
 
+### Create the user-manager file
+
 -   Create the file `auth/user-manager.js`
 
 ```javascript
