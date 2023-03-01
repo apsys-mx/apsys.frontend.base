@@ -267,7 +267,7 @@ export default HomeTemplate
 
 -   Modify `main.jsx` in order to define the routes for a landing page
 
-```jsx, main.jsx
+```jsx
 // main.jsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
