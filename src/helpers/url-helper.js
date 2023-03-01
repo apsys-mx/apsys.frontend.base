@@ -9,12 +9,12 @@ export function getAbsoluteUrlAddress(endPoint) {
 		window.location.port ? `:${window.location.port}` : ''
 	}`
 	if (isNullOrEmpty(endPoint)) {
-		return process.env.REACT_APP_ROOT === '/'
+		return import.meta.env.BASE_URL === '/'
 			? `${baseUrl}`
-			: `${baseUrl}${process.env.REACT_APP_ROOT}/${endPoint}`
+			: `${baseUrl}${import.meta.env.BASE_URL}/${endPoint}`
 	} else {
-		return process.env.REACT_APP_ROOT === '/'
+		return import.meta.env.BASE_URL === '/'
 			? `${baseUrl}/${endPoint}`
-			: `${baseUrl}${process.env.REACT_APP_ROOT}/${endPoint}`
+			: `${baseUrl}${import.meta.env.BASE_URL}/${endPoint}`
 	}
 }
