@@ -145,25 +145,6 @@ const getTitle = createSelector(getState, (state) => {
 export { getTitle }
 ```
 
--   Modify the file `app.jsx` as show below in order to add the application slice in the store
-
-```jsx
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { getTitle } from './features/application/application.selectors'
-
-const App = () => {
-	const title = useSelector((state) => getTitle(state))
-	return (
-		<div>
-			<h1>{title}</h1>
-		</div>
-	)
-}
-
-export default App
-```
-
 -   Modify the file `features/application/application.slice.js` as show below
 
 ```javascript
