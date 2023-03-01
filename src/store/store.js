@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
-import applicationSlice from '../features/application/application.slice'
+import homeSlice from '../features/home/home.slice'
 
 const rootReducer = combineReducers({
-	applicationSlice,
+	homeSlice: homeSlice,
 })
 
 export const store = configureStore({

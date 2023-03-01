@@ -94,32 +94,34 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ### Add an application slice
 
--   Create a file `features/application/application.slice.js` with the code show below
+-   Create a file `features/home/home.slice.js` with the code show below
 
 ```javascript
+// home.slice.js
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
 	title: 'Hello world',
 }
-export const applicationSlice = createSlice({
-	name: 'applicationSlice',
+export const homeSlice = createSlice({
+	name: 'homeSlice',
 	initialState,
 	reducers: {},
 })
-export default applicationSlice.reducer
+export default homeSlice.reducer
 ```
 
 -   Modify the file `store/store.js` as show below in order to add the application slice in the store
 
 ```javascript
+// store.js
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
-import applicationSlice from '../features/application/application.slice'
+import homeSlice from '../features/home/home.slice'
 
 const rootReducer = combineReducers({
-	applicationSlice,
+	homeSlice: homeSlice,
 })
 
 export const store = configureStore({
@@ -131,12 +133,12 @@ export const store = configureStore({
 
 ### Add selectors and actions
 
--   Create a file `features/application/application.selectors.js` with the code show below
+-   Create a file `features/home/home.selectors.js` with the code show below
 
 ```javascript
 import { createSelector } from 'reselect'
 
-const getState = (state) => (state = state.applicationSlice)
+const getState = (state) => (state = state.homeSlice)
 
 const getTitle = createSelector(getState, (state) => {
 	return state.title
@@ -145,7 +147,7 @@ const getTitle = createSelector(getState, (state) => {
 export { getTitle }
 ```
 
--   Modify the file `features/application/application.slice.js` as show below
+-   Modify the file `features/home/home.slice.js` as show below
 
 ```javascript
 import { createSlice } from '@reduxjs/toolkit'
@@ -154,8 +156,8 @@ const initialState = {
 	title: 'Hello world',
 }
 
-export const applicationSlice = createSlice({
-	name: 'applicationSlice',
+export const homeSlice = createSlice({
+	name: 'homeSlice',
 	initialState,
 	reducers: {
 		setTitle: (state, action) => {
@@ -164,17 +166,18 @@ export const applicationSlice = createSlice({
 	},
 })
 
-export const { setTitle } = applicationSlice.actions
-export default applicationSlice.reducer
+export const { setTitle } = homeSlice.actions
+export default homeSlice.reducer
 ```
 
 -   Modify the file `app.jsx` as show below in order to use the selector and actions defined
 
 ```jsx
+// app.jsx
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getTitle } from './features/application/application.selectors'
-import { setTitle } from './features/application/application.slice'
+import { getTitle } from './features/home/home.selectors'
+import { setTitle } from './features/home/home.slice'
 
 const App = () => {
 	var dispatch = useDispatch()
@@ -228,14 +231,14 @@ const LandingTemplate = () => {
 export default LandingTemplate
 ```
 
--   Create the files `features/home/home.jsx` and `features/home/home.template.jsx` for a home page used for authenticated users
+-   Create the files `features/home/index/home.jsx` and `features/home/index/home.template.jsx` for a home page used for authenticated users
 
 ```jsx
 // home.jsx
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getTitle } from '../../features/application/application.selectors'
-import { setTitle } from '../../features/application/application.slice'
+import { getTitle } from '../home.selectors'
+import { setTitle } from '../home.slice'
 
 import DesktopTemplate from './home.template'
 
@@ -247,6 +250,7 @@ const Home = () => {
 
 	return <DesktopTemplate title={title} onchangeTitle={onchangeTitle} />
 }
+
 export default Home
 ```
 
@@ -296,7 +300,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 ```jsx
 // app.jsx file
 import React from 'react'
-import Home from './features/home/home'
+import Home from './features/home/index/home'
 import { Routes, Route } from 'react-router-dom'
 
 const App = () => {

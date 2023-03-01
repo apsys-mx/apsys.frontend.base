@@ -4,8 +4,8 @@ const initialState = {
 	title: 'Hello world',
 }
 
-export const applicationSlice = createSlice({
-	name: 'applicationSlice',
+export const homeSlice = createSlice({
+	name: 'homeSlice',
 	initialState,
 	reducers: {
 		setTitle: (state, action) => {
@@ -14,5 +14,5 @@ export const applicationSlice = createSlice({
 	},
 })
 
-export const { setTitle } = applicationSlice.actions
-export default applicationSlice.reducer
+export const { setTitle } = homeSlice.actions
+export default homeSlice.reducer

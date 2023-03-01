@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getTitle } from '../../features/application/application.selectors'
-import { setTitle } from '../../features/application/application.slice'
+import { getTitle } from '../home.selectors'
+import { setTitle } from '../home.slice'
 
 import DesktopTemplate from './home.template'
 
