@@ -346,7 +346,7 @@ VITE_APP_CLIENT_ID = 'apsys.frontend.base'
 VITE_IDENTITY_SERVER_URL = 'https://identity.efemsa.com/v4.0/'
 ```
 
-### Create the user-manager file
+### Create the user-manager file and add to the redux store
 
 -   Create the file `user-manager.js`
 
@@ -420,3 +420,99 @@ const RootView = (props) => {
 }
 export default RootView
 ```
+
+### Implements login process
+
+-   Create the file `callback-page.jsx`
+
+```jsx
+// src\auth\callback-page.jsx
+import React from 'react'
+import { CallbackComponent } from 'redux-oidc'
+import userManager from './user-manager'
+import { useNavigate } from 'react-router'
+
+const CallbackPage = () => {
+	const navigate = useNavigate()
+
+	const successCallback = () => navigate('/')
+
+	const errorCallback = (error) => {
+		console.log('login_required')
+	}
+
+	return (
+		<CallbackComponent
+			userManager={userManager}
+			successCallback={successCallback}
+			errorCallback={errorCallback}
+		>
+			<span>Loading user's profile... wait</span>
+		</CallbackComponent>
+	)
+}
+
+export default CallbackPage
+```
+
+-   Add the callback route in the `main.jsx` file
+
+```jsx
+// src\main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './app'
+import RootView from './root-view'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Landing from './features/landing/landing'
+import CallbackPage from './auth/callback-page'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+	<React.StrictMode>
+		<RootView>
+			<BrowserRouter basename={`${import.meta.env.BASE_URL}`}>
+				<Routes>
+					<Route path='/*' element={<App />} />
+					<Route path='callback' element={<CallbackPage />} />
+					<Route path='landing' element={<Landing />} />
+				</Routes>
+			</BrowserRouter>
+		</RootView>
+	</React.StrictMode>
+)
+```
+
+-   Add the login buton and callback in the landing page
+
+```jsx
+// src\features\landing\landing.template.jsx
+import React from 'react'
+
+const LandingTemplate = ({ onLoginClick }) => {
+	return (
+		<div>
+			<h1>Landing page template</h1>
+			<button onClick={onLoginClick}>Login</button>
+		</div>
+	)
+}
+export default LandingTemplate
+```
+
+```jsx
+// src\features\landing\landing.jsx
+import React from 'react'
+import DesktopTemplate from './landing.template'
+import userManager from '../../auth/user-manager'
+
+const Landing = () => {
+	const onLoginClick = () => userManager.signinRedirect()
+	return <DesktopTemplate onLoginClick={onLoginClick} />
+}
+export default Landing
+```
+
+Test the login process
+
+> The `apsys.frontend.base` identity server's client must be initialized before testing the login process.
