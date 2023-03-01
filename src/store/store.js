@@ -12,8 +12,8 @@ import userManager from '../auth/user-manager'
 const oidcMiddleware = createOidcMiddleware(userManager)
 
 const rootReducer = combineReducers({
-	homeSlice: homeSlice,
 	oidc: oidcReducer,
+	homeSlice: homeSlice,
 })
 
 export const store = configureStore({

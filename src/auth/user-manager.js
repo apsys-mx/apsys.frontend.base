@@ -12,6 +12,7 @@ const userManagerConfig = {
 	scope: 'openid profile userprofile',
 	filterProtocolClaims: true,
 	loadUserInfo: true,
+	monitorSession: false,
 }
 
 const userManager = createUserManager(userManagerConfig)
