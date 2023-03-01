@@ -364,7 +364,7 @@ const userManager = createUserManager(userManagerConfig)
 export default userManager
 ```
 
--- Modify the `store/store.js` file
+-   Modify the `store/store.js` file
 
 ```javascript
 import { configureStore } from '@reduxjs/toolkit'
