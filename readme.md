@@ -207,7 +207,8 @@ VITE_APP_ROOT='/'
 -   Install routing library `npm install react-router-dom`
 -   Create the files `features/landing/landing.jsx` and `features/landing/landing.template.jsx` for a landing page used for not authenticated users
 
-```jsx, landing.jsx
+```jsx
+// landing.jsx
 import React from 'react'
 import DesktopTemplate from './landing.template'
 
@@ -217,7 +218,8 @@ const Landing = () => {
 export default Landing
 ```
 
-```jsx, landing.template.jsx
+```jsx
+// landing.template.jsx
 import React from 'react'
 
 const LandingTemplate = () => {
@@ -228,7 +230,8 @@ export default LandingTemplate
 
 -   Create the files `features/home/home.jsx` and `features/home/home.template.jsx` for a home page used for authenticated users
 
-```jsx, home.jsx
+```jsx
+// home.jsx
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getTitle } from '../../features/application/application.selectors'
@@ -244,11 +247,11 @@ const Home = () => {
 
 	return <DesktopTemplate title={title} onchangeTitle={onchangeTitle} />
 }
-
 export default Home
 ```
 
-```jsx, home.template.jsx
+```jsx
+// home.template.jsx
 import React from 'react'
 
 const HomeTemplate = ({ title, onchangeTitle }) => {
@@ -260,9 +263,7 @@ const HomeTemplate = ({ title, onchangeTitle }) => {
 		</div>
 	)
 }
-
 export default HomeTemplate
-
 ```
 
 -   Modify `main.jsx` in order to define the routes for a landing page
