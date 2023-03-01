@@ -91,3 +91,40 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 	</React.StrictMode>
 )
 ```
+
+### Add an application slice
+
+-   Create a file `features/application/application.slice.js` with the code show below
+
+```javascript
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = {
+	title: 'Hello world',
+}
+export const applicationSlice = createSlice({
+	name: 'applicationSlice',
+	initialState,
+	reducers: {},
+})
+export default applicationSlice.reducer
+```
+
+-   Modify the file `store/store,js` as show below in order to add the application slice in the store
+
+```javascript
+import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers } from 'redux'
+
+import applicationSlice from '../features/application/application.slice'
+
+const rootReducer = combineReducers({
+	applicationSlice,
+})
+
+export const store = configureStore({
+	reducer: rootReducer,
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+	devTools: process.env.NODE_ENV !== 'production',
+})
+```
