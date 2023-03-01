@@ -268,6 +268,7 @@ export default HomeTemplate
 -   Modify `main.jsx` in order to define the routes for a landing page
 
 ```jsx, main.jsx
+// main.jsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './app'
@@ -291,7 +292,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 -   Modify `app.jsx` in order to define the routes for a home page
 
-```jsx, app.jsx
+```jsx
+// app.jsx file
 import React from 'react'
 import Home from './features/home/home'
 import { Routes, Route } from 'react-router-dom'
