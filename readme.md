@@ -568,3 +568,88 @@ const Home = () => {
 
 export default Home
 ```
+
+### Create a protected routes
+
+-   Create a file `protected-route.jsx`
+
+```jsx
+// src\auth\protected-route.jsx
+import { Navigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import * as selectors from './oidc.selectors'
+
+const ProtectedRoute = ({ children }) => {
+	const isAuthenticated = useSelector((state) => selectors.isAuthenticated(state))
+	const profile = useSelector((state) => selectors.getProfile(state))
+
+	if (!isAuthenticated) return <Navigate to='/landing' replace state={{}} />
+
+	if (profile.two_factor_enabled !== 'true') {
+		console.warn(`The [two_factor_enabled] has invalid value: [${profile.two_factor_enabled}]`)
+		return <Navigate to='/forbidden' replace state={{}} />
+	}
+
+	return children
+}
+export default ProtectedRoute
+```
+
+-   Create an application layout file
+
+```jsx
+// src\features\home\layout\layout.jsx
+import React from 'react'
+import DesktopTemplate from './layout.template'
+
+const Layout = () => {
+	return <DesktopTemplate />
+}
+export default Layout
+```
+
+```jsx
+// src\features\home\layout\layout.template.jsx
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+
+const LayoutTemplate = () => {
+	return (
+		<div>
+			<Outlet />
+		</div>
+	)
+}
+export default LayoutTemplate
+```
+
+-   Modify the `app.jsx` file in order to protect all the routes
+
+```jsx
+// src\app.jsx
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+
+import ProtectedRoute from './auth/protected-route'
+import Home from './features/home/index/home'
+import Layout from './features/home/layout/layout'
+
+const App = () => {
+	return (
+		<Routes>
+			<Route
+				path='/'
+				element={
+					<ProtectedRoute>
+						<Layout />
+					</ProtectedRoute>
+				}
+			>
+				<Route path='/' element={<Home />} />
+			</Route>
+		</Routes>
+	)
+}
+
+export default App
+```
