@@ -176,9 +176,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getTitle } from './features/application/application.selectors'
 import { setTitle } from './features/application/application.slice'
 
-/**
- * App component
- */
 const App = () => {
 	var dispatch = useDispatch()
 	const title = useSelector((state) => getTitle(state))
