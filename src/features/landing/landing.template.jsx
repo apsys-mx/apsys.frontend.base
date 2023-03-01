@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button, Typography } from '@mui/material'
 
 /**
  * Landing page
@@ -6,8 +7,8 @@ import React from 'react'
 const LandingTemplate = ({ onLoginClick }) => {
 	return (
 		<div>
-			<h1>Landing page template</h1>
-			<button onClick={onLoginClick}>Login</button>
+			<Typography variant='h2'>Landing page template</Typography>
+			<Button onClick={onLoginClick}>Login</Button>
 		</div>
 	)
 }

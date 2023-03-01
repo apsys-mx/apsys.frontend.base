@@ -364,6 +364,7 @@ const userManagerConfig = {
 	scope: 'openid profile userprofile',
 	filterProtocolClaims: true,
 	loadUserInfo: true,
+	monitorSession: false,
 }
 
 const userManager = createUserManager(userManagerConfig)
@@ -628,13 +629,22 @@ export default LayoutTemplate
 ```jsx
 // src\app.jsx
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 
 import ProtectedRoute from './auth/protected-route'
 import Home from './features/home/index/home'
 import Layout from './features/home/layout/layout'
 
+import * as selectors from './auth/oidc.selectors'
+
 const App = () => {
+	var isLoadingOidc = useSelector((state) => selectors.isLoadingUser(state))
+
+	if (isLoadingOidc) {
+		return <span>Loading user's profile</span>
+	}
+
 	return (
 		<Routes>
 			<Route
@@ -652,4 +662,60 @@ const App = () => {
 }
 
 export default App
+```
+
+## Material UI
+
+-   Install material ui with `npm install @mui/material @emotion/react @emotion/styled`
+-   Install material ui icons with `npm install @mui/icons-material`
+-   Install the Roboto font with `npm install @fontsource/roboto`
+-   Create `index.css` file
+
+```css
+body {
+	margin: 0;
+	font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+		'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+```
+
+-   Create `roboto-font.js` file
+
+```js
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import '../index.css'
+```
+
+-   Import Roboto fon in `main.js`
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './app'
+import RootView from './root-view'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Landing from './features/landing/landing'
+import CallbackPage from './auth/callback-page'
+
+import './assets/roboto-font'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+	<React.StrictMode>
+		<RootView>
+			<BrowserRouter basename={`${import.meta.env.BASE_URL}`}>
+				<Routes>
+					<Route path='/*' element={<App />} />
+					<Route path='callback' element={<CallbackPage />} />
+					<Route path='landing' element={<Landing />} />
+				</Routes>
+			</BrowserRouter>
+		</RootView>
+	</React.StrictMode>
+)
 ```

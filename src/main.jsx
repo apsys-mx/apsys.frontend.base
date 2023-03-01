@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Landing from './features/landing/landing'
 import CallbackPage from './auth/callback-page'
 
+import './assets/roboto-font'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
 		<RootView>
