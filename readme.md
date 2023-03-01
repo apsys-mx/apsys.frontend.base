@@ -168,7 +168,7 @@ export const { setTitle } = applicationSlice.actions
 export default applicationSlice.reducer
 ```
 
--   Modify the file `app.jsx` as show below in order to add the application slice in the store
+-   Modify the file `app.jsx` as show below in order to use the selector and actions defined
 
 ```jsx
 import React from 'react'
