@@ -313,3 +313,101 @@ const App = () => {
 
 export default App
 ```
+
+## Configure IdentityServer4
+
+-   Install oidc libraries running `npm install oidc-client` and `npm install redux-oidc`
+-   Modify the environment files as show below
+
+```javascript
+// .env file
+VITE_APP_ROOT = '/'
+VITE_APP_CLIENT_ID = 'apsys.frontend.base'
+VITE_IDENTITY_SERVER_URL = 'http://localhost:57065/'
+```
+
+```javascript
+// .env.qas file
+VITE_APP_ROOT = '/'
+VITE_APP_CLIENT_ID = 'apsys.frontend.base'
+VITE_IDENTITY_SERVER_URL = 'http://10.7.93.233:8020/uat4.0/'
+```
+
+```javascript
+// .env.prd file
+VITE_APP_ROOT = '/'
+VITE_APP_CLIENT_ID = 'apsys.frontend.base'
+VITE_IDENTITY_SERVER_URL = 'https://identity.efemsa.com/v4.0/'
+```
+
+-   Create the file `auth/user-manager.js`
+
+```javascript
+// user-manager.js file
+import { createUserManager } from 'redux-oidc'
+import { getAbsoluteUrlAddress } from '../helpers/url-helper'
+
+const userManagerConfig = {
+	authority: `${import.meta.env.VITE_IDENTITY_SERVER_URL}`,
+	client_id: `${import.meta.env.VITE_APP_CLIENT_ID}`,
+	redirect_uri: getAbsoluteUrlAddress('callback'),
+	post_logout_redirect_uri: getAbsoluteUrlAddress(''),
+	response_type: 'id_token token',
+	scope: 'openid profile userprofile',
+	filterProtocolClaims: true,
+	loadUserInfo: true,
+}
+
+const userManager = createUserManager(userManagerConfig)
+export default userManager
+```
+
+-- Modify the `store/store.js` file
+
+```javascript
+import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers } from 'redux'
+
+import homeSlice from '../features/home/home.slice'
+
+import { reducer as oidcReducer } from 'redux-oidc'
+import createOidcMiddleware from 'redux-oidc'
+import userManager from '../auth/user-manager'
+
+const oidcMiddleware = createOidcMiddleware(userManager)
+
+const rootReducer = combineReducers({
+	homeSlice: homeSlice,
+	oidc: oidcReducer,
+})
+
+export const store = configureStore({
+	reducer: rootReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({ serializableCheck: false }).concat(oidcMiddleware),
+	devTools: process.env.NODE_ENV !== 'production',
+})
+```
+
+-   Modify the `root-view.jsx` file
+
+```javascript
+// root-view.jsx file
+import React from 'react'
+import { Provider } from 'react-redux'
+import { store } from './store/store'
+
+import { OidcProvider, loadUser } from 'redux-oidc'
+import userManager from './auth/user-manager'
+
+loadUser(store, userManager)
+
+const RootView = (props) => {
+	return (
+		<OidcProvider store={store} userManager={userManager}>
+			<Provider store={store}>{props.children}</Provider>
+		</OidcProvider>
+	)
+}
+export default RootView
+```
