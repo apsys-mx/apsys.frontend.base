@@ -17,6 +17,7 @@ Check that the project is running correctly
 -   Change the `main.jsx` content as show below
 
 ```jsx
+// src\main.jsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './app'
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 -   Change the `app.jsx` content as show below
 
 ```jsx
+// src\app.jsx
 import React from 'react'
 
 const App = () => {
@@ -47,9 +49,10 @@ export default App
 ### Configure the redux store
 
 -   Install redux `npm install react-redux` and redux-toolkit `npm install @reduxjs/toolkit`
--   Create a file `store/store,js` with the code show below
+-   Create a file `store.js` with the code show below
 
 ```javascript
+// src\store\store.js
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
@@ -65,6 +68,7 @@ export const store = configureStore({
 -   Create a file `root-view.jsx` with the code show below
 
 ```jsx
+// src\root-view.jsx
 import React from 'react'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
@@ -78,6 +82,7 @@ export default RootView
 -   Modify the `main.jsx` as show below in order to inject the store in the root of the application
 
 ```jsx
+// src\main.jsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './app'
@@ -94,10 +99,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ### Add an application slice
 
--   Create a file `features/home/home.slice.js` with the code show below
+-   Create a file `home.slice.js` with the code show below
 
 ```javascript
-// home.slice.js
+// src\features\home\home.slice.js
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
@@ -111,10 +116,10 @@ export const homeSlice = createSlice({
 export default homeSlice.reducer
 ```
 
--   Modify the file `store/store.js` as show below in order to add the application slice in the store
+-   Modify the file `store.js` as show below in order to add the application slice in the store
 
 ```javascript
-// store.js
+// src\store\store.js
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
@@ -133,9 +138,10 @@ export const store = configureStore({
 
 ### Add selectors and actions
 
--   Create a file `features/home/home.selectors.js` with the code show below
+-   Create a file `home.selectors.js` with the code show below
 
 ```javascript
+// src\features\home\home.selectors.js
 import { createSelector } from 'reselect'
 
 const getState = (state) => (state = state.homeSlice)
@@ -147,9 +153,10 @@ const getTitle = createSelector(getState, (state) => {
 export { getTitle }
 ```
 
--   Modify the file `features/home/home.slice.js` as show below
+-   Modify the file `home.slice.js` as show below
 
 ```javascript
+// src\features\home\home.slice.js
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
@@ -173,7 +180,7 @@ export default homeSlice.reducer
 -   Modify the file `app.jsx` as show below in order to use the selector and actions defined
 
 ```jsx
-// app.jsx
+// src\app.jsx
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getTitle } from './features/home/home.selectors'
@@ -198,7 +205,7 @@ export default App
 
 ## Create environment files
 
--   Create three environment files: `.env` for development environment, `.env.qas` for qas environment, and `.env.prd` for production environment.
+-   Create three environment files: `.env` for development environment, `.env.qas` for qas environment, and `.env.prd` for production environment in the root folder
 -   In the three files add the next line
 
 ```text
@@ -208,10 +215,10 @@ VITE_APP_ROOT='/'
 ## Configure routing
 
 -   Install routing library `npm install react-router-dom`
--   Create the files `features/landing/landing.jsx` and `features/landing/landing.template.jsx` for a landing page used for not authenticated users
+-   Create the files `landing.jsx` and `landing.template.jsx` for a landing page used for not authenticated users
 
 ```jsx
-// landing.jsx
+// src\features\landing\landing.jsx
 import React from 'react'
 import DesktopTemplate from './landing.template'
 
@@ -222,7 +229,7 @@ export default Landing
 ```
 
 ```jsx
-// landing.template.jsx
+// src\features\landing\landing.template.jsx
 import React from 'react'
 
 const LandingTemplate = () => {
@@ -231,10 +238,10 @@ const LandingTemplate = () => {
 export default LandingTemplate
 ```
 
--   Create the files `features/home/index/home.jsx` and `features/home/index/home.template.jsx` for a home page used for authenticated users
+-   Create the files `home.jsx` and `home.template.jsx` for a home page used for authenticated users
 
 ```jsx
-// home.jsx
+// src\features\home\index\home.jsx
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getTitle } from '../home.selectors'
@@ -250,12 +257,11 @@ const Home = () => {
 
 	return <DesktopTemplate title={title} onchangeTitle={onchangeTitle} />
 }
-
 export default Home
 ```
 
 ```jsx
-// home.template.jsx
+// src\features\home\index\home.template.jsx
 import React from 'react'
 
 const HomeTemplate = ({ title, onchangeTitle }) => {
@@ -273,7 +279,7 @@ export default HomeTemplate
 -   Modify `main.jsx` in order to define the routes for a landing page
 
 ```jsx
-// main.jsx
+// src\main.jsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './app'
@@ -298,7 +304,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 -   Modify `app.jsx` in order to define the routes for a home page
 
 ```jsx
-// app.jsx file
+// src\app.jsx
 import React from 'react'
 import Home from './features/home/index/home'
 import { Routes, Route } from 'react-router-dom'
@@ -342,10 +348,10 @@ VITE_IDENTITY_SERVER_URL = 'https://identity.efemsa.com/v4.0/'
 
 ### Create the user-manager file
 
--   Create the file `auth/user-manager.js`
+-   Create the file `user-manager.js`
 
 ```javascript
-// user-manager.js file
+// src\auth\user-manager.js
 import { createUserManager } from 'redux-oidc'
 import { getAbsoluteUrlAddress } from '../helpers/url-helper'
 
@@ -364,9 +370,10 @@ const userManager = createUserManager(userManagerConfig)
 export default userManager
 ```
 
--   Modify the `store/store.js` file
+-   Modify the `store.js` file
 
 ```javascript
+// src\store\store.js
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
@@ -394,7 +401,7 @@ export const store = configureStore({
 -   Modify the `root-view.jsx` file
 
 ```javascript
-// root-view.jsx file
+// src\root-view.jsx
 import React from 'react'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
