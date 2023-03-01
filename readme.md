@@ -110,7 +110,7 @@ export const applicationSlice = createSlice({
 export default applicationSlice.reducer
 ```
 
--   Modify the file `store/store,js` as show below in order to add the application slice in the store
+-   Modify the file `store/store.js` as show below in order to add the application slice in the store
 
 ```javascript
 import { configureStore } from '@reduxjs/toolkit'
@@ -127,4 +127,39 @@ export const store = configureStore({
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 	devTools: process.env.NODE_ENV !== 'production',
 })
+```
+
+### Add selectors and actions
+
+-   Create a file `features/application/application.selectors.js` with the code show below
+
+```javascript
+import { createSelector } from 'reselect'
+
+const getState = (state) => (state = state.applicationSlice)
+
+const getTitle = createSelector(getState, (state) => {
+	return state.title
+})
+
+export { getTitle }
+```
+
+-   Modify the file `app.jsx` as show below in order to add the application slice in the store
+
+```jsx
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { getTitle } from './features/application/application.selectors'
+
+const App = () => {
+	const title = useSelector((state) => getTitle(state))
+	return (
+		<div>
+			<h1>{title}</h1>
+		</div>
+	)
+}
+
+export default App
 ```
