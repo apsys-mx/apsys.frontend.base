@@ -719,3 +719,47 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 	</React.StrictMode>
 )
 ```
+
+### Add theme provider
+
+-   Create file `default.theme.js`
+
+```javascript
+import { createTheme } from '@mui/material/styles'
+
+const defaultTheme = {
+	palette: {},
+	typography: {
+		fontFamily: 'Roboto',
+	},
+}
+
+export default createTheme(defaultTheme)
+```
+
+-   Modify the file `root-view.jsx`
+
+```jsx
+import React from 'react'
+import { Provider } from 'react-redux'
+import { store } from './store/store'
+
+import { ThemeProvider } from '@mui/material/styles'
+import defaultTheme from './assets/themes/default.theme'
+
+import { OidcProvider, loadUser } from 'redux-oidc'
+import userManager from './auth/user-manager'
+
+loadUser(store, userManager)
+
+const RootView = (props) => {
+	return (
+		<ThemeProvider theme={defaultTheme}>
+			<OidcProvider store={store} userManager={userManager}>
+				<Provider store={store}>{props.children}</Provider>
+			</OidcProvider>
+		</ThemeProvider>
+	)
+}
+export default RootView
+```

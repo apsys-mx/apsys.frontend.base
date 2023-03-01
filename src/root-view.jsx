@@ -2,6 +2,9 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 
+import { ThemeProvider } from '@mui/material/styles'
+import defaultTheme from './assets/themes/default.theme'
+
 import { OidcProvider, loadUser } from 'redux-oidc'
 import userManager from './auth/user-manager'
 
@@ -14,9 +17,11 @@ loadUser(store, userManager)
  */
 const RootView = (props) => {
 	return (
-		<OidcProvider store={store} userManager={userManager}>
-			<Provider store={store}>{props.children}</Provider>
-		</OidcProvider>
+		<ThemeProvider theme={defaultTheme}>
+			<OidcProvider store={store} userManager={userManager}>
+				<Provider store={store}>{props.children}</Provider>
+			</OidcProvider>
+		</ThemeProvider>
 	)
 }
 export default RootView
