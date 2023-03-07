@@ -1,13 +1,18 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import i18next from 'i18next'
-import DesktopTemplate from './landing.template'
 import userManager from '../../auth/user-manager'
 import { languages } from '../../assets/languages/i18n'
+
+import { useIsIsMobile } from '../../hooks/use-is-mobile'
+
+import DesktopTemplate from './landing.template'
+import MobileTemplate from './landing.template.mobile'
 
 /**
  * Landing page
  */
 const Landing = () => {
+	const isMobile = useIsIsMobile()
 	const [namespaceLoaded, setNamespaceLoaded] = useState(false)
 
 	useEffect(() => {
@@ -25,13 +30,15 @@ const Landing = () => {
 
 	if (!namespaceLoaded) return <span>Loading dictionary</span>
 
+	var props = {
+		languages: languages,
+		onLoginClick: onLoginClick,
+		onChangeLanguage: onChangeLanguage,
+	}
+
 	return (
 		<Fragment>
-			<DesktopTemplate
-				languages={languages}
-				onLoginClick={onLoginClick}
-				onChangeLanguage={onChangeLanguage}
-			/>
+			{isMobile ? <MobileTemplate {...props} /> : <DesktopTemplate {...props} />}
 		</Fragment>
 	)
 }

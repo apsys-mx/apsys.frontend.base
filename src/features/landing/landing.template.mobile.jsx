@@ -11,7 +11,7 @@ const LandingTemplate = ({ languages, onLoginClick, onChangeLanguage }) => {
 	return (
 		<div>
 			<Typography variant='h2'>{t('title', { ns: 'landing' })}</Typography>
-			<Typography>Desktop view</Typography>
+			<Typography>Mobile view</Typography>
 			{languages.map((lang) => {
 				return (
 					<Button key={lang.code} onClick={() => onChangeLanguage(lang)}>
