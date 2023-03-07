@@ -738,6 +738,7 @@ export const languages = [
 -   Modify the `root-view.jsx` file
 
 ```jsx
+// src\root-view.jsx
 import React from 'react'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
@@ -751,11 +752,6 @@ import './assets/languages/i18n'
 
 loadUser(store, userManager)
 
-/**
- * Root view component
- * @param {*} props
- * @returns
- */
 const RootView = (props) => {
 	return (
 		<ThemeProvider theme={defaultTheme}>
@@ -803,6 +799,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 -   Change the `landing.jsx` file
 
 ```jsx
+// src\features\landing\landing.jsx
 import React, { Fragment, useEffect, useState } from 'react'
 import i18next from 'i18next'
 import DesktopTemplate from './landing.template'
@@ -843,6 +840,7 @@ export default Landing
 -   Change the `landing.template.jsx` file
 
 ```jsx
+// src\features\landing\landing.template.jsx
 import React from 'react'
 import { Button, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
