@@ -1,7 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const defaultToasterState = {
+	open: false,
+	message: '',
+	severity: 'info',
+}
+
 const initialState = {
 	title: 'Hello world',
+	toaster: defaultToasterState,
 }
 
 export const homeSlice = createSlice({
@@ -11,8 +18,11 @@ export const homeSlice = createSlice({
 		setTitle: (state, action) => {
 			state.title = action.payload
 		},
+		setToasterState: (state, action) => {
+			state.toaster = action.payload
+		},
 	},
 })
 
-export const { setTitle } = homeSlice.actions
+export const { setTitle, setToasterState } = homeSlice.actions
 export default homeSlice.reducer

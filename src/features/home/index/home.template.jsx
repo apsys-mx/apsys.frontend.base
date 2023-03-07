@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 
 /**
  * Home component
  */
-const HomeTemplate = ({ profile, title, onchangeTitle }) => {
+const HomeTemplate = ({ title, onchangeTitle, onShowToaster }) => {
 	const { t } = useTranslation()
 
 	return (
@@ -14,6 +14,7 @@ const HomeTemplate = ({ profile, title, onchangeTitle }) => {
 			<Typography variant='h3'>{t('title', { ns: 'home' })}</Typography>
 			<Typography variant='h5'>{title}</Typography>
 			<TextField onChange={onchangeTitle} />
+			<Button onClick={onShowToaster}>Show toaster</Button>
 		</Box>
 	)
 }
