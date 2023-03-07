@@ -20,5 +20,5 @@ export const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }).concat(oidcMiddleware),
-	devTools: process.env.NODE_ENV !== 'production',
+	devTools: import.meta.env.DEV,
 })

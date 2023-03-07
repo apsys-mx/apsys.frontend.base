@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './app'
 import RootView from './root-view'
@@ -11,14 +11,16 @@ import './assets/roboto-font'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-		<RootView>
-			<BrowserRouter basename={`${import.meta.env.BASE_URL}`}>
-				<Routes>
-					<Route path='/*' element={<App />} />
-					<Route path='callback' element={<CallbackPage />} />
-					<Route path='landing' element={<Landing />} />
-				</Routes>
-			</BrowserRouter>
-		</RootView>
+		<Suspense fallback='loading'>
+			<RootView>
+				<BrowserRouter basename={`${import.meta.env.BASE_URL}`}>
+					<Routes>
+						<Route path='/*' element={<App />} />
+						<Route path='callback' element={<CallbackPage />} />
+						<Route path='landing' element={<Landing />} />
+					</Routes>
+				</BrowserRouter>
+			</RootView>
+		</Suspense>
 	</React.StrictMode>
 )

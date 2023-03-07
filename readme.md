@@ -61,7 +61,7 @@ const rootReducer = combineReducers({})
 export const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
-	devTools: process.env.NODE_ENV !== 'production',
+	devTools: import.meta.env.DEV,
 })
 ```
 
@@ -132,7 +132,7 @@ const rootReducer = combineReducers({
 export const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
-	devTools: process.env.NODE_ENV !== 'production',
+	devTools: import.meta.env.DEV,
 })
 ```
 
@@ -395,7 +395,7 @@ export const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }).concat(oidcMiddleware),
-	devTools: process.env.NODE_ENV !== 'production',
+	devTools: import.meta.env.DEV,
 })
 ```
 
@@ -662,6 +662,259 @@ const App = () => {
 }
 
 export default App
+```
+
+## Internationalization
+
+-   Install `npm install react-i18next i18next`
+-   Install `npm install i18next-browser-languagedetector`
+-   Install `npm install i18next-http-backend`
+-   Create the `i18n.js` file
+
+```javascript
+// src\assets\languages\i18n.js
+import i18next from 'i18next'
+import { initReactI18next } from 'react-i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import Backend from 'i18next-http-backend'
+
+i18next
+	.use(initReactI18next)
+	.use(LanguageDetector)
+	.use(Backend)
+	.init({
+		ns: [],
+		lang: 'en',
+		fallbackLng: 'es',
+		debug: import.meta.env.DEV,
+	})
+
+export const languages = [
+	{
+		code: 'en',
+		name: 'English',
+	},
+	{
+		code: 'es',
+		name: 'Español',
+	},
+]
+```
+
+-   Create the next translation file
+
+```json
+// public\locales\en\landing.json
+{
+	"title": "Welcome",
+	"login": "Login"
+}
+```
+
+```json
+// public\locales\en\home.json
+{
+	"title": "Home page",
+	"logout": "Close sesión"
+}
+```
+
+```json
+// public\locales\es\landing.json
+{
+	"title": "Bienvenido",
+	"login": "Ingresar"
+}
+```
+
+```json
+// public\locales\es\home.json
+{
+	"title": "Pagina inicio 2",
+	"logout": "Cerrar sesión"
+}
+```
+
+-   Modify the `root-view.jsx` file
+
+```jsx
+import React from 'react'
+import { Provider } from 'react-redux'
+import { store } from './store/store'
+
+import { ThemeProvider } from '@mui/material/styles'
+import defaultTheme from './assets/themes/default.theme'
+
+import { OidcProvider, loadUser } from 'redux-oidc'
+import userManager from './auth/user-manager'
+import './assets/languages/i18n'
+
+loadUser(store, userManager)
+
+/**
+ * Root view component
+ * @param {*} props
+ * @returns
+ */
+const RootView = (props) => {
+	return (
+		<ThemeProvider theme={defaultTheme}>
+			<OidcProvider store={store} userManager={userManager}>
+				<Provider store={store}>{props.children}</Provider>
+			</OidcProvider>
+		</ThemeProvider>
+	)
+}
+export default RootView
+```
+
+-   Modify the `main.jsx` file
+
+```jsx
+// src\main.jsx
+import React, { Suspense } from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './app'
+import RootView from './root-view'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Landing from './features/landing/landing'
+import CallbackPage from './auth/callback-page'
+
+import './assets/roboto-font'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+	<React.StrictMode>
+		<Suspense fallback='loading'>
+			<RootView>
+				<BrowserRouter basename={`${import.meta.env.BASE_URL}`}>
+					<Routes>
+						<Route path='/*' element={<App />} />
+						<Route path='callback' element={<CallbackPage />} />
+						<Route path='landing' element={<Landing />} />
+					</Routes>
+				</BrowserRouter>
+			</RootView>
+		</Suspense>
+	</React.StrictMode>
+)
+```
+
+-   Change the `landing.jsx` file
+
+```jsx
+import React, { Fragment, useEffect, useState } from 'react'
+import i18next from 'i18next'
+import DesktopTemplate from './landing.template'
+import userManager from '../../auth/user-manager'
+import { languages } from '../../assets/languages/i18n'
+
+const Landing = () => {
+	const [namespaceLoaded, setNamespaceLoaded] = useState(false)
+
+	useEffect(() => {
+		i18next
+			.loadNamespaces('landing', (err) => {
+				if (err) console.error('Error loading `landing` namespace', err)
+			})
+			.then(() => setNamespaceLoaded(true))
+	}, [])
+
+	const onLoginClick = () => userManager.signinRedirect()
+	const onChangeLanguage = (lang) => {
+		i18next.changeLanguage(lang.code)
+	}
+
+	if (!namespaceLoaded) return <span>Loading dictionary</span>
+
+	return (
+		<Fragment>
+			<DesktopTemplate
+				languages={languages}
+				onLoginClick={onLoginClick}
+				onChangeLanguage={onChangeLanguage}
+			/>
+		</Fragment>
+	)
+}
+export default Landing
+```
+
+-   Change the `landing.template.jsx` file
+
+```jsx
+import React from 'react'
+import { Button, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+
+const LandingTemplate = ({ languages, onLoginClick, onChangeLanguage }) => {
+	const { t } = useTranslation()
+
+	return (
+		<div>
+			<Typography variant='h2'>{t('title', { ns: 'landing' })}</Typography>
+			{languages.map((lang) => {
+				return (
+					<Button key={lang.code} onClick={() => onChangeLanguage(lang)}>
+						{lang.name}
+					</Button>
+				)
+			})}
+			<hr />
+			<Button onClick={onLoginClick}>{t('login', { ns: 'landing' })}</Button>
+		</div>
+	)
+}
+export default LandingTemplate
+```
+
+-   Modify the home `layout.jsx` file
+
+```jsx
+// src\features\home\layout\layout.jsx
+import React, { useEffect, useState } from 'react'
+import i18next from 'i18next'
+import DesktopTemplate from './layout.template'
+
+const Layout = () => {
+	const [namespaceLoaded, setNamespaceLoaded] = useState(false)
+
+	useEffect(() => {
+		i18next
+			.loadNamespaces('home', (err) => {
+				if (err) console.error('Error loading `home` namespace', err)
+			})
+			.then(() => setNamespaceLoaded(true))
+	}, [])
+
+	if (!namespaceLoaded) return <span>Loading dictionary</span>
+
+	return <DesktopTemplate />
+}
+export default Layout
+```
+
+-   Modify the home `home.template.jsx` file
+
+```jsx
+// src\features\home\index\home.template.jsx
+import React from 'react'
+import { Button, TextField, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+
+const HomeTemplate = ({ title, onchangeTitle, onLogoutClick }) => {
+	const { t } = useTranslation()
+	return (
+		<div>
+			<Typography variant='h2'>{t('title', { ns: 'home' })}</Typography>
+			<Typography variant='h5'>{title}</Typography>
+			<TextField onChange={onchangeTitle} />
+			<Button onClick={onLogoutClick}>{t('logout', { ns: 'home' })}</Button>
+		</div>
+	)
+}
+
+export default HomeTemplate
 ```
 
 ## Material UI

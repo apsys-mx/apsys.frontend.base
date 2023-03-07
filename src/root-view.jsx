@@ -7,6 +7,7 @@ import defaultTheme from './assets/themes/default.theme'
 
 import { OidcProvider, loadUser } from 'redux-oidc'
 import userManager from './auth/user-manager'
+import './assets/languages/i18n'
 
 loadUser(store, userManager)
 
