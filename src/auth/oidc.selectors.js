@@ -32,7 +32,8 @@ const getProfile = createSelector(getOidcState, (oidcState) => {
 	if (!(isLoadingUser === false && user)) {
 		return undefined
 	}
-	return user.profile
+	const avatarUrl = `${import.meta.env.VITE_IDENTITY_SERVER_URL}${user.profile.avatar_url}`
+	return { ...user.profile, avatar_url: avatarUrl }
 })
 
 export { isAuthenticated, isLoadingUser, getProfile }
