@@ -701,7 +701,7 @@ export const languages = [
 ]
 ```
 
--   Create the next translation file
+-   Create the next translation's files in the `public` folder
 
 ```json
 // public\locales\en\landing.json
