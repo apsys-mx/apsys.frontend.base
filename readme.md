@@ -1,7 +1,6 @@
 ## Install vitejs
 
--   Clone the repository with `https://github.com/apsys-mx/apsys.frontend.base.turkey.git`
--   Change to `apsys.frontend.base.turkey`
+-   Create a folder with name `apsys.frontend.base.turkey`
 -   Run the command `npm create vite@latest .`
 -   Run the command `npm install`
 -   Run the command `npm run dev`
