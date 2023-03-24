@@ -28,6 +28,7 @@ import FilterDate from './filterType/filter-date'
 import FilterEquals from './filterType/filter-equals'
 import { optionsSelector } from '../helper/filter-helper'
 import moment from 'moment'
+import { setFilter } from '../../../../home/home.slice'
 
 const FilterMenu = (props) => {
 	const { id, open, anchorEl, handleClose, dataSource, filterTypeActive } = props
@@ -126,7 +127,7 @@ const FilterMenu = (props) => {
 			}
 
 			let currentFilters = parseFiltersFromQueryString(location.search)
-			//dispatch(setFilter(currentFilters))
+			dispatch(setFilter(currentFilters))
 			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 			currentFilters.push(newFilter)
 			const queryString = convertFiltersToString(currentFilters)
@@ -146,37 +147,9 @@ const FilterMenu = (props) => {
 		setSelectedOptions([])
 		setDisplayedOptions([])
 		setQuery('')
-		//dispatch(setFilter(currentFilters))
+		dispatch(setFilter(currentFilters))
 	}
 
-	//** submenu for filter types */
-	const openContextMenuType = (event) => {
-		setFiltersType((prevState) => ({
-			...prevState,
-			open: true,
-			handleClose: handleCloseMenuType,
-			anchorEl: event.currentTarget,
-			type: filterType,
-			dataSource: dataSource,
-		}))
-	}
-
-	const handleCloseMenuType = () => {
-		setFiltersType((prevState) => ({
-			...prevState,
-			open: false,
-			anchorEl: null,
-		}))
-	}
-
-	const handleCloseDialogType = () => {
-		handleClose(false)
-	}
-	const options = [
-		{ value: 'Que empiezen con', label: 'Que empiezen con' },
-		{ value: 'Que terminen con', label: 'Que terminen con' },
-		{ value: 'Que contengan', label: 'Que contengan' },
-	]
 	return (
 		<Popover
 			sx={styles.filterContainer}
@@ -200,7 +173,6 @@ const FilterMenu = (props) => {
 							: 'texto'}
 					</Typography>
 				</ListItemButton>
-				<Typography>Filtrar</Typography>
 				{filterType !== 'date' && (
 					<Box>
 						<Select

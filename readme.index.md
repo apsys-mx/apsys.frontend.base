@@ -514,7 +514,222 @@ const viewPaginationState = useSelector((state) => selectors.getPagination(state
 				pageNumber = pageNumber ? pageNumber : 0
 				pageSize = pageSize ? pageSize : 0
 				var url = `Timesheets?sortBy=&sortDirection=&pageNumber=${pageNumber}&pageSize=${pageSize}`
-				console.log(`URL::[${url}]`)
+				return {
+					url: url,
+					method: 'GET',
+				}
+			},
+			transformResponse: (response) => {
+				return {
+					items: response,
+					page: 0,
+					rowsPerPage: 20,
+					rowsCount: response.length,
+				}
+			},
+		}),
+```
+
+## Agregar ordenamiento a la tabla
+
+### Añadir callbacks y propiedades
+
+- Agrega las propiedades de ordenamiento y el `callback` para detonarlo en el componente de la table (`home.table.jsx`).
+
+```jsx
+const TimesheetsTable = ({ items, tableConfig, onchangeSorting, sortBy, sortDirection }) =>
+```
+
+- Agregue las nuevas propiedades en la sección `propTypes` y `defaultProps`.
+
+```jsx
+TimesheetsTable.propTypes = {
+	items: propTypes.array,
+	onchangeSorting: propTypes.func,
+	handleChangePage: propTypes.func,
+	handleChangeRowsPerPage: propTypes.func,
+}
+TimesheetsTable.defultProps = {
+	items: [],
+	onchangeSorting: () => console.warn('No [onchangeSorting] CallBack defined'),
+	handleChangePage: () => console.warn('No[handle change page] Callback defined'),
+	handleChangeRowsPerPage: () => console.warn('No[handle change rows per page] Callback defined'),
+}
+```
+
+- Añade las propiedades al `DataGrid`.
+
+```jsx
+            <DataGrid
+				headers={enhancedConfiguration}
+				data={items}
+				onchangeSorting={onchangeSorting}
+				sortBy={sortBy}
+				sortDirection={sortDirection}
+			/>
+```
+
+- Agrega la propiedad `sorting` y `onchangeSorting` en `home.template.jsx`.
+
+```jsx
+const HomeTemplate = ({
+	response,
+	onChangePage,
+	handleChangeRowsPerPage,
+	onchangeSorting,
+	sorting,
+}) =>
+```
+
+- Actualiza las propiedades de `TimesheetsTable`.
+
+```jsx
+            <TimesheetsTable
+				tableConfig={defaultTableConfigurationTimeSheets}
+				{...response}
+				onchangeSorting={onchangeSorting}
+				sortBy={
+					sorting.sortBy && sorting.sortBy.length > 0 ? sorting.sortBy : 'projectName'
+				}
+				sortDirection={
+					sorting.sortDirection && sorting.sortDirection.length > 0
+						? sorting.sortDirection
+						: 'desc'
+				}
+			/>
+```
+
+### Establecer el estado inicial del ordenamiento y actualizar redux
+
+- Dirígete a `home.slice.js` y agrega la propiedad `sorting` en la constante ìnitialSate`.
+
+```jsx
+const initialState = {
+	title: 'Hello world',
+	toaster: defaultToasterState,
+	pagination: {
+		rowsCount: 0,
+		rowsPerPage: 20,
+		page: 0,
+	},
+	sorting: {
+		sortBy: '',
+		sortDirection: '',
+	},
+}
+```
+
+- Actualiza el reducer de `homeSlice`.
+
+```jsx
+export const homeSlice = createSlice({
+	name: 'homeSlice',
+	initialState,
+	reducers: {
+		setTitle: (state, action) => {
+			state.title = action.payload
+		},
+		setToasterState: (state, action) => {
+			state.toaster = action.payload
+		},
+		setPageNumber: (state, action) => {
+			state.pagination.page = action.payload
+		},
+		setPageSize: (state, action) => {
+			state.pagination.rowsPerPage = action.payload
+		},
+		setSorting: (state, action) => {
+			state.sorting.sortBy = action.payload.sortBy
+			state.sorting.sortDirection = action.payload.sortDirection
+		},
+	},
+})
+```
+
+- Actualiza la exportación
+
+```jsx
+export const { setTitle, setToasterState, setPageNumber, setPageSize, setSorting } =
+	homeSlice.actions
+```
+
+### Agregar ordenamiento a los selectores
+
+- Dirígete a `home.selectors.js`, agrega la constante para obtener el ordenamiento, y actualiza la exportación.
+
+```jsx
+const getSorting = createSelector(getViewState, (state) => {
+	return state.sorting
+})
+export { getTitle, getPagination, getSorting }
+```
+
+### Obtener ordenamiento y enviar en la solicitud
+
+- Dirígete al index (`home.jsx`), actualiza la importación del `slice`.
+
+```jsx
+import { setPageNumber, setPageSize, setSorting } from '../home.slice'
+```
+
+- Establece la constante ` viewSortingState` para obtener el ordenamiento del redux.
+
+```jsx
+const viewSortingState = useSelector((state) => selectors.getSorting(state))
+```
+
+- Establece la función ` onchangeSorting` para actualizar el ordenamiento.
+
+```jsx
+const onchangeSorting = (sort, direction) => {
+		dispatch(setSorting({ sortBy: sort, sortDirection: direction }))
+	}
+```
+
+- Actualiza la llamada del Api useGetTimesheetsQuery` para enviar el ordenamiento. 
+
+```jsx
+const {
+		data: timeSheetsResponse,
+		isLoading,
+		isError,
+		error,
+	} = useGetTimesheetsQuery({
+		pagination: {
+			pageNumber: viewPaginationState.page,
+			pageSize: viewPaginationState.rowsPerPage,
+		},
+		sorting: {
+			sortBy: viewSortingState.sortBy,
+			sortDirection: viewSortingState.sortDirection,
+		},
+	})
+```
+
+- Actualizarlas propiedades de `DesktopTemplate`.
+
+```jsx
+        <DesktopTemplate
+			response={timeSheetsResponse}
+			onChangePage={handleChangePage}
+			handleChangeRowsPerPage={handleChangeRowsPerPage}
+			onchangeSorting={onchangeSorting}
+			sorting={viewSortingState}
+		/>
+```
+- Dirígete a `home.endPoint.js`, actualiza `getTimesheets` obtén los valores de ordenamiento de los parámetros, y actualiza la `URL` del Api. 
+
+```jsx
+    getTimesheets: builder.query({
+			query(params) {
+				const { sorting, pagination } = params
+				var { sortBy, sortDirection } = sorting
+				var { pageNumber, pageSize } = pagination
+				pageNumber = pageNumber ? pageNumber : 0
+				pageSize = pageSize ? pageSize : 0
+				sortDirection = sortDirection && sortDirection.length > 0 ? sortDirection : 'desc'
+				sortBy = sortBy && sortBy.length > 0 ? sortBy : 'projectName'
+				var url = `Timesheets?sortBy=${sortBy}&sortDirection=${sortDirection}&pageNumber=${pageNumber}&pageSize=${pageSize}`
 				return {
 					url: url,
 					method: 'GET',

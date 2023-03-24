@@ -63,6 +63,6 @@ export const defaultTableConfigurationTimeSheets = [
 		sortable: true,
 		dataSource: 'duration',
 		isActiveFilter: true,
-		filterType: 'number',
+		filterType: 'numeric',
 	},
 ]
