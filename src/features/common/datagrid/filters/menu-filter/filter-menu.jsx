@@ -17,6 +17,7 @@ import {
 	Box,
 	Stack,
 	TextField,
+	Paper,
 } from '@mui/material'
 
 /** Custom components import section */
@@ -25,7 +26,7 @@ import ContextFilterSubMenu from './filter-sub-menu'
 import SearchBox from './search-box'
 
 /** Resources imports section */
-import * as classes from './menu-filters-styles'
+import * as styles from './menu-filters-styles'
 import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
 //import { setFilter } from '../../../store/timesheets-view-slice'
 //import { useGetCatalogsQuery } from '../../../store/search-api-slice'
@@ -173,7 +174,7 @@ const FilterMenu = (props) => {
 
 	return (
 		<Popover
-			className={classes.filterContainer}
+			sx={styles.filterContainer}
 			id={id}
 			open={open}
 			anchorEl={anchorEl}
@@ -183,11 +184,11 @@ const FilterMenu = (props) => {
 				horizontal: 'left',
 			}}
 		>
-			<Box className={classes.filterPaper}>
+			<Paper sx={styles.filterPaper}>
 				<ListItemButton
 					onClick={filterType === 'date' ? openContextDialogType : openContextMenuType}
 				>
-					<Typography variant='subtitle2' className={classes.titlePopover}>
+					<Typography variant='subtitle2' sx={styles.titlePopover}>
 						Filtros de{' '}
 						{filterType === 'date'
 							? 'Fecha'
@@ -200,7 +201,7 @@ const FilterMenu = (props) => {
 				<Typography>Filtrar</Typography>
 				<Divider />
 				<Select
-					classNamePrefix='Que contengan'
+					classesPrefix='Que contengan'
 					options={[]}
 					defaultValue={selectType}
 					onChange={(event) => setSelectType(event)}
@@ -228,7 +229,7 @@ const FilterMenu = (props) => {
 							onChange={(value) => setQuery(value)}
 						/>
 						{/* )} */}
-						<div className={classes.filterItem}>
+						<div sx={styles.filterItem}>
 							{displayedOptions?.map((a) => {
 								return (
 									<Stack spacing={3}>
@@ -236,11 +237,11 @@ const FilterMenu = (props) => {
 											direction={'row'}
 											alignItems={'center'}
 											key={a.code}
-											className={classes.checkList}
+											sx={styles.checkList}
 										>
 											<Checkbox
 												size='small'
-												className={classes.checkFilter}
+												sx={styles.checkFilter}
 												style={{ zIndex: 100 }}
 												inputProps={{
 													'data-code': a.code,
@@ -259,7 +260,7 @@ const FilterMenu = (props) => {
 					</Box>
 				)}
 				{selectType.value !== 'equal' && (
-					<Box className={classes.filterPadding}>
+					<Box sx={styles.filterPadding}>
 						<TextField
 							size={'small'}
 							label={'Lo siguiente...'}
@@ -271,7 +272,7 @@ const FilterMenu = (props) => {
 				<Stack>
 					<Button
 						variant='text'
-						className={classes.stylesButton}
+						sx={styles.stylesButton}
 						onClick={removeFilter}
 						disabled={allOptions === undefined || loading ? true : false}
 					>
@@ -279,14 +280,14 @@ const FilterMenu = (props) => {
 					</Button>
 					<Button
 						variant='contained'
-						className={classes.stylesButton}
+						sx={styles.stylesButton}
 						onClick={applyFilter}
 						disabled={allOptions === undefined || loading ? true : false}
 					>
 						Aplicar filtro
 					</Button>
 				</Stack>
-			</Box>
+			</Paper>
 			{/* <ContextFilterSubMenu {...filtersType} /> */}
 			{/* <DialogFilter {...DialogType} onClose={() => console.log('Close')} /> */}
 		</Popover>

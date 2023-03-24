@@ -39,7 +39,7 @@ export const filterContainer = {
 	padding: '10px',
 }
 export const filterPaper = {
-	padding: '16px',
+	padding: '15px',
 }
 export const checkList = {
 	height: '28px',
