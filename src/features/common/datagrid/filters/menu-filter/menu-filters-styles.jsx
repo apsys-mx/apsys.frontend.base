@@ -24,7 +24,13 @@ export const containerButton = {
 	justifyContent: 'flex-end !important',
 }
 export const stylesButton = {
-	color: `primary.main !important`,
+	color: 'white',
+	margin: '7px !important',
+	textTransform: 'none',
+	boxShadow: 'none',
+}
+export const stylesTextButton = {
+	color: 'primary',
 	margin: '7px !important',
 	textTransform: 'none',
 	boxShadow: 'none',
