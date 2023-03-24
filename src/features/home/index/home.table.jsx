@@ -1,5 +1,19 @@
 import React from 'react'
-const HomeTable = () => {
-	return <div>ComponentTable</div>
+import propTypes from 'prop-types'
+//Templates
+import DataGrid from '../../common/datagrid/data-grid'
+//
+const TimesheetsTable = ({ items, tableConfig }) => {
+	return (
+		<div>
+			<DataGrid headers={tableConfig} data={items} />
+		</div>
+	)
 }
-export default HomeTable
+TimesheetsTable.propTypes = {
+	items: propTypes.array,
+}
+TimesheetsTable.defultProps = {
+	items: [],
+}
+export default TimesheetsTable
