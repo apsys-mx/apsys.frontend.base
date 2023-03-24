@@ -1,20 +1,35 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 /**Import EndPoints */
 import { useGetTimesheetsQuery } from '../home.endPoints'
+/**Reducers */
 import { setPageNumber, setPageSize } from '../home.slice'
-
+/**Selectors */
+import * as selectors from '../home.selectors'
 /** Import templates */
 import DesktopTemplate from './home.template'
-
 /**
  * Home component
  */
 const Home = () => {
 	const dispatch = useDispatch()
+	/**
+	 * Selectors
+	 */
+	const viewPaginationState = useSelector((state) => selectors.getPagination(state))
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(API´s):::::::::::::::::::::::::::://
-	const { data: timeSheetsResponse, isLoading, isError, error } = useGetTimesheetsQuery()
+	const {
+		data: timeSheetsResponse,
+		isLoading,
+		isError,
+		error,
+	} = useGetTimesheetsQuery({
+		pagination: {
+			pageNumber: viewPaginationState.page,
+			pageSize: viewPaginationState.rowsPerPage,
+		},
+	})
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(Pagination)::::::::::::::::::::::://
 	const handleChangePage = (pageNumber) => {
