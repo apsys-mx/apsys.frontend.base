@@ -2,9 +2,9 @@ export const capitalize = (word) => {
 	return word ? word[0].toUpperCase() + word.slice(1) : ''
 }
 export const FilterType = {
-	Text: 'TEXT',
-	Numeric: 'NUMERIC',
-	Date: 'DATE',
+	text: 'text',
+	numeric: 'numeric',
+	date: 'date',
 }
 
 const numericFilters = ['AuthorizedWorkHours', 'Duration']
@@ -13,10 +13,10 @@ const dateFilters = ['StartDate', 'EndDate']
 export const getFilterType = (fieldName) => {
 	const capitalizedFieldName = capitalize(fieldName)
 	return dateFilters.includes(capitalizedFieldName)
-		? FilterType.Date
+		? FilterType.date
 		: numericFilters.includes(capitalizedFieldName)
-		? FilterType.Numeric
-		: FilterType.Text
+		? FilterType.numeric
+		: FilterType.text
 	//return textFilters.includes(capitalizedFieldName) ? FilterType.Text : FilterType.Numeric
 }
 

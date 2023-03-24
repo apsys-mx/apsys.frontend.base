@@ -1,3 +1,5 @@
+## Establecer conexión con Backend
+
 ### Crear archivo api para conexión con Backend
 
 - Crear el archivo `timesheet-api.js` dentro de la carpeta store
@@ -27,26 +29,56 @@ export const timesheetsApi = createApi({
 
 - En este caso, la función endpoints devuelve un objeto vacío porque no hay definiciones de endpoint definidas. Las definiciones de endpoint se pueden agregar al objeto devuelto por la función endpoints para crear endpoints que permitan realizar solicitudes HTTP a la API.
 
-### Crear archivo endpoints para realizar las peticiones
+### Configurar Api en el Store
 
-- Crear el archivo `timesheet-endpoints.js` dentro de la carpeta timesheets
+- Importa `timesheetsApi` en la sección de importación
+- Agrega `timesheetsApi` a la configuración de `rootReduce`
+- Igualmente agrega en la configuración del `middleware` en la exportación del `store`
 
 ```jsx
-import { timesheetsApi } from '../store/timesheet-api'
+import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers } from 'redux'
 
-export const timesheetsEndpoint = timesheetsApi.injectEndpoints({
+/** Slices import section */
+import homeSlice from '../features/home/home.slice'
+
+/** oidc related import section */
+import { reducer as oidcReducer } from 'redux-oidc'
+import createOidcMiddleware from 'redux-oidc'
+import userManager from '../auth/user-manager'
+import { timesheetsApi } from './timesheet-api'
+
+const oidcMiddleware = createOidcMiddleware(userManager)
+
+const rootReducer = combineReducers({
+	oidc: oidcReducer,
+	homeSlice: homeSlice,
+	[timesheetsApi.reducerPath]: timesheetsApi.reducer,
+})
+
+export const store = configureStore({
+	reducer: rootReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({ serializableCheck: false }).concat(
+			oidcMiddleware,
+			timesheetsApi.middleware
+		),
+	devTools: import.meta.env.DEV,
+})
+```
+
+### Crear archivo endpoints para realizar las peticiones
+
+- Crear el archivo `timesheet-endpoints.js` dentro de la carpeta timesheets, o editar el archivo `home.endPoints.js`
+
+```jsx
+import { timesheetsApi } from '../../store/timesheet-api'
+
+export const timesheetsEndPoint = timesheetsApi.injectEndpoints({
 	endpoints: (builder) => ({
 		getTimesheets: builder.query({
 			query(params) {
-				const { sorting, pagination } = params
-				var { sortBy, sortDirection } = sorting
-				var { pageNumber, pageSize } = pagination
-				sortDirection = sortDirection && sortDirection.length > 0 ? sortDirection : 'desc'
-				sortBy = sortBy && sortBy.length > 0 ? sortBy : 'projectName'
-				pageNumber = pageNumber ? pageNumber : 0
-				pageSize = pageSize ? pageSize : 0
-				var url = `Timesheets?sortBy=${sortBy}&sortDirection=${sortDirection}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-				console.log(`URL::[${url}]`)
+				var url = `Timesheets?sortBy=&sortDirection=&pageNumber=&pageSize=`
 				return {
 					url: url,
 					method: 'GET',
@@ -56,8 +88,7 @@ export const timesheetsEndpoint = timesheetsApi.injectEndpoints({
 	}),
 	overrideExisting: true,
 })
-
-export const { useGetTimesheetsQuery } = timesheetsEndpoint
+export const { useGetTimesheetsQuery } = timesheetsEndPoint
 ```
 
 - Este es un fragmento de código que utiliza la función `injectEndpoints` de `@reduxjs/toolkit/query` para definir una solicitud de consulta a una API utilizando el `timesheetsApi` creado previamente en el store.
@@ -71,3 +102,194 @@ export const { useGetTimesheetsQuery } = timesheetsEndpoint
 - El parámetro `overrideExisting` en `injectEndpoints` se establece en `true` para permitir la sobrescritura de endpoints existentes con el mismo nombre en caso de que se agreguen nuevos endpoints con el mismo nombre en el futuro.
 
 - En general, este fragmento de código define un endpoint de consulta personalizado para obtener una lista de timesheets desde una API y exporta un `hook` personalizado para conectarse y ejecutar la consulta en un componente `React`.
+
+### Llamar el endpoint en el index
+
+- Importar el endpoint `useGetTimesheetsQuery` en el index, en este caso el archivo `home.jsx`.
+- Declara las constantes para el endPoint (`data`, `isLoading`, `isError`, `error`), estas son generales para cada endPoint, se pueden renombrar para distinguir cada propiedad de los diferentes endPoint que se utilicen, como se ve a continuación para la propiedad data (`data: timeSheetsResponse`).
+- Agrega las condiciones de `isLoading`, con lo cual muestra el texto `Loading…` mientras se obtiene la respuesta del API, y la condición `isError`, para mostrar el error en caso de que no se pueda obtener respuesta del Api.
+
+```jsx
+import React from 'react'
+import { useGetTimesheetsQuery } from '../home.endPoints'
+
+/** Import templates */
+import DesktopTemplate from './home.template'
+
+/**
+ * Home component
+ */
+const Home = () => {
+	const { data: timeSheetsResponse, isLoading, isError, error } = useGetTimesheetsQuery()
+	if (isLoading) return <div>Loading...</div>
+	if (isError) {
+		return <div>{JSON.stringify(error)}</div>
+	}
+	return <DesktopTemplate />
+}
+
+export default Home
+```
+
+## Mostrar Tabla con información
+
+### Crear configuración de tabla
+
+- Crea el archivo `configurationTable.jsx` dentro de la carpeta `index`.
+- Este archivo contiene la configuración de las columnas que tendrá la table: encabezados, si la columna tiene ordenamiento, el origen de la información `dataSource` el cual es el nombre de la propiedad de la respuesta o `JSON`, si la columna contiene filtros, y el tipo de dato de los filtros (text, date, number).
+
+```jsx
+export const defaultTableConfigurationTimeSheets = [
+	{
+		title: 'Codigo del proyecto',
+		sortable: true,
+		dataSource: 'projectCode',
+		isActiveFilter: true,
+		filterType: 'text',
+	},
+	{
+		title: 'Nombre del proyecto',
+		sortable: true,
+		dataSource: 'projectName',
+		isActiveFilter: true,
+		filterType: 'Text',
+	},
+	{
+		title: 'Cliente',
+		sortable: true,
+		dataSource: 'client',
+	},
+	{
+		title: 'Descripción',
+		sortable: true,
+		dataSource: 'description',
+		isActiveFilter: true,
+		filterType: 'TEXT',
+	},
+	{
+		title: 'Tarea',
+		sortable: true,
+		dataSource: 'task',
+	},
+	{
+		title: 'Usuario',
+		sortable: true,
+		dataSource: 'userName',
+	},
+	{
+		title: 'Correo',
+		sortable: true,
+		dataSource: 'email',
+	},
+	{
+		title: 'Fecha de inicio',
+		sortable: true,
+		dataSource: 'startDate',
+		isActiveFilter: true,
+		filterType: 'Date',
+	},
+	{
+		title: 'Fecha de fin',
+		sortable: true,
+		dataSource: 'endDate',
+		isActiveFilter: true,
+		filterType: 'date',
+	},
+	{
+		title: 'Duración',
+		sortable: true,
+		dataSource: 'duration',
+		isActiveFilter: true,
+		filterType: 'NUMBER',
+	},
+]
+```
+
+### Crea componente para la tabla
+
+- Crea el archivo `home.table` vacío por el momento, exporta como `TimesheetsTable`.
+- Importa `DataGrid` componente de la sección `common/datagrid`, y `propTypes`.
+- Incluye los parámetros del componente, inicialmente `items` y `tableConfig`, define los `propTypes` (tipo de dato de las propiedades) y `defaultProps` (valores por defecto en caso de no enviar la propiedad).
+
+```jsx
+//Material
+import React from 'react'
+import propTypes from 'prop-types'
+//Templates
+import DataGrid from '../../common/datagrid/data-grid'
+//
+const TimesheetsTable = ({
+	items,
+	tableConfig,
+}) => {
+	return (
+		<div>
+			<DataGrid headers={tableConfig} data={items} />
+		</div>
+	)
+}
+TimesheetsTable.propTypes = {
+	items: propTypes.array,
+}
+TimesheetsTable.defultProps = {
+	items: [],
+}
+export default TimesheetsTable
+```
+### Pasar la respuesta del Api al componente
+
+- Edité el archivo `home.jsx`, envié la respuesta de ` useGetTimesheetsQuer` a ` DesktopTemplate`. 
+
+```jsx
+import React from 'react'
+/**Import EndPoints */
+import { useGetTimesheetsQuery } from '../home.endPoints'
+
+/** Import templates */
+import DesktopTemplate from './home.template'
+
+/**
+ * Home component
+ */
+const Home = () => {
+	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
+	//:::::::::::::::::(API´s):::::::::::::::::::::::::::://
+	const { data: timeSheetsResponse, isLoading, isError, error } = useGetTimesheetsQuery()
+	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
+	if (isLoading) return <div>Loading...</div>
+	if (isError) {
+		return <div>{JSON.stringify(error)}</div>
+	}
+	return <DesktopTemplate {...timeSheetsResponse} />
+}
+
+export default Home
+```
+
+- Posteriormente en el archivo `home.template.jsx` importe la configuración de la tabla y el componente de la tabla, los cuales se crearon anteriormente.
+- Agregue la definición `props` en la constante `HomeTemplate`.
+- Incluya el componente de la tabla enviando las configuraciones de la tabla y la respuesta del Api.
+
+```jsx
+//React
+import React from 'react'
+//Material
+import { Box } from '@mui/material'
+//Component
+import TimesheetsTable from './home.table'
+import { defaultTableConfigurationTimeSheets } from './configurationTable'
+
+/**
+ * Home component
+ */
+const HomeTemplate = (props) => {
+	return (
+		<Box>
+			<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} {...props} />
+		</Box>
+	)
+}
+
+export default HomeTemplate
+
+```

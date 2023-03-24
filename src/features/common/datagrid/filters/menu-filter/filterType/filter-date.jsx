@@ -4,7 +4,7 @@ import SearchBox from '../search-box'
 import * as classes from '../menu-filters-styles'
 import { Stack } from '@mui/system'
 
-const filterDate = (props) => {
+const FilterDate = (props) => {
 	console.log('entro')
 	const { allOptions, setQuery, displayedOptions, isOptionSelected, toggleSelectedOption } = props
 	const options = [
@@ -56,4 +56,4 @@ const filterDate = (props) => {
 	)
 }
 
-export default filterDate
+export default FilterDate
