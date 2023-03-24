@@ -24,7 +24,13 @@ export const containerButton = {
 	justifyContent: 'flex-end !important',
 }
 export const stylesButton = {
-	color: `primary.main !important`,
+	color: 'white',
+	margin: '7px !important',
+	textTransform: 'none',
+	boxShadow: 'none',
+}
+export const stylesTextButton = {
+	color: 'primary',
 	margin: '7px !important',
 	textTransform: 'none',
 	boxShadow: 'none',
@@ -39,7 +45,7 @@ export const filterContainer = {
 	padding: '10px',
 }
 export const filterPaper = {
-	padding: '16px',
+	padding: '15px',
 }
 export const checkList = {
 	height: '28px',

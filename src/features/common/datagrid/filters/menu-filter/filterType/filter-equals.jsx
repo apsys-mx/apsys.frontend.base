@@ -16,7 +16,7 @@ const FilterEquals = (props) => {
 					onChange={(value) => setQuery(value)}
 				/>
 			)}
-			<Box className={classes.filterItem}>
+			<Box>
 				{displayedOptions?.map((a) => {
 					return (
 						<Stack spacing={3}>

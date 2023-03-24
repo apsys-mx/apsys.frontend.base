@@ -7,7 +7,7 @@ export const root = {
 
 export const inputHolder = {
 	width: '215px',
-	backgroundColor: 'dodgerblue',
+	backgroundColor: theme.palette.primary.main,
 	borderRadius: '6px',
 	display: 'flex',
 	height: '40px',

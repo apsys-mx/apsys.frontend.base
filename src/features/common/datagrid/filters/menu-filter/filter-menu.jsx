@@ -15,10 +15,11 @@ import {
 	Box,
 	Stack,
 	TextField,
+	Paper,
 } from '@mui/material'
 
 /** Resources imports section */
-import * as classes from './menu-filters-styles'
+import * as styles from './menu-filters-styles'
 import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
 //import { setFilter } from '../../../store/timesheets-view-slice'
 //import { useGetCatalogsQuery } from '../../../store/search-api-slice'
@@ -161,7 +162,7 @@ const FilterMenu = (props) => {
 	]
 	return (
 		<Popover
-			className={classes.filterContainer}
+			sx={styles.filterContainer}
 			id={id}
 			open={open}
 			anchorEl={anchorEl}
@@ -171,9 +172,9 @@ const FilterMenu = (props) => {
 				horizontal: 'left',
 			}}
 		>
-			<Box className={classes.filterPaper}>
+			<Paper sx={styles.filterPaper}>
 				<ListItemButton>
-					<Typography variant='subtitle2' className={classes.titlePopover}>
+					<Typography variant='subtitle2' sx={styles.titlePopover}>
 						Filtros de{' '}
 						{filterType === 'date'
 							? 'Fecha'
@@ -215,7 +216,7 @@ const FilterMenu = (props) => {
 							/>
 						)}
 						{selectType.value !== 'equal' && (
-							<Box className={classes.filterPadding}>
+							<Box>
 								<TextField
 									size={'small'}
 									label={'Lo siguiente...'}
@@ -231,7 +232,7 @@ const FilterMenu = (props) => {
 				<Stack>
 					<Button
 						variant='text'
-						className={classes.stylesButton}
+						sx={styles.stylesTextButton}
 						onClick={removeFilter}
 						disabled={allOptions === undefined || loading ? true : false}
 					>
@@ -239,14 +240,14 @@ const FilterMenu = (props) => {
 					</Button>
 					<Button
 						variant='contained'
-						className={classes.stylesButton}
+						sx={styles.stylesButton}
 						onClick={applyFilter}
 						disabled={allOptions === undefined || loading ? true : false}
 					>
 						Aplicar filtro
 					</Button>
 				</Stack>
-			</Box>
+			</Paper>
 		</Popover>
 	)
 }
