@@ -10,12 +10,7 @@ const ErrorViewQuery = ({ error }) => {
 				<Box component={'img'} src={ErrorBadRequest} sx={styles.img} />
 				<details>
 					<div styles={styles.messageError}>
-						Mensage:{' '}
-						{error.data
-							? error.data.title
-								? error.data.title
-								: error.data
-							: 'Error de consulta con la API'}
+						Mensage: {'Error de consulta con la API'}
 					</div>
 					<div styles={styles.messageError}>Estatus: {error ? error.status : ''}</div>
 					<summary>Error: Ocurrio un error.</summary>
