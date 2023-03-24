@@ -18,6 +18,7 @@ const Home = () => {
 	 */
 	const viewPaginationState = useSelector((state) => selectors.getPagination(state))
 	const viewSortingState = useSelector((state) => selectors.getSorting(state))
+	const viewFilter = useSelector((state) => selectors.getFilters(state))
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(API´s):::::::::::::::::::::::::::://
 	const {
@@ -34,6 +35,7 @@ const Home = () => {
 			sortBy: viewSortingState.sortBy,
 			sortDirection: viewSortingState.sortDirection,
 		},
+		filters: viewFilter ? viewFilter : '',
 	})
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(Pagination)::::::::::::::::::::::://

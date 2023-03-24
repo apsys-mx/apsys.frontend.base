@@ -10,7 +10,15 @@ const FilterDate = (props) => {
 
 	return (
 		<Box>
-			<div style={{ display: 'flex', justifyContent: 'center' }}>
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					width: '290px',
+					height: '300px',
+					transform: 'scale(.8)',
+				}}
+			>
 				<DateRange
 					editableDateInputs={true}
 					moveRangeOnFirstSelection={false}

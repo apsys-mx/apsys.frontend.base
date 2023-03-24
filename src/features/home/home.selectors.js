@@ -14,4 +14,7 @@ const getPagination = createSelector(getViewState, (state) => {
 const getSorting = createSelector(getViewState, (state) => {
 	return state.sorting
 })
-export { getTitle, getPagination, getSorting }
+const getFilters = createSelector(getViewState, (state) => {
+	return state.filters
+})
+export { getTitle, getPagination, getSorting, getFilters }
