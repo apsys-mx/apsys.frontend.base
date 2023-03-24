@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
-
+import filterDate from './filterType/filter-date'
 /** Redux imports section */
 import { useDispatch } from 'react-redux'
 //import { fleetOperations } from '../../../store/fleet/Index'
@@ -21,21 +21,23 @@ import {
 } from '@mui/material'
 
 /** Custom components import section */
-//import ContextFilterSubMenu from './filter-sub-menu'
+import FilterSubMenu from './filter-sub-menu'
 //import DialogFilter from './dialog-filter'
 import SearchBox from './search-box'
 
 /** Resources imports section */
 import * as classes from './menu-filters-styles'
 import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
-import { getFilterType } from '../helper/filter-helper'
 //import { setFilter } from '../../../store/timesheets-view-slice'
 //import { useGetCatalogsQuery } from '../../../store/search-api-slice'
 import Select from 'react-select'
+import FilterDate from './filterType/filter-date'
+import FilterEquals from './filterType/filter-equals'
+import { optionsSelector } from '../helper/filter-helper'
 
 const FilterMenu = (props) => {
-	const { id, open, filterType, anchorEl, handleClose, dataSource } = props
-	//const filterType = open ? getFilterType(dataSource) : ''
+	const { id, open, anchorEl, handleClose, dataSource, filterTypeActive } = props
+	const filterType = open ? filterTypeActive : ''
 	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
@@ -62,22 +64,22 @@ const FilterMenu = (props) => {
 	})
 
 	/** Filtering displayed options on search input change  */
-	// useEffect(() => {
-	// 	let filteredOptions
-	// 	if (open && !!query) {
-	// 		filteredOptions = allOptions.filter(
-	// 			(opt) =>
-	// 				opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
-	// 		)
-	// 	} else {
-	// 		filteredOptions = allOptions
-	// 	}
-	// 	setDisplayedOptions(filteredOptions)
-	// }, [filterType, query, allOptions, open])
+	useEffect(() => {
+		let filteredOptions
+		if (open && !!query) {
+			filteredOptions = allOptions.filter(
+				(opt) =>
+					opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
+			)
+		} else {
+			filteredOptions = allOptions
+		}
+		setDisplayedOptions(filteredOptions)
+	}, [query, allOptions, open])
 
-	// useEffect(() => {
-	// 	if (location.search === '') setSelectedOptions([])
-	// }, [location.search])
+	useEffect(() => {
+		if (location.search === '') setSelectedOptions([])
+	}, [location.search])
 
 	const toggleSelectedOption = (event) => {
 		const { checked } = event.target
@@ -171,7 +173,11 @@ const FilterMenu = (props) => {
 	const handleCloseDialogType = () => {
 		handleClose(false)
 	}
-
+	const options = [
+		{ value: 'Que empiezen con', label: 'Que empiezen con' },
+		{ value: 'Que terminen con', label: 'Que terminen con' },
+		{ value: 'Que contengan', label: 'Que contengan' },
+	]
 	return (
 		<Popover
 			className={classes.filterContainer}
@@ -190,15 +196,17 @@ const FilterMenu = (props) => {
 				>
 					<Typography variant='subtitle2' className={classes.titlePopover}>
 						Filtros de{' '}
-						{filterType === 'number' ? 'Número' : filterType === 'text' ? 'Texto' : 's'}
+						{filterType === 'date'
+							? 'Fecha'
+							: filterType === 'numeric'
+							? 'número'
+							: 'texto'}
 					</Typography>
 				</ListItemButton>
-
 				<Typography>Filtrar</Typography>
-				<Divider />
 				<Select
 					classNamePrefix='Que contengan'
-					options={[]}
+					options={optionsSelector(filterType)}
 					defaultValue={selectType}
 					onChange={(event) => setSelectType(event)}
 					styles={{
@@ -213,46 +221,17 @@ const FilterMenu = (props) => {
 					menuPosition='fixed'
 				/>
 
+				<Divider />
 				{loading && <LinearProgress />}
+
 				{selectType.value === 'equal' && (
-					<Box>
-						{/* {allOptions !== undefined && ( */}
-						<SearchBox
-							autoFocus
-							autoSearch
-							placeholder={'Buscar'}
-							onChange={(value) => setQuery(value)}
-						/>
-						{/* )} */}
-						<div className={classes.filterItem}>
-							{displayedOptions?.map((a) => {
-								return (
-									<Stack spacing={3}>
-										<Stack
-											direction={'row'}
-											alignItems={'center'}
-											key={a.code}
-											className={classes.checkList}
-										>
-											<Checkbox
-												size='small'
-												className={classes.checkFilter}
-												style={{ zIndex: 100 }}
-												inputProps={{
-													'data-code': a.code,
-												}}
-												onChange={toggleSelectedOption}
-												checked={isOptionSelected(a.code)}
-											/>
-											<Typography variant='caption'>
-												{a.description}
-											</Typography>
-										</Stack>
-									</Stack>
-								)
-							})}
-						</div>
-					</Box>
+					<FilterEquals
+						allOptions={allOptions}
+						setQuery={setQuery}
+						displayedOptions={displayedOptions}
+						isOptionSelected={isOptionSelected}
+						toggleSelectedOption={toggleSelectedOption}
+					/>
 				)}
 				{selectType.value !== 'equal' && (
 					<Box className={classes.filterPadding}>
@@ -283,7 +262,7 @@ const FilterMenu = (props) => {
 					</Button>
 				</Stack>
 			</Box>
-			{/* <ContextFilterSubMenu {...filtersType} /> */}
+			<FilterSubMenu {...filtersType} />
 			{/* <DialogFilter {...DialogType} onClose={() => console.log('Close')} /> */}
 		</Popover>
 	)

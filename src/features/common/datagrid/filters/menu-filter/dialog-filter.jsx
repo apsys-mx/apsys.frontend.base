@@ -14,16 +14,16 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 //import TextfieldComponent from '../../components/text-fields/text-field-component'
 //import { DateRange } from 'react-date-range'
-import 'react-date-range/dist/styles.css' // main style file
-import 'react-date-range/dist/theme/default.css' // theme css file
+//import 'react-date-range/dist/styles.css' // main style file
+//import 'react-date-range/dist/theme/default.css' // theme css file
 
 /** Redux imports section */
 import { useForm } from 'react-hook-form'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 /** Resources imports section */
-import { convertFiltersToString, parseFiltersFromQueryString } from '../../helpers/url-helper'
-import { setFilter } from '../../../store/timesheets-view-slice'
+import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
+//import { setFilter } from '../../../store/timesheets-view-slice'
 
 const DialogFilter = (props) => {
 	const { open, handleClose, type, filter, dataSource, subClose, filterType } = props
@@ -45,7 +45,7 @@ const DialogFilter = (props) => {
 
 	const applyFilterDate = (Filters) => {
 		handleClose()
-		dispatch(setFilter(Filters))
+		//dispatch(setFilter(Filters))
 		const queryString = convertFiltersToString(Filters)
 		navigate(`?${queryString}`)
 	}

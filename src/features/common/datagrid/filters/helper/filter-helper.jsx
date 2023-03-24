@@ -2,9 +2,9 @@ export const capitalize = (word) => {
 	return word ? word[0].toUpperCase() + word.slice(1) : ''
 }
 export const FilterType = {
-	Text: 'TEXT',
-	Numeric: 'NUMERIC',
-	Date: 'DATE',
+	text: 'text',
+	numeric: 'numeric',
+	date: 'date',
 }
 
 const numericFilters = ['AuthorizedWorkHours', 'Duration']
@@ -13,10 +13,10 @@ const dateFilters = ['StartDate', 'EndDate']
 export const getFilterType = (fieldName) => {
 	const capitalizedFieldName = capitalize(fieldName)
 	return dateFilters.includes(capitalizedFieldName)
-		? FilterType.Date
+		? FilterType.date
 		: numericFilters.includes(capitalizedFieldName)
-		? FilterType.Numeric
-		: FilterType.Text
+		? FilterType.numeric
+		: FilterType.text
 	//return textFilters.includes(capitalizedFieldName) ? FilterType.Text : FilterType.Numeric
 }
 
@@ -122,4 +122,20 @@ export const createQueryForFilters = (filters) => {
 		})
 	}
 	return queryByFilter.join('')
+}
+
+export const optionsSelector = (type) => {
+	let options = []
+	if (type === 'text') {
+		options.push({ value: 'starts_with', label: 'Que empiezen con' })
+		options.push({ value: 'ends_with', label: 'Que terminen con' })
+		options.push({ value: 'contains', label: 'Que contengan' })
+		options.push({ value: 'equal', label: 'Iguales a' })
+	} else if (type === 'numeric') {
+		options.push({ value: 'Que empiezen con', label: 'Que empiezen con' })
+		options.push({ value: 'Que terminen con', label: 'Que terminen con' })
+		options.push({ value: 'Que contengan', label: 'Que contengan' })
+		options.push({ value: 'equal', label: 'Iguales a' })
+	}
+	return options
 }
