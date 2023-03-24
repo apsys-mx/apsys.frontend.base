@@ -1,14 +1,18 @@
+//React
 import React from 'react'
+//Material
 import { Box } from '@mui/material'
-import HomeTable from './home.table'
+//Component
+import TimesheetsTable from './home.table'
+import { defaultTableConfigurationTimeSheets } from './configurationTable'
 
 /**
  * Home component
  */
-const HomeTemplate = () => {
+const HomeTemplate = (props) => {
 	return (
 		<Box>
-			<HomeTable />
+			<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} {...props} />
 		</Box>
 	)
 }
