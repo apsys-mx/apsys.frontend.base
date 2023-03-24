@@ -1,9 +1,8 @@
 import React from 'react'
 import { Box, Checkbox, Typography } from '@mui/material'
-import SearchBox from '../search-box'
+import SearchBox from './search-box'
 import * as classes from '../menu-filters-styles'
 import { Stack } from '@mui/system'
-import Select from 'react-select'
 const FilterEquals = (props) => {
 	const { allOptions, setQuery, displayedOptions, isOptionSelected, toggleSelectedOption } = props
 

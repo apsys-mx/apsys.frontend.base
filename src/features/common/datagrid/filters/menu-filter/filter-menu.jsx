@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
-import filterDate from './filterType/filter-date'
 /** Redux imports section */
 import { useDispatch } from 'react-redux'
 
 /** MUI imports section */
 import {
 	Button,
-	Checkbox,
 	Divider,
 	LinearProgress,
 	ListItemButton,
@@ -18,9 +16,6 @@ import {
 	Stack,
 	TextField,
 } from '@mui/material'
-
-/** Custom components import section */
-import SearchBox from './search-box'
 
 /** Resources imports section */
 import * as classes from './menu-filters-styles'
