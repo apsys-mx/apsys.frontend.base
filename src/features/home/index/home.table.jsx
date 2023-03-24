@@ -1,9 +1,9 @@
 //Material
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import propTypes from 'prop-types'
 //Templates
 import DataGrid from '../../common/datagrid/data-grid'
-//
+import moment from 'moment'
 const TimesheetsTable = ({
 	items,
 	pageNumber,
@@ -16,9 +16,40 @@ const TimesheetsTable = ({
 	sortBy,
 	sortDirection,
 }) => {
+	/**
+	 * State hook for configTable
+	 */
+	const [localTableConfig, setLocalTableConfig] = useState([])
+	useEffect(() => {
+		if (tableConfig) {
+			var local = tableConfig.map((config) => {
+				return { ...config }
+			})
+			setLocalTableConfig(local)
+		}
+	}, [tableConfig])
+	/**
+	 * Get the header configuration
+	 */
+	const enhancedConfiguration = localTableConfig.map((config) => {
+		switch (config.dataSource) {
+			case 'startDate':
+				config.onRenderProperty = (item) => {
+					return moment(item.startDate).format('DD/MM/YYYY')
+				}
+				break
+			case 'endDate':
+				config.onRenderProperty = (item) => {
+					return moment(item.endDate).format('DD/MM/YYYY')
+				}
+				break
+			default:
+		}
+		return config
+	})
 	return (
 		<div>
-			<DataGrid headers={tableConfig} data={items} />
+			<DataGrid headers={enhancedConfiguration} data={items} />
 		</div>
 	)
 }
