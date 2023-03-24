@@ -12,8 +12,6 @@ export const timesheetsEndPoint = timesheetsApi.injectEndpoints({
 				sortDirection = sortDirection && sortDirection.length > 0 ? sortDirection : 'desc'
 				sortBy = sortBy && sortBy.length > 0 ? sortBy : 'projectName'
 				var url = `Timesheets?sortBy=${sortBy}&sortDirection=${sortDirection}&pageNumber=${pageNumber}&pageSize=${pageSize}&${filters}`
-				console.log(`URL::[${url}]`)
-				//var url2 = `Timesheets?query=8||Description||ProjectCode&pageNumber=1&pageSize=30&sortBy=projectName&sortDirection=asc`
 				return {
 					url: url,
 					method: 'GET',
