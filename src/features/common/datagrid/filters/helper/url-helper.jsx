@@ -181,3 +181,23 @@ export const getLookupValue = (queryString) => {
 }
 const paginationKeys = ['pageNumber', 'pageSize']
 const sortingKeys = ['sortBy', 'sortDirection']
+export const createQueryForFilters = (filters) => {
+	var queryByFilter = []
+	if (filters.length > 0) {
+		queryByFilter = filters?.map((filter) => {
+			if (
+				filter &&
+				filter.fieldName?.length > 0 &&
+				filter.relationalOperatorType?.length > 0 &&
+				filter.values?.length > 0
+			) {
+				return `&${filter.fieldName}=${filter.values.join('|')}||${
+					filter.relationalOperatorType
+				}`
+			} else {
+				return ''
+			}
+		})
+	}
+	return queryByFilter.join('')
+}

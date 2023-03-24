@@ -18,7 +18,15 @@ export const timesheetsEndPoint = timesheetsApi.injectEndpoints({
 				}
 			},
 		}),
+		getCatalogs: builder.query({
+			query(fieldName) {
+				return {
+					url: `Timesheets/catalogs/${fieldName}`,
+					method: 'GET',
+				}
+			},
+		}),
 	}),
 	overrideExisting: true,
 })
-export const { useGetTimesheetsQuery } = timesheetsEndPoint
+export const { useGetTimesheetsQuery, useGetCatalogsQuery } = timesheetsEndPoint
