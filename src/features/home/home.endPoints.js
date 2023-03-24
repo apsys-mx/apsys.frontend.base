@@ -13,9 +13,9 @@ export const timesheetsEndPoint = timesheetsApi.injectEndpoints({
 			transformResponse: (response) => {
 				return {
 					items: response,
-					pageNumber: 0,
-					pageSize: 20,
-					totalitems: response.length,
+					page: 0,
+					rowsPerPage: 20,
+					rowsCount: response.length,
 				}
 			},
 		}),
