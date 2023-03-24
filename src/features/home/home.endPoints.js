@@ -10,6 +10,14 @@ export const timesheetsEndPoint = timesheetsApi.injectEndpoints({
 					method: 'GET',
 				}
 			},
+			transformResponse: (response) => {
+				return {
+					items: response,
+					pageNumber: 0,
+					pageSize: 20,
+					totalitems: response.length,
+				}
+			},
 		}),
 	}),
 	overrideExisting: true,
