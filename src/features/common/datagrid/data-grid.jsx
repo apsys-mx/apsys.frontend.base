@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import {
 	TableContainer,
 	Table,
@@ -9,6 +9,7 @@ import {
 	TableSortLabel,
 	Typography,
 	Collapse,
+	IconButton,
 } from '@mui/material'
 import Skeleton from '@mui/material/Skeleton'
 
@@ -17,7 +18,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { tableConfigProps } from './config-prop-types'
 import moment from 'moment'
 import { currencyFormat, numberFormat } from '../../../helpers/currency-helper'
-
+import FilterListIcon from '@mui/icons-material/FilterList'
+import FilterMenu from './filters/menu-filter/filter-menu'
 /** Datagrid component */
 const DataGrid = ({
 	headers,
@@ -31,6 +33,28 @@ const DataGrid = ({
 	itemRender,
 	componentDetail,
 }) => {
+	console.log('🚀 ~ file: data-grid.jsx:36 ~ headers:', headers)
+	const [filterSettings, setFilterSettings] = useState({
+		open: false,
+		handleClose: null,
+		anchorEl: null,
+	})
+	const openContextMenu = (event) => {
+		setFilterSettings((prevState) => ({
+			...prevState,
+			open: true,
+			handleClose: handleClose,
+			anchorEl: event.currentTarget,
+		}))
+	}
+	const handleClose = () => {
+		setFilterSettings((prevState) => ({
+			...prevState,
+			open: false,
+			anchorEl: null,
+		}))
+	}
+
 	var visibleHeaders = headers.filter((x) => x.visible !== false)
 	let emptyArray = Array.from(Array(10).keys()).map(() => null)
 
@@ -42,11 +66,13 @@ const DataGrid = ({
 						{visibleHeaders.map((header) => {
 							return (
 								<DagridTableHead
+									filterSettings={filterSettings}
 									key={uuidv4()}
 									{...header}
 									sortCriteria={sortCriteria}
 									sortDirection={sortDirection}
 									onchangeSorting={onchangeSorting}
+									openContextMenu={openContextMenu}
 								/>
 							)
 						})}
@@ -136,6 +162,9 @@ const DagridTableHead = ({
 	sortCriteria,
 	sortDirection,
 	onchangeSorting,
+	openContextMenu,
+	filterSettings,
+	filterType,
 }) => {
 	const criteria = sortCriteria || ''
 	const isSortable = sortable || false
@@ -164,6 +193,18 @@ const DagridTableHead = ({
 					{title}
 				</Typography>
 			)}
+			{
+				<IconButton onClick={openContextMenu}>
+					{<FilterListIcon sx={{ fontSize: 25 }} />}
+				</IconButton>
+			}
+			<FilterMenu
+				filterType={filterType}
+				{...filterSettings}
+				title={title}
+				dataSource={dataSource}
+				//	onRenderFilterOptions={filtering.onRenderFilterOptions}
+			/>
 		</TableCell>
 	)
 }
