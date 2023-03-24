@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import HomeTable from './home.table'
+import TimesheetsTable from './home.table'
+import { defaultTableConfigurationTimeSheets } from './configurationTable'
 
 /**
  * Home component
@@ -8,7 +9,7 @@ import HomeTable from './home.table'
 const HomeTemplate = () => {
 	return (
 		<Box>
-			<HomeTable />
+			<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} items={[]} />
 		</Box>
 	)
 }
