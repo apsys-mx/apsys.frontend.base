@@ -8,7 +8,7 @@ import {
 	TableCell,
 	TableSortLabel,
 	Typography,
-	Collapse,
+	Box,
 	IconButton,
 } from '@mui/material'
 import Skeleton from '@mui/material/Skeleton'
@@ -158,30 +158,27 @@ const DagridTableHead = ({
 
 	return (
 		<TableCell variant='head' sx={{ zIndex: '100', bgcolor: 'background.light' }}>
-			{isSortable ? (
-				<TableSortLabel
-					active={isSortCriteria}
-					direction={direction}
-					onClick={createSortHandler(dataSource)}
-				>
+			<Box sx={{ display: 'flex' }}>
+				{isSortable ? (
+					<TableSortLabel
+						active={isSortCriteria}
+						direction={direction}
+						onClick={createSortHandler(dataSource)}
+					>
+						<Typography component='span' variant='subtitle2' color='secondary.dark'>
+							{title}
+						</Typography>
+					</TableSortLabel>
+				) : (
 					<Typography component='span' variant='subtitle2' color='secondary.dark'>
 						{title}
 					</Typography>
+				)}
+				<IconButton onClick={openContextMenu}>
+					{<FilterListIcon fontSize='small' />}
+				</IconButton>
+			</Box>
 
-					<IconButton onClick={openContextMenu}>
-						{<FilterListIcon fontSize='small' />}
-					</IconButton>
-				</TableSortLabel>
-			) : (
-				<>
-					<Typography component='span' variant='subtitle2' color='secondary.dark'>
-						{title}
-					</Typography>
-					<IconButton onClick={openContextMenu}>
-						{<FilterListIcon fontSize='small' />}
-					</IconButton>
-				</>
-			)}
 			<FilterMenu
 				filterTypeActive={filterType}
 				{...filterSettings}
