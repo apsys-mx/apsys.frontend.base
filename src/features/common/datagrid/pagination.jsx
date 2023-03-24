@@ -1,7 +1,7 @@
 const { Box } = require('@mui/material')
 
-const Paginator = () => {
+const Pagination = () => {
 	return <Box> paginador</Box>
 }
 
-export default Paginator
+export default Pagination
