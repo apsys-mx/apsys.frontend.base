@@ -28,14 +28,13 @@ import SearchBox from './search-box'
 /** Resources imports section */
 import * as classes from './menu-filters-styles'
 import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
-import { getFilterType } from '../helper/filter-helper'
 //import { setFilter } from '../../../store/timesheets-view-slice'
 //import { useGetCatalogsQuery } from '../../../store/search-api-slice'
 import Select from 'react-select'
 
 const FilterMenu = (props) => {
-	const { id, open, filterType, anchorEl, handleClose, dataSource } = props
-	//const filterType = open ? getFilterType(dataSource) : ''
+	const { id, open, anchorEl, handleClose, dataSource, filterTypeActive } = props
+	const filterType = open ? filterTypeActive : ''
 	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
@@ -62,18 +61,18 @@ const FilterMenu = (props) => {
 	})
 
 	/** Filtering displayed options on search input change  */
-	// useEffect(() => {
-	// 	let filteredOptions
-	// 	if (open && !!query) {
-	// 		filteredOptions = allOptions.filter(
-	// 			(opt) =>
-	// 				opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
-	// 		)
-	// 	} else {
-	// 		filteredOptions = allOptions
-	// 	}
-	// 	setDisplayedOptions(filteredOptions)
-	// }, [filterType, query, allOptions, open])
+	useEffect(() => {
+		let filteredOptions
+		if (open && !!query) {
+			filteredOptions = allOptions.filter(
+				(opt) =>
+					opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
+			)
+		} else {
+			filteredOptions = allOptions
+		}
+		setDisplayedOptions(filteredOptions)
+	}, [query, allOptions, open])
 
 	// useEffect(() => {
 	// 	if (location.search === '') setSelectedOptions([])
@@ -190,7 +189,11 @@ const FilterMenu = (props) => {
 				>
 					<Typography variant='subtitle2' className={classes.titlePopover}>
 						Filtros de{' '}
-						{filterType === 'number' ? 'Número' : filterType === 'text' ? 'Texto' : 's'}
+						{filterType === 'date'
+							? 'Fecha'
+							: filterType === 'numeric'
+							? 'número'
+							: 'texto'}
 					</Typography>
 				</ListItemButton>
 
