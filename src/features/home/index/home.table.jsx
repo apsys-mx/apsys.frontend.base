@@ -1,5 +1,5 @@
 import React from 'react'
 const HomeTable = () => {
-	return <div>TableComponent</div>
+	return <div>ComponentTable</div>
 }
 export default HomeTable

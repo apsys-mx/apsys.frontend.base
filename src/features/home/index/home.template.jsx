@@ -1,5 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/material'
+import HomeTable from './home.table'
 
 /**
  * Home component
@@ -7,7 +8,7 @@ import { Box } from '@mui/material'
 const HomeTemplate = () => {
 	return (
 		<Box>
-			<HomeTemplate />
+			<HomeTable />
 		</Box>
 	)
 }
