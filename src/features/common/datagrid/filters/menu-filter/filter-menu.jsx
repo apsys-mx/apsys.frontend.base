@@ -27,6 +27,7 @@ import Select from 'react-select'
 import FilterDate from './filterType/filter-date'
 import FilterEquals from './filterType/filter-equals'
 import { optionsSelector } from '../helper/filter-helper'
+import moment from 'moment'
 
 const FilterMenu = (props) => {
 	const { id, open, anchorEl, handleClose, dataSource, filterTypeActive } = props
@@ -103,18 +104,34 @@ const FilterMenu = (props) => {
 	/** Hanldes applying filter action */
 	const applyFilter = () => {
 		handleClose()
-		const newFilter = {
-			fieldName: dataSource,
-			relationalOperatorType: selectType.value,
-			values: valuesSelect(),
-		}
+		if (filterType === 'date') {
+			const newFilter = {
+				fieldName: dataSource,
+				relationalOperatorType: filterType,
+				values: [
+					moment(valueDate[0].startDate).format('YYYY-MM-DD'),
+					moment(valueDate[0].endDate).format('YYYY-MM-DD'),
+				],
+			}
+			let currentFilters = parseFiltersFromQueryString(location.search)
+			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
+			currentFilters.push(newFilter)
+			const queryString = convertFiltersToString(currentFilters)
+			navigate(`?${queryString}`)
+		} else {
+			const newFilter = {
+				fieldName: dataSource,
+				relationalOperatorType: selectType.value,
+				values: valuesSelect(),
+			}
 
-		let currentFilters = parseFiltersFromQueryString(location.search)
-		//dispatch(setFilter(currentFilters))
-		currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
-		currentFilters.push(newFilter)
-		const queryString = convertFiltersToString(currentFilters)
-		navigate(`?${queryString}`)
+			let currentFilters = parseFiltersFromQueryString(location.search)
+			//dispatch(setFilter(currentFilters))
+			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
+			currentFilters.push(newFilter)
+			const queryString = convertFiltersToString(currentFilters)
+			navigate(`?${queryString}`)
+		}
 	}
 
 	/** Handles removing filter action */
