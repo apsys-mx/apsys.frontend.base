@@ -13,17 +13,10 @@ export const timesheetsEndPoint = timesheetsApi.injectEndpoints({
 				sortBy = sortBy && sortBy.length > 0 ? sortBy : 'projectName'
 				var url = `Timesheets?sortBy=${sortBy}&sortDirection=${sortDirection}&pageNumber=${pageNumber}&pageSize=${pageSize}&${filters}`
 				console.log(`URL::[${url}]`)
+				//var url2 = `Timesheets?query=8||Description||ProjectCode&pageNumber=1&pageSize=30&sortBy=projectName&sortDirection=asc`
 				return {
 					url: url,
 					method: 'GET',
-				}
-			},
-			transformResponse: (response) => {
-				return {
-					items: response,
-					page: 0,
-					rowsPerPage: 20,
-					rowsCount: response.length,
 				}
 			},
 		}),
