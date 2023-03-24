@@ -4,6 +4,10 @@ import propTypes from 'prop-types'
 //Templates
 import DataGrid from '../../common/datagrid/data-grid'
 import moment from 'moment'
+import { Box } from '@mui/material'
+import * as styles from './home.styles'
+import SearchComponent from '../../common/search/SearchComponent'
+//
 const TimesheetsTable = ({
 	items,
 	pageNumber,
@@ -49,7 +53,14 @@ const TimesheetsTable = ({
 	})
 	return (
 		<div>
-			<DataGrid headers={enhancedConfiguration} data={items} />
+			<Box sx={styles.searchContainer}>
+				<SearchComponent
+					placeholder={''}
+					value={''}
+					onChange={console.warn('No [onChangeValue] callback defined')}
+				/>
+			</Box>
+			<DataGrid headers={tableConfig} data={items} />
 		</div>
 	)
 }
