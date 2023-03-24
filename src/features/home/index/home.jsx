@@ -8,6 +8,7 @@ import { setPageNumber, setPageSize, setSorting } from '../home.slice'
 import * as selectors from '../home.selectors'
 /** Import templates */
 import DesktopTemplate from './home.template'
+import ErrorViewQuery from '../../common/errorInfo/errorViewQuery'
 /**
  * Home component
  */
@@ -53,7 +54,7 @@ const Home = () => {
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	if (isLoading) return <div>Loading...</div>
 	if (isError) {
-		return <div>{JSON.stringify(error)}</div>
+		return <ErrorViewQuery error={error} />
 	}
 	return (
 		<DesktopTemplate
