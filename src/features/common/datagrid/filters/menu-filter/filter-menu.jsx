@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import filterDate from './filterType/filter-date'
 /** Redux imports section */
 import { useDispatch } from 'react-redux'
-//import { fleetOperations } from '../../../store/fleet/Index'
 
 /** MUI imports section */
 import {
@@ -225,6 +224,8 @@ const FilterMenu = (props) => {
 						)}
 					</Box>
 				)}
+
+				{filterType === 'date' && <FilterDate />}
 
 				<Stack>
 					<Button

@@ -12,7 +12,6 @@ import {
 	Typography,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import TextfieldSearh from '../text-fields/text-fields'
 import { DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css' // main style file
 import 'react-date-range/dist/theme/default.css' // theme css file
@@ -104,35 +103,6 @@ const DialogFilter = (props) => {
 					</IconButton>
 				</DialogTitle>
 				<DialogContent>
-					{type === 'text' && (
-						<div>
-							<Typography variant='subtitle2'>Texto</Typography>
-							<TextfieldSearh
-								fullWidth
-								control={control}
-								name='value'
-								rules={{
-									required: { value: false },
-								}}
-								errors={errors}
-							/>
-						</div>
-					)}
-					{type === 'numeric' && (
-						<div>
-							<Typography variant='subtitle2'>{filter}</Typography>
-							<TextfieldComponent
-								fullWidth
-								control={control}
-								name='value'
-								rules={{
-									required: { value: false },
-								}}
-								errors={errors}
-								type='number'
-							/>
-						</div>
-					)}
 					{type === 'date' && (
 						<div style={{ display: 'flex', justifyContent: 'center' }}>
 							<DateRange
