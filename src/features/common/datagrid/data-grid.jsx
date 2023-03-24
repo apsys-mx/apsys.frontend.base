@@ -167,17 +167,21 @@ const DagridTableHead = ({
 					<Typography component='span' variant='subtitle2' color='secondary.dark'>
 						{title}
 					</Typography>
+
+					<IconButton onClick={openContextMenu}>
+						{<FilterListIcon fontSize='small' />}
+					</IconButton>
 				</TableSortLabel>
 			) : (
-				<Typography component='span' variant='subtitle2' color='secondary.dark'>
-					{title}
-				</Typography>
+				<>
+					<Typography component='span' variant='subtitle2' color='secondary.dark'>
+						{title}
+					</Typography>
+					<IconButton onClick={openContextMenu}>
+						{<FilterListIcon fontSize='small' />}
+					</IconButton>
+				</>
 			)}
-			{
-				<IconButton onClick={openContextMenu}>
-					{<FilterListIcon sx={{ fontSize: 25 }} />}
-				</IconButton>
-			}
 			<FilterMenu
 				filterTypeActive={filterType}
 				{...filterSettings}

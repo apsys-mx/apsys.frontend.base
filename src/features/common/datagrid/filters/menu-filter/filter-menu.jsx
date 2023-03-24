@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
 /** Redux imports section */
 import { useDispatch } from 'react-redux'
-//import { fleetOperations } from '../../../store/fleet/Index'
 
 /** MUI imports section */
 import {
 	Button,
-	Checkbox,
 	Divider,
 	LinearProgress,
 	ListItemButton,
@@ -20,11 +18,6 @@ import {
 	Paper,
 } from '@mui/material'
 
-/** Custom components import section */
-import ContextFilterSubMenu from './filter-sub-menu'
-//import DialogFilter from './dialog-filter'
-import SearchBox from './search-box'
-
 /** Resources imports section */
 import * as styles from './menu-filters-styles'
 import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
@@ -32,6 +25,8 @@ import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/u
 //import { useGetCatalogsQuery } from '../../../store/search-api-slice'
 import Select from 'react-select'
 import FilterDate from './filterType/filter-date'
+import FilterEquals from './filterType/filter-equals'
+import { optionsSelector } from '../helper/filter-helper'
 
 const FilterMenu = (props) => {
 	const { id, open, anchorEl, handleClose, dataSource, filterTypeActive } = props
@@ -39,7 +34,13 @@ const FilterMenu = (props) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
-
+	const [valueDate, setValue] = useState([
+		{
+			startDate: new Date(),
+			endDate: null,
+			key: 'selection',
+		},
+	])
 	//TODO: envar solo listado de catalogos para mistrar
 	// Refactorizar para enviar información base
 	const [allOptions, setAllOptions] = useState([])
@@ -55,10 +56,6 @@ const FilterMenu = (props) => {
 		open: false,
 		handleClose: null,
 		anchorEl: null,
-	})
-	const [DialogType, setDialogType] = useState({
-		open: false,
-		handleClose: null,
 	})
 
 	/** Filtering displayed options on search input change  */
@@ -155,23 +152,14 @@ const FilterMenu = (props) => {
 		}))
 	}
 
-	//** Dialog for filter types */
-	const openContextDialogType = (event) => {
-		setDialogType((prevState) => ({
-			...prevState,
-			open: true,
-			handleClose: handleCloseDialogType,
-			type: filterType,
-			filter: event.target.outerText,
-			dataSource: dataSource,
-			filterType: 'between',
-		}))
-	}
-
 	const handleCloseDialogType = () => {
 		handleClose(false)
 	}
-
+	const options = [
+		{ value: 'Que empiezen con', label: 'Que empiezen con' },
+		{ value: 'Que terminen con', label: 'Que terminen con' },
+		{ value: 'Que contengan', label: 'Que contengan' },
+	]
 	return (
 		<Popover
 			sx={styles.filterContainer}
@@ -185,9 +173,7 @@ const FilterMenu = (props) => {
 			}}
 		>
 			<Paper sx={styles.filterPaper}>
-				<ListItemButton
-					onClick={filterType === 'date' ? openContextDialogType : openContextMenuType}
-				>
+				<ListItemButton>
 					<Typography variant='subtitle2' sx={styles.titlePopover}>
 						Filtros de{' '}
 						{filterType === 'date'
@@ -197,77 +183,51 @@ const FilterMenu = (props) => {
 							: 'texto'}
 					</Typography>
 				</ListItemButton>
-
 				<Typography>Filtrar</Typography>
-				<Divider />
-				<Select
-					classesPrefix='Que contengan'
-					options={[]}
-					defaultValue={selectType}
-					onChange={(event) => setSelectType(event)}
-					styles={{
-						menu: (base) => ({ ...base, zIndex: 10, maxHeight: 200 }),
-						menuList: (base) => ({
-							...base,
-							maxHeight: 200,
-							paddingTop: 0,
-						}),
-						menuPortal: (base) => ({ ...base, zIndex: 9999 }), /// THIS IS TO SHOW MENU OVER MODAL
-					}}
-					menuPosition='fixed'
-				/>
-
-				{loading && <LinearProgress />}
-
-				{selectType.value === 'equal' && (
+				{filterType !== 'date' && (
 					<Box>
-						{/* {allOptions !== undefined && ( */}
-						<SearchBox
-							autoFocus
-							autoSearch
-							placeholder={'Buscar'}
-							onChange={(value) => setQuery(value)}
+						<Select
+							classNamePrefix='Que contengan'
+							options={optionsSelector(filterType)}
+							defaultValue={selectType}
+							onChange={(event) => setSelectType(event)}
+							styles={{
+								menu: (base) => ({ ...base, zIndex: 10, maxHeight: 200 }),
+								menuList: (base) => ({
+									...base,
+									maxHeight: 200,
+									paddingTop: 0,
+								}),
+								menuPortal: (base) => ({ ...base, zIndex: 9999 }), /// THIS IS TO SHOW MENU OVER MODAL
+							}}
+							menuPosition='fixed'
 						/>
-						{/* )} */}
-						<div sx={styles.filterItem}>
-							{displayedOptions?.map((a) => {
-								return (
-									<Stack spacing={3}>
-										<Stack
-											direction={'row'}
-											alignItems={'center'}
-											key={a.code}
-											sx={styles.checkList}
-										>
-											<Checkbox
-												size='small'
-												sx={styles.checkFilter}
-												style={{ zIndex: 100 }}
-												inputProps={{
-													'data-code': a.code,
-												}}
-												onChange={toggleSelectedOption}
-												checked={isOptionSelected(a.code)}
-											/>
-											<Typography variant='caption'>
-												{a.description}
-											</Typography>
-										</Stack>
-									</Stack>
-								)
-							})}
-						</div>
+
+						<Divider />
+						{loading && <LinearProgress />}
+
+						{selectType.value === 'equal' && (
+							<FilterEquals
+								allOptions={allOptions}
+								setQuery={setQuery}
+								displayedOptions={displayedOptions}
+								isOptionSelected={isOptionSelected}
+								toggleSelectedOption={toggleSelectedOption}
+							/>
+						)}
+						{selectType.value !== 'equal' && (
+							<Box className={classes.filterPadding}>
+								<TextField
+									size={'small'}
+									label={'Lo siguiente...'}
+									onChange={(event) => setSelectTextfield(event.target.value)}
+								></TextField>
+							</Box>
+						)}
 					</Box>
 				)}
-				{selectType.value !== 'equal' && (
-					<Box sx={styles.filterPadding}>
-						<TextField
-							size={'small'}
-							label={'Lo siguiente...'}
-							onChange={(event) => setSelectTextfield(event.target.value)}
-						></TextField>
-					</Box>
-				)}
+
+				{filterType === 'date' && <FilterDate valueDate={valueDate} setValue={setValue} />}
 
 				<Stack>
 					<Button
@@ -288,8 +248,6 @@ const FilterMenu = (props) => {
 					</Button>
 				</Stack>
 			</Paper>
-			{/* <ContextFilterSubMenu {...filtersType} /> */}
-			{/* <DialogFilter {...DialogType} onClose={() => console.log('Close')} /> */}
 		</Popover>
 	)
 }
