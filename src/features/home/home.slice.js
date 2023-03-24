@@ -9,6 +9,11 @@ const defaultToasterState = {
 const initialState = {
 	title: 'Hello world',
 	toaster: defaultToasterState,
+	pagination: {
+		rowsCount: 0,
+		rowsPerPage: 20,
+		page: 0,
+	},
 }
 
 export const homeSlice = createSlice({
@@ -21,8 +26,14 @@ export const homeSlice = createSlice({
 		setToasterState: (state, action) => {
 			state.toaster = action.payload
 		},
+		setPageNumber: (state, action) => {
+			state.pagination.page = action.payload
+		},
+		setPageSize: (state, action) => {
+			state.pagination.rowsPerPage = action.payload
+		},
 	},
 })
 
-export const { setTitle, setToasterState } = homeSlice.actions
+export const { setTitle, setToasterState, setPageNumber, setPageSize } = homeSlice.actions
 export default homeSlice.reducer
