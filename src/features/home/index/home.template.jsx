@@ -1,16 +1,14 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box } from '@mui/material'
+import HomeTable from './home.table'
 
 /**
  * Home component
  */
 const HomeTemplate = () => {
-	const { t } = useTranslation()
 	return (
 		<Box>
-			<Typography variant='h6'>TablaComponet</Typography>
+			<HomeTable />
 		</Box>
 	)
 }
