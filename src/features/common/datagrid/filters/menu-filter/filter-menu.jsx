@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
-
+import filterDate from './filterType/filter-date'
 /** Redux imports section */
 import { useDispatch } from 'react-redux'
 //import { fleetOperations } from '../../../store/fleet/Index'
@@ -21,7 +21,7 @@ import {
 } from '@mui/material'
 
 /** Custom components import section */
-//import ContextFilterSubMenu from './filter-sub-menu'
+import ContextFilterSubMenu from './filter-sub-menu'
 //import DialogFilter from './dialog-filter'
 import SearchBox from './search-box'
 
@@ -62,22 +62,22 @@ const FilterMenu = (props) => {
 	})
 
 	/** Filtering displayed options on search input change  */
-	// useEffect(() => {
-	// 	let filteredOptions
-	// 	if (open && !!query) {
-	// 		filteredOptions = allOptions.filter(
-	// 			(opt) =>
-	// 				opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
-	// 		)
-	// 	} else {
-	// 		filteredOptions = allOptions
-	// 	}
-	// 	setDisplayedOptions(filteredOptions)
-	// }, [filterType, query, allOptions, open])
+	useEffect(() => {
+		let filteredOptions
+		if (open && !!query) {
+			filteredOptions = allOptions.filter(
+				(opt) =>
+					opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
+			)
+		} else {
+			filteredOptions = allOptions
+		}
+		setDisplayedOptions(filteredOptions)
+	}, [filterType, query, allOptions, open])
 
-	// useEffect(() => {
-	// 	if (location.search === '') setSelectedOptions([])
-	// }, [location.search])
+	useEffect(() => {
+		if (location.search === '') setSelectedOptions([])
+	}, [location.search])
 
 	const toggleSelectedOption = (event) => {
 		const { checked } = event.target
@@ -214,6 +214,7 @@ const FilterMenu = (props) => {
 				/>
 
 				{loading && <LinearProgress />}
+
 				{selectType.value === 'equal' && (
 					<Box>
 						{/* {allOptions !== undefined && ( */}

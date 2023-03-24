@@ -11,7 +11,7 @@ import { ListItemButton, Popover, Typography } from '@mui/material'
 import {
 	getRelationalOperatorsForNumber,
 	getRelationalOperatorsForString,
-} from '../../helpers/filter-helper'
+} from '../helper/filter-helper'
 import DialogFilter from './dialog-filter'
 
 const FilterSubMenu = (props) => {
