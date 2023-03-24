@@ -33,6 +33,7 @@ const DataGrid = ({
 	itemRender,
 	componentDetail,
 }) => {
+	console.log('🚀 ~ file: data-grid.jsx:36 ~ headers:', headers)
 	const [filterSettings, setFilterSettings] = useState({
 		open: false,
 		handleClose: null,
@@ -163,6 +164,7 @@ const DagridTableHead = ({
 	onchangeSorting,
 	openContextMenu,
 	filterSettings,
+	filterType,
 }) => {
 	const criteria = sortCriteria || ''
 	const isSortable = sortable || false
@@ -197,6 +199,7 @@ const DagridTableHead = ({
 				</IconButton>
 			}
 			<FilterMenu
+				filterType={filterType}
 				{...filterSettings}
 				title={title}
 				dataSource={dataSource}

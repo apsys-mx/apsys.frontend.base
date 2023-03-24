@@ -23,7 +23,7 @@ import {
 /** Custom components import section */
 //import ContextFilterSubMenu from './filter-sub-menu'
 //import DialogFilter from './dialog-filter'
-//import SearchBox from './search-box'
+import SearchBox from './search-box'
 
 /** Resources imports section */
 import * as classes from './menu-filters-styles'
@@ -34,8 +34,8 @@ import { getFilterType } from '../helper/filter-helper'
 import Select from 'react-select'
 
 const FilterMenu = (props) => {
-	const { id, open, anchorEl, handleClose, dataSource } = props
-	const filterType = open ? getFilterType(dataSource) : ''
+	const { id, open, filterType, anchorEl, handleClose, dataSource } = props
+	//const filterType = open ? getFilterType(dataSource) : ''
 	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
@@ -62,22 +62,22 @@ const FilterMenu = (props) => {
 	})
 
 	/** Filtering displayed options on search input change  */
-	useEffect(() => {
-		let filteredOptions
-		if (open && !!query) {
-			filteredOptions = allOptions.filter(
-				(opt) =>
-					opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
-			)
-		} else {
-			filteredOptions = allOptions
-		}
-		setDisplayedOptions(filteredOptions)
-	}, [filterType, query, allOptions, open])
+	// useEffect(() => {
+	// 	let filteredOptions
+	// 	if (open && !!query) {
+	// 		filteredOptions = allOptions.filter(
+	// 			(opt) =>
+	// 				opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
+	// 		)
+	// 	} else {
+	// 		filteredOptions = allOptions
+	// 	}
+	// 	setDisplayedOptions(filteredOptions)
+	// }, [filterType, query, allOptions, open])
 
-	useEffect(() => {
-		if (location.search === '') setSelectedOptions([])
-	}, [location.search])
+	// useEffect(() => {
+	// 	if (location.search === '') setSelectedOptions([])
+	// }, [location.search])
 
 	const toggleSelectedOption = (event) => {
 		const { checked } = event.target
@@ -186,15 +186,11 @@ const FilterMenu = (props) => {
 		>
 			<Box className={classes.filterPaper}>
 				<ListItemButton
-					onClick={filterType === 'DATE' ? openContextDialogType : openContextMenuType}
+					onClick={filterType === 'date' ? openContextDialogType : openContextMenuType}
 				>
 					<Typography variant='subtitle2' className={classes.titlePopover}>
 						Filtros de{' '}
-						{filterType === 'DATE'
-							? 'Fecha'
-							: filterType === 'NUMERIC'
-							? 'número'
-							: 'texto'}
+						{filterType === 'number' ? 'Número' : filterType === 'text' ? 'Texto' : 's'}
 					</Typography>
 				</ListItemButton>
 
@@ -216,17 +212,18 @@ const FilterMenu = (props) => {
 					}}
 					menuPosition='fixed'
 				/>
+
 				{loading && <LinearProgress />}
 				{selectType.value === 'equal' && (
 					<Box>
-						{/* {allOptions !== undefined && (
-							<SearchBox
-								autoFocus
-								autoSearch
-								placeholder={'Buscar'}
-								onChange={(value) => setQuery(value)}
-							/>
-						)} */}
+						{/* {allOptions !== undefined && ( */}
+						<SearchBox
+							autoFocus
+							autoSearch
+							placeholder={'Buscar'}
+							onChange={(value) => setQuery(value)}
+						/>
+						{/* )} */}
 						<div className={classes.filterItem}>
 							{displayedOptions?.map((a) => {
 								return (
