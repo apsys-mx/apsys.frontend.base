@@ -4,11 +4,14 @@ export const timesheetsEndPoint = timesheetsApi.injectEndpoints({
 	endpoints: (builder) => ({
 		getTimesheets: builder.query({
 			query(params) {
-				const { pagination } = params
+				const { sorting, pagination } = params
+				var { sortBy, sortDirection } = sorting
 				var { pageNumber, pageSize } = pagination
 				pageNumber = pageNumber ? pageNumber : 0
 				pageSize = pageSize ? pageSize : 0
-				var url = `Timesheets?sortBy=&sortDirection=&pageNumber=${pageNumber}&pageSize=${pageSize}`
+				sortDirection = sortDirection && sortDirection.length > 0 ? sortDirection : 'desc'
+				sortBy = sortBy && sortBy.length > 0 ? sortBy : 'projectName'
+				var url = `Timesheets?sortBy=${sortBy}&sortDirection=${sortDirection}&pageNumber=${pageNumber}&pageSize=${pageSize}`
 				console.log(`URL::[${url}]`)
 				return {
 					url: url,

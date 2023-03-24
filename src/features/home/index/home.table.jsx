@@ -39,7 +39,13 @@ const TimesheetsTable = ({ items, tableConfig, onchangeSorting, sortBy, sortDire
 	})
 	return (
 		<div>
-			<DataGrid headers={enhancedConfiguration} data={items} />
+			<DataGrid
+				headers={enhancedConfiguration}
+				data={items}
+				onchangeSorting={onchangeSorting}
+				sortBy={sortBy}
+				sortDirection={sortDirection}
+			/>
 		</div>
 	)
 }
