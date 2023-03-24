@@ -1,5 +1,3 @@
-//import defaultTheme from '../../../../resources/theme/default'
-
 export const separation = {
 	display: 'flex',
 }
