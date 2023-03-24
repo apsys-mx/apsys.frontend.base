@@ -2,28 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 /** Material UI import section */
-import { makeStyles } from '@mui/styles'
 import { IconButton, InputBase } from '@mui/material'
 import { Search } from '@mui/icons-material'
-
-const useStyles = makeStyles((theme) => ({
-	inputHolder: {
-		backgroundColor: `background.dark !important`,
-		borderRadius: 50,
-		display: 'flex',
-		alignItems: 'center',
-	},
-	input: {
-		padding: '1px 18px',
-		flexGrow: 1,
-	},
-	iconButton: {
-		backgroundColor: 'rgba(0,0,0,.05)',
-		padding: 10,
-		height: 30,
-		width: 30,
-	},
-}))
+import * as classes from './search-box.styles'
 const SearchBox = (props) => {
 	const {
 		/** Destructuring properties */
@@ -36,8 +17,6 @@ const SearchBox = (props) => {
 
 	/** Define local state */
 	const [searchValue, setSearchValue] = useState('')
-
-	const classes = useStyles()
 
 	const onChangeHandler = (event) => {
 		const query = event.target.value

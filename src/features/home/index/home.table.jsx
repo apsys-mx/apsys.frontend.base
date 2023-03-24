@@ -3,6 +3,9 @@ import React from 'react'
 import propTypes from 'prop-types'
 //Templates
 import DataGrid from '../../common/datagrid/data-grid'
+import { Box } from '@mui/material'
+import * as styles from './home.styles'
+import SearchComponent from '../../common/search/SearchComponent'
 //
 const TimesheetsTable = ({
 	items,
@@ -18,6 +21,13 @@ const TimesheetsTable = ({
 }) => {
 	return (
 		<div>
+			<Box sx={styles.searchContainer}>
+				<SearchComponent
+					placeholder={''}
+					value={''}
+					onChange={console.warn('No [onChangeValue] callback defined')}
+				/>
+			</Box>
 			<DataGrid headers={tableConfig} data={items} />
 		</div>
 	)
