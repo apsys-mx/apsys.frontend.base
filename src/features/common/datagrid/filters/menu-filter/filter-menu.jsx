@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
-import filterDate from './filterType/filter-date'
 /** Redux imports section */
 import { useDispatch } from 'react-redux'
-//import { fleetOperations } from '../../../store/fleet/Index'
 
 /** MUI imports section */
 import {
 	Button,
-	Checkbox,
 	Divider,
 	LinearProgress,
 	ListItemButton,
@@ -18,16 +15,11 @@ import {
 	Box,
 	Stack,
 	TextField,
+	Paper,
 } from '@mui/material'
 
-/** Custom components import section */
-import FilterSubMenu from './filter-sub-menu'
-//import DialogFilter from './dialog-filter'
-import DialogFilter from './dialog-filter'
-import SearchBox from './search-box'
-
 /** Resources imports section */
-import * as classes from './menu-filters-styles'
+import * as styles from './menu-filters-styles'
 import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
 //import { setFilter } from '../../../store/timesheets-view-slice'
 //import { useGetCatalogsQuery } from '../../../store/search-api-slice'
@@ -42,7 +34,13 @@ const FilterMenu = (props) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
-
+	const [valueDate, setValue] = useState([
+		{
+			startDate: new Date(),
+			endDate: null,
+			key: 'selection',
+		},
+	])
 	//TODO: envar solo listado de catalogos para mistrar
 	// Refactorizar para enviar información base
 	const [allOptions, setAllOptions] = useState([])
@@ -58,10 +56,6 @@ const FilterMenu = (props) => {
 		open: false,
 		handleClose: null,
 		anchorEl: null,
-	})
-	const [DialogType, setDialogType] = useState({
-		open: false,
-		handleClose: null,
 	})
 
 	/** Filtering displayed options on search input change  */
@@ -158,19 +152,6 @@ const FilterMenu = (props) => {
 		}))
 	}
 
-	//** Dialog for filter types */
-	const openContextDialogType = (event) => {
-		setDialogType((prevState) => ({
-			...prevState,
-			open: true,
-			handleClose: handleCloseDialogType,
-			type: filterType,
-			filter: event.target.outerText,
-			dataSource: dataSource,
-			filterType: 'between',
-		}))
-	}
-
 	const handleCloseDialogType = () => {
 		handleClose(false)
 	}
@@ -181,7 +162,7 @@ const FilterMenu = (props) => {
 	]
 	return (
 		<Popover
-			className={classes.filterContainer}
+			sx={styles.filterContainer}
 			id={id}
 			open={open}
 			anchorEl={anchorEl}
@@ -191,11 +172,9 @@ const FilterMenu = (props) => {
 				horizontal: 'left',
 			}}
 		>
-			<Box className={classes.filterPaper}>
-				<ListItemButton
-					onClick={filterType === 'date' ? openContextDialogType : openContextMenuType}
-				>
-					<Typography variant='subtitle2' className={classes.titlePopover}>
+			<Paper sx={styles.filterPaper}>
+				<ListItemButton>
+					<Typography variant='subtitle2' sx={styles.titlePopover}>
 						Filtros de{' '}
 						{filterType === 'date'
 							? 'Fecha'
@@ -237,7 +216,7 @@ const FilterMenu = (props) => {
 							/>
 						)}
 						{selectType.value !== 'equal' && (
-							<Box className={classes.filterPadding}>
+							<Box>
 								<TextField
 									size={'small'}
 									label={'Lo siguiente...'}
@@ -248,10 +227,12 @@ const FilterMenu = (props) => {
 					</Box>
 				)}
 
+				{filterType === 'date' && <FilterDate valueDate={valueDate} setValue={setValue} />}
+
 				<Stack>
 					<Button
 						variant='text'
-						className={classes.stylesButton}
+						sx={styles.stylesButton}
 						onClick={removeFilter}
 						disabled={allOptions === undefined || loading ? true : false}
 					>
@@ -259,16 +240,14 @@ const FilterMenu = (props) => {
 					</Button>
 					<Button
 						variant='contained'
-						className={classes.stylesButton}
+						sx={styles.stylesButton}
 						onClick={applyFilter}
 						disabled={allOptions === undefined || loading ? true : false}
 					>
 						Aplicar filtro
 					</Button>
 				</Stack>
-			</Box>
-			<FilterSubMenu {...filtersType} />
-			<DialogFilter {...DialogType} onClose={() => console.log('Close')} />
+			</Paper>
 		</Popover>
 	)
 }
