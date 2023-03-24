@@ -216,7 +216,7 @@ const FilterMenu = (props) => {
 							/>
 						)}
 						{selectType.value !== 'equal' && (
-							<Box className={classes.filterPadding}>
+							<Box>
 								<TextField
 									size={'small'}
 									label={'Lo siguiente...'}
