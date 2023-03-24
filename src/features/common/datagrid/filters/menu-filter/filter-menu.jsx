@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import filterDate from './filterType/filter-date'
 /** Redux imports section */
 import { useDispatch } from 'react-redux'
-//import { fleetOperations } from '../../../store/fleet/Index'
 
 /** MUI imports section */
 import {
@@ -21,9 +20,6 @@ import {
 } from '@mui/material'
 
 /** Custom components import section */
-import FilterSubMenu from './filter-sub-menu'
-//import DialogFilter from './dialog-filter'
-import DialogFilter from './dialog-filter'
 import SearchBox from './search-box'
 
 /** Resources imports section */
@@ -58,10 +54,6 @@ const FilterMenu = (props) => {
 		open: false,
 		handleClose: null,
 		anchorEl: null,
-	})
-	const [DialogType, setDialogType] = useState({
-		open: false,
-		handleClose: null,
 	})
 
 	/** Filtering displayed options on search input change  */
@@ -158,19 +150,6 @@ const FilterMenu = (props) => {
 		}))
 	}
 
-	//** Dialog for filter types */
-	const openContextDialogType = (event) => {
-		setDialogType((prevState) => ({
-			...prevState,
-			open: true,
-			handleClose: handleCloseDialogType,
-			type: filterType,
-			filter: event.target.outerText,
-			dataSource: dataSource,
-			filterType: 'between',
-		}))
-	}
-
 	const handleCloseDialogType = () => {
 		handleClose(false)
 	}
@@ -192,9 +171,7 @@ const FilterMenu = (props) => {
 			}}
 		>
 			<Box className={classes.filterPaper}>
-				<ListItemButton
-					onClick={filterType === 'date' ? openContextDialogType : openContextMenuType}
-				>
+				<ListItemButton>
 					<Typography variant='subtitle2' className={classes.titlePopover}>
 						Filtros de{' '}
 						{filterType === 'date'
@@ -205,44 +182,50 @@ const FilterMenu = (props) => {
 					</Typography>
 				</ListItemButton>
 				<Typography>Filtrar</Typography>
-				<Select
-					classNamePrefix='Que contengan'
-					options={optionsSelector(filterType)}
-					defaultValue={selectType}
-					onChange={(event) => setSelectType(event)}
-					styles={{
-						menu: (base) => ({ ...base, zIndex: 10, maxHeight: 200 }),
-						menuList: (base) => ({
-							...base,
-							maxHeight: 200,
-							paddingTop: 0,
-						}),
-						menuPortal: (base) => ({ ...base, zIndex: 9999 }), /// THIS IS TO SHOW MENU OVER MODAL
-					}}
-					menuPosition='fixed'
-				/>
+				{filterType !== 'date' && (
+					<Box>
+						<Select
+							classNamePrefix='Que contengan'
+							options={optionsSelector(filterType)}
+							defaultValue={selectType}
+							onChange={(event) => setSelectType(event)}
+							styles={{
+								menu: (base) => ({ ...base, zIndex: 10, maxHeight: 200 }),
+								menuList: (base) => ({
+									...base,
+									maxHeight: 200,
+									paddingTop: 0,
+								}),
+								menuPortal: (base) => ({ ...base, zIndex: 9999 }), /// THIS IS TO SHOW MENU OVER MODAL
+							}}
+							menuPosition='fixed'
+						/>
 
-				<Divider />
-				{loading && <LinearProgress />}
+						<Divider />
+						{loading && <LinearProgress />}
 
-				{selectType.value === 'equal' && (
-					<FilterEquals
-						allOptions={allOptions}
-						setQuery={setQuery}
-						displayedOptions={displayedOptions}
-						isOptionSelected={isOptionSelected}
-						toggleSelectedOption={toggleSelectedOption}
-					/>
-				)}
-				{selectType.value !== 'equal' && (
-					<Box className={classes.filterPadding}>
-						<TextField
-							size={'small'}
-							label={'Lo siguiente...'}
-							onChange={(event) => setSelectTextfield(event.target.value)}
-						></TextField>
+						{selectType.value === 'equal' && (
+							<FilterEquals
+								allOptions={allOptions}
+								setQuery={setQuery}
+								displayedOptions={displayedOptions}
+								isOptionSelected={isOptionSelected}
+								toggleSelectedOption={toggleSelectedOption}
+							/>
+						)}
+						{selectType.value !== 'equal' && (
+							<Box className={classes.filterPadding}>
+								<TextField
+									size={'small'}
+									label={'Lo siguiente...'}
+									onChange={(event) => setSelectTextfield(event.target.value)}
+								></TextField>
+							</Box>
+						)}
 					</Box>
 				)}
+
+				{filterType === 'date' && <FilterDate />}
 
 				<Stack>
 					<Button
@@ -263,8 +246,6 @@ const FilterMenu = (props) => {
 					</Button>
 				</Stack>
 			</Box>
-			<FilterSubMenu {...filtersType} />
-			<DialogFilter {...DialogType} onClose={() => console.log('Close')} />
 		</Popover>
 	)
 }
