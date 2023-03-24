@@ -116,7 +116,7 @@ const FilterMenu = (props) => {
 				],
 			}
 			// let currentFilters = parseFiltersFromQueryString(location.search)
-			let currentFilters = viewFilter
+			let currentFilters = parseFiltersFromQueryString(viewFilter)
 			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 			currentFilters.push(newFilter)
 			const queryString = convertFiltersToString(currentFilters)
@@ -128,14 +128,16 @@ const FilterMenu = (props) => {
 				values: valuesSelect(),
 			}
 
-			let currentFilters = viewFilter
+			let currentFilters = parseFiltersFromQueryString(viewFilter)
+
+			currentFilters = currentFilters?.filter((f) => f.fieldName !== dataSource)
 			console.log(
-				'🚀 ~ file: filter-menu.jsx:132 ~ applyFilter ~ currentFilters:',
+				'🚀 ~ file: filter-menu.jsx:136 ~ applyFilter ~ queryString:',
 				currentFilters
 			)
-			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 			currentFilters.push(newFilter)
 			const queryString = convertFiltersToString(currentFilters)
+
 			const queryString2 = createQueryForFilters(currentFilters)
 			dispatch(setFilter(queryString))
 			navigate(`?${queryString}`)
