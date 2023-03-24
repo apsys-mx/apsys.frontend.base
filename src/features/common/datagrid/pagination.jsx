@@ -7,6 +7,7 @@ import * as styles from './pagination.styles'
 
 const Pagination = (props) => {
 	const { pagination } = props
+	console.log('Props:', pagination)
 	const getDisplayedRowsLabel = ({ from, to, count }) => {
 		return `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
 	}
@@ -15,14 +16,14 @@ const Pagination = (props) => {
 			<TablePagination
 				count={pagination.rowsCount}
 				rowsPerPage={pagination.rowsPerPage}
-				page={pagination.page - 1}
+				page={pagination.page}
 				onPageChange={pagination.onPageChange}
 				onRowsPerPageChange={pagination.onRowsPerPageChange}
 				showFirstButton={true}
 				showLastButton={true}
 				labelRowsPerPage={'Filas por pagina'}
 				labelDisplayedRows={getDisplayedRowsLabel}
-				rowsPerPageOptions={[2, 10, 20, 30]}
+				rowsPerPageOptions={[10, 20, 50, 100, 500]}
 			/>
 		</Box>
 	)
@@ -42,7 +43,7 @@ Pagination.propTypes = {
 Pagination.defaultProps = {
 	pagination: {
 		enabled: false,
-		page: 1,
+		page: 0,
 		rowsPerPage: 50,
 		rowsCount: 1000,
 		onPageChange: () => console.warn('Callback [onPageChange] no defined'),
