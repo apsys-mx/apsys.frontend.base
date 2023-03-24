@@ -30,8 +30,6 @@ const DataGrid = ({
 	noWrap,
 	maxHeight,
 	isLoading,
-	itemRender,
-	componentDetail,
 }) => {
 	var visibleHeaders = headers.filter((x) => x.visible !== false)
 	let emptyArray = Array.from(Array(10).keys()).map(() => null)
@@ -85,19 +83,6 @@ const DataGrid = ({
 												)
 											})}
 										</TableRow>
-										{itemRender && itemRender.id === item.id && (
-											<TableRow key={uuidv4()}>
-												<TableCell colSpan={visibleHeaders.length}>
-													<Collapse
-														in={true}
-														timeout='auto'
-														unmountOnExit
-													>
-														{componentDetail}
-													</Collapse>
-												</TableCell>
-											</TableRow>
-										)}
 									</Fragment>
 								)
 						  })}
