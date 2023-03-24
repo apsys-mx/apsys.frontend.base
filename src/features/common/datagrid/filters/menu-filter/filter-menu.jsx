@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
 /** Redux imports section */
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 /** MUI imports section */
 import {
@@ -20,7 +20,11 @@ import {
 
 /** Resources imports section */
 import * as styles from './menu-filters-styles'
-import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
+import {
+	convertFiltersToString,
+	createQueryForFilters,
+	parseFiltersFromQueryString,
+} from '../helper/url-helper'
 //import { setFilter } from '../../../store/timesheets-view-slice'
 //import { useGetCatalogsQuery } from '../../../store/search-api-slice'
 import Select from 'react-select'
@@ -29,9 +33,11 @@ import FilterEquals from './filterType/filter-equals'
 import { optionsSelector } from '../helper/filter-helper'
 import moment from 'moment'
 import { setFilter } from '../../../../home/home.slice'
+import { getFilters } from '../../../../home/home.selectors'
 
 const FilterMenu = (props) => {
 	const { id, open, anchorEl, handleClose, dataSource, filterTypeActive } = props
+	const viewFilter = useSelector((state) => getFilters(state))
 	const filterType = open ? filterTypeActive : ''
 	const navigate = useNavigate()
 	const location = useLocation()
@@ -109,7 +115,8 @@ const FilterMenu = (props) => {
 					moment(valueDate[0].endDate).format('YYYY-MM-DD'),
 				],
 			}
-			let currentFilters = parseFiltersFromQueryString(location.search)
+			// let currentFilters = parseFiltersFromQueryString(location.search)
+			let currentFilters = viewFilter
 			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 			currentFilters.push(newFilter)
 			const queryString = convertFiltersToString(currentFilters)
@@ -121,10 +128,15 @@ const FilterMenu = (props) => {
 				values: valuesSelect(),
 			}
 
-			let currentFilters = parseFiltersFromQueryString(location.search)
+			let currentFilters = viewFilter
+			console.log(
+				'🚀 ~ file: filter-menu.jsx:132 ~ applyFilter ~ currentFilters:',
+				currentFilters
+			)
 			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 			currentFilters.push(newFilter)
 			const queryString = convertFiltersToString(currentFilters)
+			const queryString2 = createQueryForFilters(currentFilters)
 			dispatch(setFilter(queryString))
 			navigate(`?${queryString}`)
 		}
