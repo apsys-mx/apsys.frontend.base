@@ -14,6 +14,10 @@ const initialState = {
 		rowsPerPage: 20,
 		page: 0,
 	},
+	sorting: {
+		sortBy: '',
+		sortDirection: '',
+	},
 }
 
 export const homeSlice = createSlice({
@@ -32,8 +36,13 @@ export const homeSlice = createSlice({
 		setPageSize: (state, action) => {
 			state.pagination.rowsPerPage = action.payload
 		},
+		setSorting: (state, action) => {
+			state.sorting.sortBy = action.payload.sortBy
+			state.sorting.sortDirection = action.payload.sortDirection
+		},
 	},
 })
 
-export const { setTitle, setToasterState, setPageNumber, setPageSize } = homeSlice.actions
+export const { setTitle, setToasterState, setPageNumber, setPageSize, setSorting } =
+	homeSlice.actions
 export default homeSlice.reducer

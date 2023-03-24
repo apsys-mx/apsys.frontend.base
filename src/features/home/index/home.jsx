@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 /**Import EndPoints */
 import { useGetTimesheetsQuery } from '../home.endPoints'
 /**Reducers */
-import { setPageNumber, setPageSize } from '../home.slice'
+import { setPageNumber, setPageSize, setSorting } from '../home.slice'
 /**Selectors */
 import * as selectors from '../home.selectors'
 /** Import templates */
@@ -17,6 +17,7 @@ const Home = () => {
 	 * Selectors
 	 */
 	const viewPaginationState = useSelector((state) => selectors.getPagination(state))
+	const viewSortingState = useSelector((state) => selectors.getSorting(state))
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(API´s):::::::::::::::::::::::::::://
 	const {
@@ -29,6 +30,10 @@ const Home = () => {
 			pageNumber: viewPaginationState.page,
 			pageSize: viewPaginationState.rowsPerPage,
 		},
+		sorting: {
+			sortBy: viewSortingState.sortBy,
+			sortDirection: viewSortingState.sortDirection,
+		},
 	})
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(Pagination)::::::::::::::::::::::://
@@ -37,6 +42,11 @@ const Home = () => {
 	}
 	const handleChangeRowsPerPage = (pageSize) => {
 		dispatch(setPageSize(pageSize))
+	}
+	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
+	//:::::::::::::::::(Sorting):::::::::::::::::::::::::://
+	const onchangeSorting = (sort, direction) => {
+		dispatch(setSorting({ sortBy: sort, sortDirection: direction }))
 	}
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	if (isLoading) return <div>Loading...</div>
@@ -48,6 +58,8 @@ const Home = () => {
 			response={timeSheetsResponse}
 			onChangePage={handleChangePage}
 			handleChangeRowsPerPage={handleChangeRowsPerPage}
+			onchangeSorting={onchangeSorting}
+			sorting={viewSortingState}
 		/>
 	)
 }
