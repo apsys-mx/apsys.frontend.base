@@ -6,8 +6,7 @@ import PropTypes from 'prop-types'
 import * as styles from './pagination.styles'
 
 const Pagination = (props) => {
-	const { pagination } = props
-	console.log('Props:', pagination)
+	const { pagination, onPageChange, onRowsPerPageChange } = props
 	const getDisplayedRowsLabel = ({ from, to, count }) => {
 		return `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
 	}
@@ -17,8 +16,11 @@ const Pagination = (props) => {
 				count={pagination.rowsCount}
 				rowsPerPage={pagination.rowsPerPage}
 				page={pagination.page}
-				onPageChange={pagination.onPageChange}
-				onRowsPerPageChange={pagination.onRowsPerPageChange}
+				onPageChange={(event, newPage) => onPageChange(newPage)}
+				onRowsPerPageChange={(event) => {
+					onRowsPerPageChange(event.target.value, 10)
+					onPageChange(0)
+				}}
 				showFirstButton={true}
 				showLastButton={true}
 				labelRowsPerPage={'Filas por pagina'}
@@ -35,9 +37,9 @@ Pagination.propTypes = {
 		page: PropTypes.number.isRequired,
 		rowsPerPage: PropTypes.number.isRequired,
 		rowsCount: PropTypes.number.isRequired,
-		onPageChange: PropTypes.func.isRequired,
-		onRowsPerPageChange: PropTypes.func.isRequired,
 	}),
+	onPageChange: PropTypes.func,
+	onRowsPerPageChange: PropTypes.func,
 }
 
 Pagination.defaultProps = {
@@ -46,9 +48,9 @@ Pagination.defaultProps = {
 		page: 0,
 		rowsPerPage: 50,
 		rowsCount: 1000,
-		onPageChange: () => console.warn('Callback [onPageChange] no defined'),
-		onRowsPerPageChange: () => console.warn('Callback [onPageChange] no defined'),
 	},
+	onPageChange: () => console.warn('Callback [onPageChange] no defined'),
+	onRowsPerPageChange: () => console.warn('Callback [onPageChange] no defined'),
 }
 
 export default Pagination

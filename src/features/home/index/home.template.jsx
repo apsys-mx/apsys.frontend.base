@@ -9,7 +9,7 @@ import SearchComponent from '../../common/search/SearchComponent'
 /**
  * Home component
  */
-const HomeTemplate = (props) => {
+const HomeTemplate = ({ response, onChangePage, handleChangeRowsPerPage }) => {
 	return (
 		<Box>
 			<Box sx={styles.searchContainer}>
@@ -19,8 +19,12 @@ const HomeTemplate = (props) => {
 					onChange={console.warn('No [onChangeValue] callback defined')}
 				/>
 			</Box>
-			<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} {...props} />
-			<Pagination pagination={props} />
+			<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} {...response} />
+			<Pagination
+				pagination={response}
+				onPageChange={onChangePage}
+				onRowsPerPageChange={handleChangeRowsPerPage}
+			/>
 		</Box>
 	)
 }
