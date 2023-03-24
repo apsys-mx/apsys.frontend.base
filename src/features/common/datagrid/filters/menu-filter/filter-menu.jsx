@@ -21,17 +21,16 @@ import {
 } from '@mui/material'
 
 /** Custom components import section */
-import ContextFilterSubMenu from './context-filter-sub-menu'
-import DialogFilter from './dialog-filter'
-import SearchBox from './search-box'
+//import ContextFilterSubMenu from './filter-sub-menu'
+//import DialogFilter from './dialog-filter'
+//import SearchBox from './search-box'
 
 /** Resources imports section */
-import { useStyle } from './resources/contex-filters-ftyles'
-import { convertFiltersToString } from '../../helpers/url-helper'
-import { getFilterType, optionsSelector } from '../../helpers/filter-helper'
-import { parseFiltersFromQueryString } from '../../helpers/url-helper'
-import { setFilter } from '../../../store/timesheets-view-slice'
-import { useGetCatalogsQuery } from '../../../store/search-api-slice'
+import * as classes from './menu-filters-styles'
+import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
+import { getFilterType } from '../helper/filter-helper'
+//import { setFilter } from '../../../store/timesheets-view-slice'
+//import { useGetCatalogsQuery } from '../../../store/search-api-slice'
 import Select from 'react-select'
 
 const FilterMenu = (props) => {
@@ -43,8 +42,8 @@ const FilterMenu = (props) => {
 
 	//TODO: envar solo listado de catalogos para mistrar
 	// Refactorizar para enviar información base
-
-	const { data: allOptions } = useGetCatalogsQuery(dataSource)
+	const [allOptions, setAllOptions] = useState([])
+	//const { data: allOptions } = useGetCatalogsQuery(dataSource)
 	/** Defines local state */
 	const [displayedOptions, setDisplayedOptions] = useState([])
 	const [selectedOptions, setSelectedOptions] = useState([])
@@ -114,7 +113,7 @@ const FilterMenu = (props) => {
 		}
 
 		let currentFilters = parseFiltersFromQueryString(location.search)
-		dispatch(setFilter(currentFilters))
+		//dispatch(setFilter(currentFilters))
 		currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 		currentFilters.push(newFilter)
 		const queryString = convertFiltersToString(currentFilters)
@@ -133,7 +132,7 @@ const FilterMenu = (props) => {
 		setSelectedOptions([])
 		setDisplayedOptions([])
 		setQuery('')
-		dispatch(setFilter(currentFilters))
+		//dispatch(setFilter(currentFilters))
 	}
 
 	//** submenu for filter types */
@@ -173,8 +172,6 @@ const FilterMenu = (props) => {
 		handleClose(false)
 	}
 
-	const classes = useStyle()
-
 	return (
 		<Popover
 			className={classes.filterContainer}
@@ -205,7 +202,7 @@ const FilterMenu = (props) => {
 				<Divider />
 				<Select
 					classNamePrefix='Que contengan'
-					options={optionsSelector(filterType)}
+					options={[]}
 					defaultValue={selectType}
 					onChange={(event) => setSelectType(event)}
 					styles={{
@@ -222,14 +219,14 @@ const FilterMenu = (props) => {
 				{loading && <LinearProgress />}
 				{selectType.value === 'equal' && (
 					<Box>
-						{allOptions !== undefined && (
+						{/* {allOptions !== undefined && (
 							<SearchBox
 								autoFocus
 								autoSearch
 								placeholder={'Buscar'}
 								onChange={(value) => setQuery(value)}
 							/>
-						)}
+						)} */}
 						<div className={classes.filterItem}>
 							{displayedOptions?.map((a) => {
 								return (
@@ -289,8 +286,8 @@ const FilterMenu = (props) => {
 					</Button>
 				</Stack>
 			</Box>
-			<ContextFilterSubMenu {...filtersType} />
-			<DialogFilter {...DialogType} onClose={() => console.log('Close')} />
+			{/* <ContextFilterSubMenu {...filtersType} /> */}
+			{/* <DialogFilter {...DialogType} onClose={() => console.log('Close')} /> */}
 		</Popover>
 	)
 }
