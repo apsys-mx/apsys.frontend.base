@@ -1,27 +1,25 @@
-import { makeStyles } from '@mui/styles'
-
-export const useDefaultStyles = makeStyles(() => ({
-	cssLabel: {},
-	cssFocused: {
-		color: 'black !important',
+export const cssLabel = {}
+export const cssFocused = {
+	color: 'black !important',
+}
+export const cssOutlinedInput = {
+	color: 'black !important',
+}
+export const notchedOutline = {
+	borderColor: 'red !important',
+	borderRadius: 8,
+}
+export const notchedOutlineSuccess = {
+	borderWidth: '1px',
+	color: 'red !important',
+	borderRadius: 8,
+}
+export const input = {
+	'&.Mui-disabled': {
+		color: 'black',
+		opacity: 1,
 	},
-	cssOutlinedInput: {
-		color: 'black !important',
-	},
-	notchedOutline: {
-		borderColor: 'red !important',
-		borderRadius: 8,
-	},
-	notchedOutlineSuccess: {
-		borderWidth: '1px',
-		color: 'red !important',
-		borderRadius: 8,
-	},
-	input: {
-		'&.Mui-disabled': {
-			color: 'black',
-			opacity: 1,
-		},
-	},
-	helperText: { marginLeft: '-10px!important' },
-}))
+}
+export const helperText = {
+	marginLeft: '-10px!important',
+}

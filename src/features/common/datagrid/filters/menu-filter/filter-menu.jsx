@@ -23,6 +23,7 @@ import {
 /** Custom components import section */
 import FilterSubMenu from './filter-sub-menu'
 //import DialogFilter from './dialog-filter'
+import DialogFilter from './dialog-filter'
 import SearchBox from './search-box'
 
 /** Resources imports section */
@@ -263,7 +264,7 @@ const FilterMenu = (props) => {
 				</Stack>
 			</Box>
 			<FilterSubMenu {...filtersType} />
-			{/* <DialogFilter {...DialogType} onClose={() => console.log('Close')} /> */}
+			<DialogFilter {...DialogType} onClose={() => console.log('Close')} />
 		</Popover>
 	)
 }

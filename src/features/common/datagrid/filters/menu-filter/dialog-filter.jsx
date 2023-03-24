@@ -12,10 +12,10 @@ import {
 	Typography,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-//import TextfieldComponent from '../../components/text-fields/text-field-component'
-//import { DateRange } from 'react-date-range'
-//import 'react-date-range/dist/styles.css' // main style file
-//import 'react-date-range/dist/theme/default.css' // theme css file
+import TextfieldSearh from '../text-fields/text-fields'
+import { DateRange } from 'react-date-range'
+import 'react-date-range/dist/styles.css' // main style file
+import 'react-date-range/dist/theme/default.css' // theme css file
 
 /** Redux imports section */
 import { useForm } from 'react-hook-form'
@@ -51,7 +51,7 @@ const DialogFilter = (props) => {
 	}
 
 	const onSubmit = (data) => {
-		if (type !== 'DATE') {
+		if (type !== 'date') {
 			handleClose()
 			subClose()
 			const newFilter = {
@@ -66,7 +66,7 @@ const DialogFilter = (props) => {
 			navigate(`?${queryString}`)
 			localStorage.setItem('SearchInquiryFilterName', 'Filtro personalizado')
 		}
-		if (type === 'DATE') {
+		if (type === 'date') {
 			handleClose()
 			const newFilter = {
 				fieldName: dataSource,
@@ -104,10 +104,10 @@ const DialogFilter = (props) => {
 					</IconButton>
 				</DialogTitle>
 				<DialogContent>
-					{type === 'TEXT' && (
+					{type === 'text' && (
 						<div>
 							<Typography variant='subtitle2'>Texto</Typography>
-							{/* <TextfieldComponent
+							<TextfieldSearh
 								fullWidth
 								control={control}
 								name='value'
@@ -115,10 +115,10 @@ const DialogFilter = (props) => {
 									required: { value: false },
 								}}
 								errors={errors}
-							/> */}
+							/>
 						</div>
 					)}
-					{type === 'NUMERIC' && (
+					{type === 'numeric' && (
 						<div>
 							<Typography variant='subtitle2'>{filter}</Typography>
 							<TextfieldComponent
@@ -133,14 +133,14 @@ const DialogFilter = (props) => {
 							/>
 						</div>
 					)}
-					{type === 'DATE' && (
+					{type === 'date' && (
 						<div style={{ display: 'flex', justifyContent: 'center' }}>
-							{/* <DateRange
+							<DateRange
 								editableDateInputs={true}
 								moveRangeOnFirstSelection={false}
 								ranges={valueDate}
 								onChange={(item) => setValue([item.selection])}
-							/> */}
+							/>
 						</div>
 					)}
 				</DialogContent>

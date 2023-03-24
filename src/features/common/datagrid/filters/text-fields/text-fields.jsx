@@ -5,10 +5,9 @@ import { Controller } from 'react-hook-form'
 
 /** Material UI import section */
 import { TextField, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import * as classes from './text-fields-styles'
 
-const TextfieldComponent = (props) => {
-	const classes = useDefaultStyles()
+const TextfieldSearh = (props) => {
 	const { errors, name } = props
 
 	const hasError = () => (errors && errors[name] ? true : false)
@@ -56,7 +55,7 @@ const TextfieldComponent = (props) => {
 	)
 }
 
-TextfieldComponent.propTypes = {
+TextfieldSearh.propTypes = {
 	/**
 	 * Determina the control from this component and evit re-renders
 	 */
@@ -70,36 +69,10 @@ TextfieldComponent.propTypes = {
 	 */
 	name: propTypes.string.isRequired,
 }
-TextfieldComponent.defaultProps = {
+TextfieldSearh.defaultProps = {
 	control: {},
 	rules: {},
 	name: '',
 }
 
-const useDefaultStyles = makeStyles(() => ({
-	cssLabel: {},
-	cssFocused: {
-		color: 'black !important',
-	},
-	cssOutlinedInput: {
-		color: 'black !important',
-	},
-	notchedOutline: {
-		borderColor: 'red !important',
-		borderRadius: 8,
-	},
-	notchedOutlineSuccess: {
-		borderWidth: '1px',
-		color: 'red !important',
-		borderRadius: 8,
-	},
-	input: {
-		'&.Mui-disabled': {
-			color: 'black',
-			opacity: 1,
-		},
-	},
-	helperText: { marginLeft: '-10px!important' },
-}))
-
-export default TextfieldComponent
+export default TextfieldSearh
