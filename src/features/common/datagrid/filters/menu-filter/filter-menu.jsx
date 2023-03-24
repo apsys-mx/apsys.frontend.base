@@ -205,42 +205,46 @@ const FilterMenu = (props) => {
 					</Typography>
 				</ListItemButton>
 				<Typography>Filtrar</Typography>
-				<Select
-					classNamePrefix='Que contengan'
-					options={optionsSelector(filterType)}
-					defaultValue={selectType}
-					onChange={(event) => setSelectType(event)}
-					styles={{
-						menu: (base) => ({ ...base, zIndex: 10, maxHeight: 200 }),
-						menuList: (base) => ({
-							...base,
-							maxHeight: 200,
-							paddingTop: 0,
-						}),
-						menuPortal: (base) => ({ ...base, zIndex: 9999 }), /// THIS IS TO SHOW MENU OVER MODAL
-					}}
-					menuPosition='fixed'
-				/>
+				{filterType !== 'date' && (
+					<Box>
+						<Select
+							classNamePrefix='Que contengan'
+							options={optionsSelector(filterType)}
+							defaultValue={selectType}
+							onChange={(event) => setSelectType(event)}
+							styles={{
+								menu: (base) => ({ ...base, zIndex: 10, maxHeight: 200 }),
+								menuList: (base) => ({
+									...base,
+									maxHeight: 200,
+									paddingTop: 0,
+								}),
+								menuPortal: (base) => ({ ...base, zIndex: 9999 }), /// THIS IS TO SHOW MENU OVER MODAL
+							}}
+							menuPosition='fixed'
+						/>
 
-				<Divider />
-				{loading && <LinearProgress />}
+						<Divider />
+						{loading && <LinearProgress />}
 
-				{selectType.value === 'equal' && (
-					<FilterEquals
-						allOptions={allOptions}
-						setQuery={setQuery}
-						displayedOptions={displayedOptions}
-						isOptionSelected={isOptionSelected}
-						toggleSelectedOption={toggleSelectedOption}
-					/>
-				)}
-				{selectType.value !== 'equal' && (
-					<Box className={classes.filterPadding}>
-						<TextField
-							size={'small'}
-							label={'Lo siguiente...'}
-							onChange={(event) => setSelectTextfield(event.target.value)}
-						></TextField>
+						{selectType.value === 'equal' && (
+							<FilterEquals
+								allOptions={allOptions}
+								setQuery={setQuery}
+								displayedOptions={displayedOptions}
+								isOptionSelected={isOptionSelected}
+								toggleSelectedOption={toggleSelectedOption}
+							/>
+						)}
+						{selectType.value !== 'equal' && (
+							<Box className={classes.filterPadding}>
+								<TextField
+									size={'small'}
+									label={'Lo siguiente...'}
+									onChange={(event) => setSelectTextfield(event.target.value)}
+								></TextField>
+							</Box>
+						)}
 					</Box>
 				)}
 
