@@ -149,34 +149,6 @@ const FilterMenu = (props) => {
 		//dispatch(setFilter(currentFilters))
 	}
 
-	//** submenu for filter types */
-	const openContextMenuType = (event) => {
-		setFiltersType((prevState) => ({
-			...prevState,
-			open: true,
-			handleClose: handleCloseMenuType,
-			anchorEl: event.currentTarget,
-			type: filterType,
-			dataSource: dataSource,
-		}))
-	}
-
-	const handleCloseMenuType = () => {
-		setFiltersType((prevState) => ({
-			...prevState,
-			open: false,
-			anchorEl: null,
-		}))
-	}
-
-	const handleCloseDialogType = () => {
-		handleClose(false)
-	}
-	const options = [
-		{ value: 'Que empiezen con', label: 'Que empiezen con' },
-		{ value: 'Que terminen con', label: 'Que terminen con' },
-		{ value: 'Que contengan', label: 'Que contengan' },
-	]
 	return (
 		<Popover
 			sx={styles.filterContainer}
@@ -200,7 +172,6 @@ const FilterMenu = (props) => {
 							: 'texto'}
 					</Typography>
 				</ListItemButton>
-				<Typography>Filtrar</Typography>
 				{filterType !== 'date' && (
 					<Box>
 						<Select
