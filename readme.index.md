@@ -454,3 +454,79 @@ const dispatch = useDispatch()
 			handleChangeRowsPerPage={handleChangeRowsPerPage}
 		/>
 ```
+
+### Crear Selector de Redux y enviar al API
+
+- Dirígete a `home.selectors.js`, declara las constantes `getViewState` y `getPagination`, se obtiene el estado y se devuelve la propiedad, para la paginación la propiedad es la declarada en la inicializacion del stado del `slice`.
+
+```jsx
+const getViewState = createSelector(getState, (state) => {
+	return state
+})
+const getPagination = createSelector(getViewState, (state) => {
+	return state.pagination
+```
+
+- Exporta la constante de paginación.
+
+```jsx
+export { getTitle, getPagination }
+```
+
+- Dirígete al `index` (`home.jsx`), e importa los selectores de `home.selectors`  y `useSelector`.
+
+```jsx
+import { useDispatch, useSelector } from 'react-redux'
+import * as selectors from '../home.selectors'
+```
+
+- Crea la constante ` viewPaginationState` para obtener los valores de paginación.
+
+```jsx
+const viewPaginationState = useSelector((state) => selectors.getPagination(state))
+```
+
+- Modifica la llamada a la Api ` useGetTimesheetsQuery` para enviar los valores de paginación y modificar la respuesta.
+
+```jsx
+    const {
+		data: timeSheetsResponse,
+		isLoading,
+		isError,
+		error,
+	} = useGetTimesheetsQuery({
+		pagination: {
+			pageNumber: viewPaginationState.page,
+			pageSize: viewPaginationState.rowsPerPage,
+		},
+	})
+```
+
+- Dirígete al archivo `home.endPoints.js`, modifca `getTimesheets` para obtener los valores de paginación y agréguelos a la `URL` del Api
+
+- Incluya un ` transformResponse` para modificar la respuesta y se pueda interpretar de mejor forma.
+
+```js
+    getTimesheets: builder.query({
+			query(params) {
+				const { pagination } = params
+				var { pageNumber, pageSize } = pagination
+				pageNumber = pageNumber ? pageNumber : 0
+				pageSize = pageSize ? pageSize : 0
+				var url = `Timesheets?sortBy=&sortDirection=&pageNumber=${pageNumber}&pageSize=${pageSize}`
+				console.log(`URL::[${url}]`)
+				return {
+					url: url,
+					method: 'GET',
+				}
+			},
+			transformResponse: (response) => {
+				return {
+					items: response,
+					page: 0,
+					rowsPerPage: 20,
+					rowsCount: response.length,
+				}
+			},
+		}),
+```

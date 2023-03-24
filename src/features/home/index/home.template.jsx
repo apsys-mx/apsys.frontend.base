@@ -9,7 +9,13 @@ import SearchComponent from '../../common/search/SearchComponent'
 /**
  * Home component
  */
-const HomeTemplate = ({ response, onChangePage, handleChangeRowsPerPage }) => {
+const HomeTemplate = ({
+	response,
+	onChangePage,
+	handleChangeRowsPerPage,
+	onchangeSorting,
+	sorting,
+}) => {
 	return (
 		<Box>
 			<Box sx={styles.searchContainer}>
@@ -19,7 +25,19 @@ const HomeTemplate = ({ response, onChangePage, handleChangeRowsPerPage }) => {
 					onChange={console.warn('No [onChangeValue] callback defined')}
 				/>
 			</Box>
-			<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} {...response} />
+			<TimesheetsTable
+				tableConfig={defaultTableConfigurationTimeSheets}
+				{...response}
+				onchangeSorting={onchangeSorting}
+				sortBy={
+					sorting.sortBy && sorting.sortBy.length > 0 ? sorting.sortBy : 'projectName'
+				}
+				sortDirection={
+					sorting.sortDirection && sorting.sortDirection.length > 0
+						? sorting.sortDirection
+						: 'desc'
+				}
+			/>
 			<Pagination
 				pagination={response}
 				onPageChange={onChangePage}

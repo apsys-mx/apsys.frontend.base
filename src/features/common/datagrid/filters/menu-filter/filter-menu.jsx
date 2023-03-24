@@ -249,7 +249,7 @@ const FilterMenu = (props) => {
 				<Stack>
 					<Button
 						variant='text'
-						sx={styles.stylesButton}
+						sx={styles.stylesTextButton}
 						onClick={removeFilter}
 						disabled={allOptions === undefined || loading ? true : false}
 					>
