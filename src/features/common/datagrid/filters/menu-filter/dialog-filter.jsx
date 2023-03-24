@@ -12,8 +12,8 @@ import {
 	Typography,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import TextfieldComponent from '../../components/text-fields/text-field-component'
-import { DateRange } from 'react-date-range'
+//import TextfieldComponent from '../../components/text-fields/text-field-component'
+//import { DateRange } from 'react-date-range'
 import 'react-date-range/dist/styles.css' // main style file
 import 'react-date-range/dist/theme/default.css' // theme css file
 
@@ -107,7 +107,7 @@ const DialogFilter = (props) => {
 					{type === 'TEXT' && (
 						<div>
 							<Typography variant='subtitle2'>Texto</Typography>
-							<TextfieldComponent
+							{/* <TextfieldComponent
 								fullWidth
 								control={control}
 								name='value'
@@ -115,7 +115,7 @@ const DialogFilter = (props) => {
 									required: { value: false },
 								}}
 								errors={errors}
-							/>
+							/> */}
 						</div>
 					)}
 					{type === 'NUMERIC' && (
@@ -135,12 +135,12 @@ const DialogFilter = (props) => {
 					)}
 					{type === 'DATE' && (
 						<div style={{ display: 'flex', justifyContent: 'center' }}>
-							<DateRange
+							{/* <DateRange
 								editableDateInputs={true}
 								moveRangeOnFirstSelection={false}
 								ranges={valueDate}
 								onChange={(item) => setValue([item.selection])}
-							/>
+							/> */}
 						</div>
 					)}
 				</DialogContent>
