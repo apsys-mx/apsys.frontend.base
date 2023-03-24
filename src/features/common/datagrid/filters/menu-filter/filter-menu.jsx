@@ -38,7 +38,13 @@ const FilterMenu = (props) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
-
+	const [valueDate, setValue] = useState([
+		{
+			startDate: new Date(),
+			endDate: null,
+			key: 'selection',
+		},
+	])
 	//TODO: envar solo listado de catalogos para mistrar
 	// Refactorizar para enviar información base
 	const [allOptions, setAllOptions] = useState([])
@@ -225,7 +231,7 @@ const FilterMenu = (props) => {
 					</Box>
 				)}
 
-				{filterType === 'date' && <FilterDate />}
+				{filterType === 'date' && <FilterDate valueDate={valueDate} setValue={setValue} />}
 
 				<Stack>
 					<Button

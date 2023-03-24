@@ -6,13 +6,7 @@ import 'react-date-range/dist/styles.css' // main style file
 import 'react-date-range/dist/theme/default.css' // theme css file
 
 const FilterDate = (props) => {
-	const [valueDate, setValue] = useState([
-		{
-			startDate: new Date(),
-			endDate: null,
-			key: 'selection',
-		},
-	])
+	const { valueDate, setValue } = props
 
 	return (
 		<Box>
