@@ -54,11 +54,6 @@ const FilterMenu = (props) => {
 	const [selectTextfield, setSelectTextfield] = useState('')
 	const [query, setQuery] = useState('')
 	const [loading, setLoading] = useState(false)
-	const [filtersType, setFiltersType] = useState({
-		open: false,
-		handleClose: null,
-		anchorEl: null,
-	})
 
 	/** Filtering displayed options on search input change  */
 	useEffect(() => {
@@ -127,10 +122,10 @@ const FilterMenu = (props) => {
 			}
 
 			let currentFilters = parseFiltersFromQueryString(location.search)
-			dispatch(setFilter(currentFilters))
 			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 			currentFilters.push(newFilter)
 			const queryString = convertFiltersToString(currentFilters)
+			dispatch(setFilter(queryString))
 			navigate(`?${queryString}`)
 		}
 	}
@@ -147,7 +142,7 @@ const FilterMenu = (props) => {
 		setSelectedOptions([])
 		setDisplayedOptions([])
 		setQuery('')
-		dispatch(setFilter(currentFilters))
+		dispatch(setFilter(queryString))
 	}
 
 	return (
