@@ -13,9 +13,9 @@ const Pagination = (props) => {
 	return (
 		<Box sx={styles.root}>
 			<TablePagination
-				count={pagination.rowsCount}
-				rowsPerPage={pagination.rowsPerPage}
-				page={pagination.page}
+				count={pagination.total}
+				rowsPerPage={pagination.pageSize}
+				page={pagination.pageNumber}
 				onPageChange={(event, newPage) => onPageChange(newPage)}
 				onRowsPerPageChange={(event) => {
 					onRowsPerPageChange(event.target.value, 10)
