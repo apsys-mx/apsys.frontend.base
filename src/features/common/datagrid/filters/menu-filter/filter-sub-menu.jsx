@@ -25,9 +25,9 @@ const FilterSubMenu = (props) => {
 
 	useEffect(() => {
 		if (open) {
-			if (type === 'TEXT') {
+			if (type === 'text') {
 				setRelationalOperators(getRelationalOperatorsForString())
-			} else if (type === 'NUMERIC') {
+			} else if (type === 'numeric') {
 				setRelationalOperators(getRelationalOperatorsForNumber())
 			}
 		}
@@ -54,7 +54,7 @@ const FilterSubMenu = (props) => {
 	}
 	return (
 		<>
-			{type !== 'DATE' && (
+			{type !== 'date' && (
 				<>
 					<Popover
 						id={'poper'}

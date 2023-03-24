@@ -21,7 +21,7 @@ import {
 } from '@mui/material'
 
 /** Custom components import section */
-import ContextFilterSubMenu from './filter-sub-menu'
+import FilterSubMenu from './filter-sub-menu'
 //import DialogFilter from './dialog-filter'
 import SearchBox from './search-box'
 
@@ -262,7 +262,7 @@ const FilterMenu = (props) => {
 					</Button>
 				</Stack>
 			</Box>
-			{/* <ContextFilterSubMenu {...filtersType} /> */}
+			<FilterSubMenu {...filtersType} />
 			{/* <DialogFilter {...DialogType} onClose={() => console.log('Close')} /> */}
 		</Popover>
 	)
