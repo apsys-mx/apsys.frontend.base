@@ -17,7 +17,7 @@ import propTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
 import { tableConfigProps } from './config-prop-types'
 import moment from 'moment'
-import { currencyFormat, numberFormat } from '../../../helpers/currency-helper'
+import { currencyFormat, numberFormat } from './filters/helper/currency-helper'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import FilterMenu from './filters/menu-filter/filter-menu'
 /** Datagrid component */

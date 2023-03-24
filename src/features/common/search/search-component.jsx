@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import propTypes from 'prop-types'
 
 import { Box } from '@mui/material'
@@ -9,11 +8,9 @@ import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 
 import * as styles from './search.styles'
-// import { setQuery } from '../../timesheets/timesheet-view.slice'
 
 const SearchComponent = (props) => {
 	const [value, setValue] = useState(props.value || '')
-	const dispatch = useDispatch()
 
 	/**
 	 * Update the value when the props value change
@@ -29,8 +26,8 @@ const SearchComponent = (props) => {
 	 */
 	const onSubmit = (event) => {
 		event.preventDefault()
-		// dispatch(setQuery(value))
 	}
+
 	return (
 		<div sx={styles.root}>
 			<Box component='form' sx={styles.inputHolder} onSubmit={onSubmit}>
