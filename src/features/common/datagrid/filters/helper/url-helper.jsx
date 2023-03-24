@@ -142,7 +142,7 @@ export const convertFiltersToString = (filters) => {
 		}
 		let filterStr = `${fieldName}=${values.join('_')}`
 		if (!isNullOrEmpty(relationalOperatorType)) {
-			filterStr += `|${relationalOperatorType}`
+			filterStr += `||${relationalOperatorType}`
 		}
 		return filterStr
 	})
