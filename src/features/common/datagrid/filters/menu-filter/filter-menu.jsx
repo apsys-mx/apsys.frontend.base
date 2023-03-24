@@ -233,7 +233,7 @@ const FilterMenu = (props) => {
 							/>
 						)}
 						{selectType.value !== 'equal' && (
-							<Box>
+							<Box sx={styles.filterPadding}>
 								<TextField
 									size={'small'}
 									label={'Lo siguiente...'}
