@@ -2,6 +2,8 @@
 import { Box } from '@mui/material'
 import TablePagination from '@mui/material/TablePagination'
 import PropTypes from 'prop-types'
+/**Resources */
+import * as styles from './pagination.styles'
 
 const Pagination = (props) => {
 	const { pagination } = props
@@ -9,7 +11,7 @@ const Pagination = (props) => {
 		return `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
 	}
 	return (
-		<Box>
+		<Box sx={styles.root}>
 			<TablePagination
 				count={pagination.rowsCount}
 				rowsPerPage={pagination.rowsPerPage}

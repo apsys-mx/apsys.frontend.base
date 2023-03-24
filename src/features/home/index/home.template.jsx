@@ -1,18 +1,17 @@
-//React
 import React from 'react'
-//Material
 import { Box } from '@mui/material'
-//Component
 import TimesheetsTable from './home.table'
 import { defaultTableConfigurationTimeSheets } from './configurationTable'
+import Pagination from '../../common/datagrid/pagination'
 
 /**
  * Home component
  */
-const HomeTemplate = (props) => {
+const HomeTemplate = () => {
 	return (
 		<Box>
-			<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} {...props} />
+			<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} items={[]} />
+			<Pagination />
 		</Box>
 	)
 }
