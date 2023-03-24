@@ -1,10 +1,5 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-
-import { getTitle } from '../home.selectors'
-import { setTitle } from '../home.slice'
-
-import useToaster from '../toaster/use-toaster'
+import { useGetTimesheetsQuery } from '../home.endPoints'
 
 /** Import templates */
 import DesktopTemplate from './home.template'
@@ -13,20 +8,13 @@ import DesktopTemplate from './home.template'
  * Home component
  */
 const Home = () => {
-	const { sucesss } = useToaster()
-	var dispatch = useDispatch()
-	const title = useSelector((state) => getTitle(state))
-
-	const onchangeTitle = (event) => dispatch(setTitle(event.target.value))
-	const onShowToaster = () => sucesss('Toaster message')
-
-	return (
-		<DesktopTemplate
-			title={title}
-			onchangeTitle={onchangeTitle}
-			onShowToaster={onShowToaster}
-		/>
-	)
+	const { data: timeSheetsResponse, isLoading, isError, error } = useGetTimesheetsQuery()
+	if (isLoading) return <div>Loading...</div>
+	if (isError) {
+		return <div>{JSON.stringify(error)}</div>
+	}
+	console.log('timeSheetsResponse:', timeSheetsResponse)
+	return <DesktopTemplate />
 }
 
 export default Home
