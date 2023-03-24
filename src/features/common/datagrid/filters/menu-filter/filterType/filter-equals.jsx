@@ -1,24 +1,14 @@
-import { Box, Checkbox, Typography } from '@mui/material'
 import React from 'react'
+import { Box, Checkbox, Typography } from '@mui/material'
 import SearchBox from '../search-box'
 import * as classes from '../menu-filters-styles'
 import { Stack } from '@mui/system'
 import Select from 'react-select'
-
-const FilterDate = (props) => {
-	console.log('entro')
+const FilterEquals = (props) => {
 	const { allOptions, setQuery, displayedOptions, isOptionSelected, toggleSelectedOption } = props
-	const options = [
-		{ value: 'Que empiezen con', label: 'Que empiezen con' },
-		{ value: 'Que terminen con', label: 'Que terminen con' },
-		{ value: 'Que contengan', label: 'Que contengan' },
-		{ value: 'Iguales a', label: 'Iguales a' },
-	]
 
 	return (
 		<Box>
-			<Typography variant={'caption'}> Mostrar solo resultados</Typography>
-			<Select classNamePrefix='Que contengan' options={options} />
 			{allOptions !== undefined && (
 				<SearchBox
 					autoFocus
@@ -57,4 +47,4 @@ const FilterDate = (props) => {
 	)
 }
 
-export default FilterDate
+export default FilterEquals
