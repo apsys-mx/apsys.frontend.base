@@ -120,7 +120,6 @@ const FilterMenu = (props) => {
 				relationalOperatorType: selectType.value,
 				values: valuesSelect(),
 			}
-
 			let currentFilters = parseFiltersFromQueryString(location.search)
 			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 			currentFilters.push(newFilter)

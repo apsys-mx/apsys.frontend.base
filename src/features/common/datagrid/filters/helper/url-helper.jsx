@@ -63,7 +63,7 @@ export const parseFiltersFromQueryString = (queryString) => {
 				return result
 			}
 			if (isValidPropertyName(key) && isValidPropertyValue(data)) {
-				const [values, relationalOperator] = data.split('|')
+				const [values, relationalOperator] = data.split('||')
 				const camelCaseKey = key[0].toLowerCase() + key.substring(1)
 				var resultIsContainValue = result.some((item) => item.fieldName === camelCaseKey)
 				if (resultIsContainValue) {
