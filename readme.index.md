@@ -293,3 +293,76 @@ const HomeTemplate = (props) => {
 export default HomeTemplate
 
 ```
+
+### Personalización de columnas
+
+- Edita `home.table`, importa `useEffect`, `useState` y `moment`.
+
+```jsx
+import React, { useEffect, useState } from 'react'
+import moment from 'moment'
+```
+
+- Crea las constantes para la configuración y actualización de la tabla, las cuales depende de `useSate`.
+
+```jsx
+const [localTableConfig, setLocalTableConfig] = useState([])
+```
+
+- Utiliza `useEffect` para obtener mapear y actualizar la configuración de la tabla.
+
+```jsx
+useEffect(() => {
+		if (tableConfig) {
+			var local = tableConfig.map((config) => {
+				return { ...config }
+			})
+			setLocalTableConfig(local)
+		}
+	}, [tableConfig])
+```
+
+- Crea la constante para personalizar la configuración ` enhancedConfiguration` la cual realiza el proceso de actualización, dependiendo del `dataSource` se modifica según el nombre indicando la transformación y el valor que se devuelve, en este caso se le da formato alas fechas.
+
+```jsx
+const enhancedConfiguration = localTableConfig.map((config) => {
+		switch (config.dataSource) {
+			case 'startDate':
+				config.onRenderProperty = (item) => {
+					return moment(item.startDate).format('DD/MM/YYYY')
+				}
+				break
+			case 'endDate':
+				config.onRenderProperty = (item) => {
+					return moment(item.endDate).format('DD/MM/YYYY')
+				}
+				break
+			default:
+		}
+		return config
+	})
+```
+- Envié la nueva configuración en el encabezado de `DataGrid`.
+
+```jsx
+<DataGrid headers={enhancedConfiguration} data={items} />
+```
+
+## Añadir Paginado de tabla
+
+### Añadir Paginado al componente de tabla
+
+- En el archivo `home.table.jsx` importa el componente `+++++` para la paginación, el cual debería estar en los componentes comunes en la carpeta `common`.
+- Agregue las nuevas propiedades que debe recibir el componente para el paginado, incluyendo `callbacks`, agregue las nuevas propiedades a la sección de `propTypes` y `defaultProps` del componente.
+
+### Define estados iniciales de Redux
+
+- Agregue el estado inicial de las `props` de la paginación en `timesheet-slice.js` ????
+- Crea los métodos correspondientes para `setear` los valores de la paginación.
+- Exporta los métodos de paginación aciendo referencia al `action` del `slice`.
+- Dirígete a `timesheet-selector` ?? , declara las constantes para los methodos creados en el `slice`, deben tener el mismo nombre, se obtiene el estado y se devuelve la propiedad.
+- Exporta las constantes.
+
+### Definir funciones y callbacks 
+
+- Diríjase al archivo `index` en este caso `home.jsx`, importa los métodos del `slice` 
