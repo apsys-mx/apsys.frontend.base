@@ -33,28 +33,6 @@ const DataGrid = ({
 	itemRender,
 	componentDetail,
 }) => {
-	console.log('🚀 ~ file: data-grid.jsx:36 ~ headers:', headers)
-	const [filterSettings, setFilterSettings] = useState({
-		open: false,
-		handleClose: null,
-		anchorEl: null,
-	})
-	const openContextMenu = (event) => {
-		setFilterSettings((prevState) => ({
-			...prevState,
-			open: true,
-			handleClose: handleClose,
-			anchorEl: event.currentTarget,
-		}))
-	}
-	const handleClose = () => {
-		setFilterSettings((prevState) => ({
-			...prevState,
-			open: false,
-			anchorEl: null,
-		}))
-	}
-
 	var visibleHeaders = headers.filter((x) => x.visible !== false)
 	let emptyArray = Array.from(Array(10).keys()).map(() => null)
 
@@ -66,13 +44,11 @@ const DataGrid = ({
 						{visibleHeaders.map((header) => {
 							return (
 								<DagridTableHead
-									filterSettings={filterSettings}
 									key={uuidv4()}
 									{...header}
 									sortCriteria={sortCriteria}
 									sortDirection={sortDirection}
 									onchangeSorting={onchangeSorting}
-									openContextMenu={openContextMenu}
 								/>
 							)
 						})}
@@ -162,8 +138,6 @@ const DagridTableHead = ({
 	sortCriteria,
 	sortDirection,
 	onchangeSorting,
-	openContextMenu,
-	filterSettings,
 	filterType,
 }) => {
 	const criteria = sortCriteria || ''
@@ -174,6 +148,27 @@ const DagridTableHead = ({
 	const createSortHandler = (property) => () => {
 		var sortDirection = direction === 'asc' ? 'desc' : 'asc'
 		if (onchangeSorting) onchangeSorting(property, sortDirection)
+	}
+
+	const [filterSettings, setFilterSettings] = useState({
+		open: false,
+		handleClose: null,
+		anchorEl: null,
+	})
+	const openContextMenu = (event) => {
+		setFilterSettings((prevState) => ({
+			...prevState,
+			open: true,
+			handleClose: handleClose,
+			anchorEl: event.currentTarget,
+		}))
+	}
+	const handleClose = () => {
+		setFilterSettings((prevState) => ({
+			...prevState,
+			open: false,
+			anchorEl: null,
+		}))
 	}
 
 	return (
@@ -199,7 +194,7 @@ const DagridTableHead = ({
 				</IconButton>
 			}
 			<FilterMenu
-				filterType={filterType}
+				filterTypeActive={filterType}
 				{...filterSettings}
 				title={title}
 				dataSource={dataSource}
