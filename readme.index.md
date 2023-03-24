@@ -352,17 +352,105 @@ const enhancedConfiguration = localTableConfig.map((config) => {
 
 ### Añadir Paginado al componente de tabla
 
-- En el archivo `home.table.jsx` importa el componente `+++++` para la paginación, el cual debería estar en los componentes comunes en la carpeta `common`.
-- Agregue las nuevas propiedades que debe recibir el componente para el paginado, incluyendo `callbacks`, agregue las nuevas propiedades a la sección de `propTypes` y `defaultProps` del componente.
+- En el archivo `home.template.jsx` importa el componente `Pagination` para la paginación, el cual debería estar en los componentes comunes en la carpeta `common/datagrid`.
+
+```jsx
+import Pagination from '../../common/datagrid/pagination'
+```
+
+- Agregue las nuevas propiedades que debe recibir el componente para el paginado.
+
+```jsx
+const HomeTemplate = ({ response, onChangePage, handleChangeRowsPerPage })
+```
+
+-  Asígnelas a su correspondiente componente.
+
+```jsx
+<TimesheetsTable tableConfig={defaultTableConfigurationTimeSheets} {...response} />
+			<Pagination
+				pagination={response}
+				onPageChange={onChangePage}
+				onRowsPerPageChange={handleChangeRowsPerPage}
+			/>
+```
 
 ### Define estados iniciales de Redux
 
-- Agregue el estado inicial de las `props` de la paginación en `timesheet-slice.js` ????
+- Agregue el estado inicial de las propiedades de la paginación en `home.slice.js`, en `initialState`.
+
+```jsx
+const initialState = {
+	title: 'Hello world',
+	toaster: defaultToasterState,
+	pagination: {
+		rowsCount: 0,
+		rowsPerPage: 20,
+		page: 0,
+	},
+}
+```
+
 - Crea los métodos correspondientes para `setear` los valores de la paginación.
+
+```jsx
+export const homeSlice = createSlice({
+	name: 'homeSlice',
+	initialState,
+	reducers: {
+		setTitle: (state, action) => {
+			state.title = action.payload
+		},
+		setToasterState: (state, action) => {
+			state.toaster = action.payload
+		},
+		setPageNumber: (state, action) => {
+			state.pagination.page = action.payload
+		},
+		setPageSize: (state, action) => {
+			state.pagination.rowsPerPage = action.payload
+		},
+	},
+})
+```
+
 - Exporta los métodos de paginación aciendo referencia al `action` del `slice`.
-- Dirígete a `timesheet-selector` ?? , declara las constantes para los methodos creados en el `slice`, deben tener el mismo nombre, se obtiene el estado y se devuelve la propiedad.
-- Exporta las constantes.
+
+```jsx
+export const { setTitle, setToasterState, setPageNumber, setPageSize } = homeSlice.actions
+```
 
 ### Definir funciones y callbacks 
 
-- Diríjase al archivo `index` en este caso `home.jsx`, importa los métodos del `slice` 
+- Diríjase al archivo `index` en este caso `home.jsx`, importa los métodos del `slice`, y `useDispatch`.
+
+```jsx
+import { useDispatch } from 'react-redux'
+import { setPageNumber, setPageSize } from '../home.slice'
+```
+- Declara la constante de `dispatch`.
+
+```jsx
+const dispatch = useDispatch()
+```
+
+- Establece las funciones para el paginado: ` handleChangePage ` y ` handleChangeRowsPerPage `.
+
+```jsx
+    const handleChangePage = (pageNumber) => {
+		dispatch(setPageNumber(pageNumber))
+	}
+	const handleChangeRowsPerPage = (pageSize) => {
+		dispatch(setPageSize(pageSize))
+	}
+```
+
+- Añade las funciones en los parámetros del `DesktopTemplate`.
+
+```jsx
+<DesktopTemplate
+			response={timeSheetsResponse}
+			onChangePage={handleChangePage}
+			handleChangeRowsPerPage={handleChangeRowsPerPage}
+		/>
+```
