@@ -4,7 +4,7 @@ import TimesheetsTable from './home.table'
 import { defaultTableConfigurationTimeSheets } from './configurationTable'
 import Pagination from '../../common/datagrid/pagination'
 import * as styles from './home.styles'
-import SearchComponent from '../../common/search/SearchComponent'
+import SearchComponent from '../../common/search/search-component'
 
 /**
  * Home component

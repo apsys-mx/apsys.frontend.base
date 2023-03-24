@@ -18,6 +18,7 @@ const initialState = {
 		sortBy: '',
 		sortDirection: '',
 	},
+	filters: '',
 }
 
 export const homeSlice = createSlice({
@@ -40,9 +41,12 @@ export const homeSlice = createSlice({
 			state.sorting.sortBy = action.payload.sortBy
 			state.sorting.sortDirection = action.payload.sortDirection
 		},
+		setFilter: (state, action) => {
+			state.filters = action.payload
+		},
 	},
 })
 
-export const { setTitle, setToasterState, setPageNumber, setPageSize, setSorting } =
+export const { setTitle, setToasterState, setPageNumber, setPageSize, setSorting, setFilter } =
 	homeSlice.actions
 export default homeSlice.reducer
