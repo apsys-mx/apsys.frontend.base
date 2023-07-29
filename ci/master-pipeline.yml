@@ -1,0 +1,28 @@
+trigger:
+    - master
+
+pr: none
+
+variables:
+    - name: projectName
+      value: 'apsys.frontend.base.turkey'
+    - name: packageSuffix
+      value: ''
+    - name: buildScript
+      value: 'build'
+
+pool:
+    name: 'Azure Pipeline'
+    vmImage: 'windows-latest'
+
+jobs:
+  - job: BuildTestsPack
+    displayName: Build, test and pack
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+          versionSpec: '18.x'
+    - script: |
+          npm install
+      displayName: 'Install packages'

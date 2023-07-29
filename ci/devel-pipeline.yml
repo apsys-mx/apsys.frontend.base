@@ -1,0 +1,30 @@
+trigger:
+    - devel
+
+pr: none
+
+variables:
+    - group: project-variables-group
+    - name: projectName
+      value: 'alpunto.vision360.frontend'
+    - name: packageSuffix
+      value: '-beta'
+    - name: spaceName
+      value: 'AlPunto'
+    - name: channelName
+      value: 'Beta'
+    - name: buildScript
+      value: 'build:qas'
+
+pool:
+    name: 'Default'
+    vmImage: 'windows-latest'
+
+extends:
+    template: base-pipeline.yml
+    parameters:
+        projectName: $(projectName)
+        packageSuffix: $(packageSuffix)
+        spaceName: $(spaceName)
+        channelName: $(channelName)
+        buildScript: $(buildScript)
