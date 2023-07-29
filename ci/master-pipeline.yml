@@ -26,3 +26,9 @@ jobs:
     - script: |
           npm install
       displayName: 'Install packages'
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'SonarCloud Service'
+        organization: 'apsys-dev'
+        scannerMode: 'CLI'
+        configMode: 'file'
