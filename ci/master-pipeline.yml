@@ -19,6 +19,8 @@ jobs:
   - job: BuildTestsPack
     displayName: Build, test and pack
     steps:
+    - checkout: self
+      fetchDepth: 0
     - task: NodeTool@0
       displayName: 'Install Node.js'
       inputs:
