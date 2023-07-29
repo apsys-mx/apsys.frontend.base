@@ -12,7 +12,7 @@ variables:
       value: 'build'
 
 pool:
-    name: 'Azure Pipeline'
+    name: 'Azure Pipelines'
     vmImage: 'windows-latest'
 
 jobs:
