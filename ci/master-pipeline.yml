@@ -25,8 +25,7 @@ jobs:
       displayName: 'Install Node.js'
       inputs:
           versionSpec: '18.x'
-    - script: |
-          npm install
+    - script: npm install
       displayName: 'Install packages'
     - task: SonarCloudPrepare@1
       inputs:
@@ -37,6 +36,7 @@ jobs:
         cliProjectKey: 'apsys-dev_apsys.frontend.base.turkey'
         cliProjectName: 'apsys.frontend.base.turkey'
         cliSources: '.'
+    - script: npm run build
     - task: SonarCloudAnalyze@1
       inputs:
         jdkversion: 'JAVA_HOME_11_X64'
