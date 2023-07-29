@@ -31,7 +31,7 @@ const DataGrid = ({
 	maxHeight,
 	isLoading,
 }) => {
-	var visibleHeaders = headers.filter((x) => x.visible !== false)
+	const visibleHeaders = headers.filter((x) => x.visible !== false)
 	let emptyArray = Array.from(Array(10).keys()).map(() => null)
 
 	return (
