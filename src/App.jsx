@@ -12,7 +12,7 @@ import * as selectors from './auth/oidc.selectors'
  * App component
  */
 const App = () => {
-	var isLoadingOidc = useSelector((state) => selectors.isLoadingUser(state))
+	const isLoadingOidc = useSelector((state) => selectors.isLoadingUser(state))
 
 	if (isLoadingOidc) {
 		return <span>Loading user's profile</span>
