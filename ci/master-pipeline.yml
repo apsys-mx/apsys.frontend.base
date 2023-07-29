@@ -31,4 +31,13 @@ jobs:
         SonarCloud: 'SonarCloud Service'
         organization: 'apsys-dev'
         scannerMode: 'CLI'
-        configMode: 'file'
+        configMode: 'manual'
+        cliProjectKey: 'apsys-dev_apsys.frontend.base.turkey'
+        cliProjectName: 'apsys.frontend.base.turkey'
+        cliSources: '.'
+    - task: SonarCloudAnalyze@1
+      inputs:
+        jdkversion: 'JAVA_HOME_11_X64'
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
