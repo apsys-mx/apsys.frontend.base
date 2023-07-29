@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-const getOidcState = (state) => (state = state.oidc)
+const getOidcState = (state) => state.oidc
 
 /**
  * Determine if the oidc is loading user
@@ -15,11 +15,7 @@ const isLoadingUser = createSelector(getOidcState, (oidcState) => {
 const isAuthenticated = createSelector(getOidcState, (oidcState) => {
 	const isLoadingUser = oidcState.isLoadingUser
 	const user = oidcState.user
-
-	if (!(isLoadingUser === false && user)) {
-		return false
-	}
-	return true
+	return !!(isLoadingUser === false && user)
 })
 
 /**
