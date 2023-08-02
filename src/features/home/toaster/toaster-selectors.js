@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-const getAppState = (state) => (state = state.homeSlice)
+const getAppState = (state) => state.homeSlice
 
 /**
  * Get the toaster options

@@ -12,7 +12,7 @@ const TimesheetsTable = ({ items, tableConfig, onchangeSorting, sortBy, sortDire
 	const [localTableConfig, setLocalTableConfig] = useState([])
 	useEffect(() => {
 		if (tableConfig) {
-			var local = tableConfig.map((config) => {
+			const local = tableConfig.map((config) => {
 				return { ...config }
 			})
 			setLocalTableConfig(local)

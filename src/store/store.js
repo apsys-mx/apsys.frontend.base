@@ -5,8 +5,7 @@ import { combineReducers } from 'redux'
 import homeSlice from '../features/home/home.slice'
 
 /** oidc related import section */
-import { reducer as oidcReducer } from 'redux-oidc'
-import createOidcMiddleware from 'redux-oidc'
+import createOidcMiddleware, { reducer as oidcReducer } from 'redux-oidc'
 import userManager from '../auth/user-manager'
 import { timesheetsApi } from './timesheet-api'
 
