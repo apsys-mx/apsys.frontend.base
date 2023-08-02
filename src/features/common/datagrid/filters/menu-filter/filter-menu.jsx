@@ -43,11 +43,7 @@ const FilterMenu = (props) => {
 			key: 'selection',
 		},
 	])
-	//TODO: envar solo listado de catalogos para mistrar
-	// Refactorizar para enviar información base
 	const [allOptions] = useState([])
-	//const { data: allOptions } = useGetCatalogsQuery(dataSource)
-	/** Defines local state */
 	const [displayedOptions, setDisplayedOptions] = useState([])
 	const [selectedOptions, setSelectedOptions] = useState([])
 	const [selectType, setSelectType] = useState({ value: 'equal', label: 'Igual a' })
