@@ -36,7 +36,7 @@ const Home = () => {
 			sortBy: viewSortingState.sortBy,
 			sortDirection: viewSortingState.sortDirection,
 		},
-		filters: viewFilter ? viewFilter : '',
+		filters: viewFilter || '',
 	})
 	console.log('viewFilter', viewFilter)
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://

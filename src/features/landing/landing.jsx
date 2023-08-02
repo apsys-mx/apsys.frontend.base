@@ -30,7 +30,7 @@ const Landing = () => {
 
 	if (!namespaceLoaded) return <span>Loading dictionary</span>
 
-	var props = {
+	const props = {
 		languages: languages,
 		onLoginClick: onLoginClick,
 		onChangeLanguage: onChangeLanguage,
