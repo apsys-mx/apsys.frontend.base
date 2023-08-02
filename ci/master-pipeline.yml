@@ -59,6 +59,6 @@ jobs:
                 organization: 'apsys-dev'
           - task: CmdLine@2
             enabled: true
-            displayName: 'Pack artifact for ${{parameters.projectName}}'
+            displayName: 'Pack artifact for $(projectName)'
             inputs:
                 script: 'octo pack --id="$(projectName)" --format="NuPkg" --version="$(Build.BuildNumber)$(packageSuffix)" --basePath="build" --author="APSYS" --title="$(projectName) package" --description="frontend package for $(projectName)"'
