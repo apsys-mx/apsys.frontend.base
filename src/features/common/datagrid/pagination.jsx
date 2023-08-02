@@ -8,7 +8,8 @@ import * as styles from './pagination.styles'
 const Pagination = (props) => {
 	const { pagination, onPageChange, onRowsPerPageChange } = props
 	const getDisplayedRowsLabel = ({ from, to, count }) => {
-		return `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
+		const countValue = count !== -1 ? count : `más de ${to}`
+		return `${from}–${to} de ${countValue}`
 	}
 	return (
 		<Box sx={styles.root}>

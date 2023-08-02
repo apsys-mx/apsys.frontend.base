@@ -115,12 +115,9 @@ const FilterMenu = (props) => {
 					moment(valueDate[0].endDate).format('YYYY-MM-DD'),
 				],
 			}
-			// let currentFilters = parseFiltersFromQueryString(location.search)
 			let currentFilters = parseFiltersFromQueryString(viewFilter)
 			currentFilters = currentFilters.filter((f) => f.fieldName !== dataSource)
 			currentFilters.push(newFilter)
-			const queryString = convertFiltersToString(currentFilters)
-			//navigate(`?${queryString}`)
 		} else {
 			const newFilter = {
 				fieldName: dataSource,
@@ -133,9 +130,7 @@ const FilterMenu = (props) => {
 			currentFilters.push(newFilter)
 			const queryString = convertFiltersToString(currentFilters)
 
-			//const queryString2 = createQueryForFilters(currentFilters)
 			dispatch(setFilter(queryString))
-			//navigate(`?${queryString}`)
 		}
 	}
 

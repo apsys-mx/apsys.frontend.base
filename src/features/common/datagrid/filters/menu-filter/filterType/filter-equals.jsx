@@ -3,6 +3,8 @@ import { Box, Checkbox, Typography } from '@mui/material'
 import SearchBox from './search-box'
 import * as classes from '../menu-filters-styles'
 import { Stack } from '@mui/system'
+import { v4 as uuidv4 } from 'uuid'
+
 const FilterEquals = (props) => {
 	const { allOptions, setQuery, displayedOptions, isOptionSelected, toggleSelectedOption } = props
 
@@ -19,7 +21,7 @@ const FilterEquals = (props) => {
 			<Box>
 				{displayedOptions?.map((a) => {
 					return (
-						<Stack spacing={3}>
+						<Stack spacing={3} key={uuidv4()}>
 							<Stack
 								direction={'row'}
 								alignItems={'center'}
