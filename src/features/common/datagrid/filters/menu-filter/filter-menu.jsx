@@ -20,13 +20,7 @@ import {
 
 /** Resources imports section */
 import * as styles from './menu-filters-styles'
-import {
-	convertFiltersToString,
-	createQueryForFilters,
-	parseFiltersFromQueryString,
-} from '../helper/url-helper'
-//import { setFilter } from '../../../store/timesheets-view-slice'
-//import { useGetCatalogsQuery } from '../../../store/search-api-slice'
+import { convertFiltersToString, parseFiltersFromQueryString } from '../helper/url-helper'
 import Select from 'react-select'
 import FilterDate from './filterType/filter-date'
 import FilterEquals from './filterType/filter-equals'
@@ -51,7 +45,7 @@ const FilterMenu = (props) => {
 	])
 	//TODO: envar solo listado de catalogos para mistrar
 	// Refactorizar para enviar información base
-	const [allOptions, setAllOptions] = useState([])
+	const [allOptions] = useState([])
 	//const { data: allOptions } = useGetCatalogsQuery(dataSource)
 	/** Defines local state */
 	const [displayedOptions, setDisplayedOptions] = useState([])
@@ -59,15 +53,14 @@ const FilterMenu = (props) => {
 	const [selectType, setSelectType] = useState({ value: 'equal', label: 'Igual a' })
 	const [selectTextfield, setSelectTextfield] = useState('')
 	const [query, setQuery] = useState('')
-	const [loading, setLoading] = useState(false)
+	const [loading] = useState(false)
 
 	/** Filtering displayed options on search input change  */
 	useEffect(() => {
 		let filteredOptions
 		if (open && !!query) {
-			filteredOptions = allOptions.filter(
-				(opt) =>
-					opt.description && opt.description.toLowerCase().includes(query.toLowerCase())
+			filteredOptions = allOptions.filter((opt) =>
+				opt.description?.toLowerCase().includes(query.toLowerCase())
 			)
 		} else {
 			filteredOptions = allOptions
@@ -149,6 +142,17 @@ const FilterMenu = (props) => {
 		dispatch(setFilter(queryString))
 	}
 
+	const getFilterDescription = (filterType) => {
+		switch (filterType) {
+			case 'date':
+				return 'Fecha'
+			case 'numeric':
+				return 'Número'
+			default:
+				return 'Texto'
+		}
+	}
+
 	return (
 		<Popover
 			sx={styles.filterContainer}
@@ -164,12 +168,7 @@ const FilterMenu = (props) => {
 			<Paper sx={styles.filterPaper}>
 				<ListItemButton>
 					<Typography variant='subtitle2' sx={styles.titlePopover}>
-						Filtros de{' '}
-						{filterType === 'date'
-							? 'Fecha'
-							: filterType === 'numeric'
-							? 'número'
-							: 'texto'}
+						Filtros de {getFilterDescription(filterType)}
 					</Typography>
 				</ListItemButton>
 				{filterType !== 'date' && (
@@ -222,7 +221,7 @@ const FilterMenu = (props) => {
 						variant='text'
 						sx={styles.stylesTextButton}
 						onClick={removeFilter}
-						disabled={allOptions === undefined || loading ? true : false}
+						disabled={!!(allOptions === undefined || loading)}
 					>
 						Limpiar filtro
 					</Button>
@@ -230,7 +229,7 @@ const FilterMenu = (props) => {
 						variant='contained'
 						sx={styles.stylesButton}
 						onClick={applyFilter}
-						disabled={allOptions === undefined || loading ? true : false}
+						disabled={!!(allOptions === undefined || loading)}
 					>
 						Aplicar filtro
 					</Button>
