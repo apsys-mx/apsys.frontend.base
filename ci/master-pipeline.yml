@@ -36,6 +36,9 @@ jobs:
         cliProjectKey: 'apsys-dev_apsys.frontend.base.turkey'
         cliProjectName: 'apsys.frontend.base.turkey'
         cliSources: '.'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner, 
+          sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
     - script: npm run build
     - task: SonarCloudAnalyze@1
       inputs:
