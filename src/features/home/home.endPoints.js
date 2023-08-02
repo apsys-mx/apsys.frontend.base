@@ -5,8 +5,8 @@ export const timesheetsEndPoint = timesheetsApi.injectEndpoints({
 		getTimesheets: builder.query({
 			query(params) {
 				const { sorting, pagination, filters } = params
-				const { sortBy, sortDirection } = sorting
-				const { pageNumber, pageSize } = pagination
+				let { sortBy, sortDirection } = sorting
+				let { pageNumber, pageSize } = pagination
 				pageNumber = pageNumber || 0
 				pageSize = pageSize || 0
 				sortDirection = sortDirection && sortDirection.length > 0 ? sortDirection : 'desc'
