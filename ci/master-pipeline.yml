@@ -42,4 +42,8 @@ jobs:
         jdkversion: 'JAVA_HOME_11_X64'
     - task: SonarCloudPublish@1
       inputs:
-        pollingTimeoutSec: '300'
+        pollingTimeoutSec: '300'    
+    - task: sonarcloud-buildbreaker@2
+      inputs:
+        SonarCloud: 'SonarCloud Service'
+        organization: 'apsys-dev'
