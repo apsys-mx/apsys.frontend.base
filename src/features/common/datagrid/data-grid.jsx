@@ -131,7 +131,7 @@ const DagridTableHead = ({
 	const isSortCriteria = criteria === dataSource
 
 	const createSortHandler = (property) => () => {
-		var sortDirection = direction === 'asc' ? 'desc' : 'asc'
+		const sortDirection = direction === 'asc' ? 'desc' : 'asc'
 		if (onchangeSorting) onchangeSorting(property, sortDirection)
 	}
 
@@ -194,7 +194,7 @@ const DagridTableHead = ({
  * Datagrid table cell
  */
 const DatagridTableCell = ({ config, item, property }) => {
-	var localDataType = config.dataType || 'string'
+	const localDataType = config.dataType || 'string'
 	const onRenderItem = config.onRenderProperty
 
 	const getFormatedValue = (value) => {
@@ -220,7 +220,7 @@ const DatagridTableCell = ({ config, item, property }) => {
 			</TableCell>
 		)
 	}
-	var value = item[property]
+	const value = item[property]
 	return (
 		<TableCell>
 			<Typography component='span' variant='caption'>
