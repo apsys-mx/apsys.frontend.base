@@ -9,8 +9,5 @@ export function isNullOrEmpty(value) {
 		return true
 	}
 	let trimmed = value.trim()
-	if (trimmed.length === 0) {
-		return true
-	}
-	return false
+	return trimmed.length === 0
 }

@@ -65,15 +65,15 @@ export const parseFiltersFromQueryString = (queryString) => {
 			if (isValidPropertyName(key) && isValidPropertyValue(data)) {
 				const [values, relationalOperator] = data.split('||')
 				const camelCaseKey = key[0].toLowerCase() + key.substring(1)
-				var resultIsContainValue = result.some((item) => item.fieldName === camelCaseKey)
+				const resultIsContainValue = result.some((item) => item.fieldName === camelCaseKey)
 				if (resultIsContainValue) {
 					result = result.map((item) => {
 						if (item.fieldName === camelCaseKey) {
-							var items = values
+							const items = values
 								.split('_')
 								.filter((v) => !isNullOrEmpty(v))
 								.map((v) => (v === 'null' ? null : v))
-							var isContainValue = item?.values.some((item) => {
+							const isContainValue = item?.values.some((item) => {
 								return items.some((value) => value === item)
 							})
 							if (!isContainValue) item.values = item.values.concat(items)
@@ -153,17 +153,11 @@ const isValidPropertyValue = (value) => {
 	if (!value) {
 		return false
 	}
-	if (value.toString().trim().length === 0) {
-		return false
-	}
-	return true
+	return value.toString().trim().length !== 0
 }
 
 const isValidPropertyName = (key) => {
-	if (isNullOrEmpty(key)) {
-		return false
-	}
-	return true
+	return !isNullOrEmpty(key)
 }
 
 export const getLookupValue = (queryString) => {
@@ -182,7 +176,7 @@ export const getLookupValue = (queryString) => {
 const paginationKeys = ['pageNumber', 'pageSize']
 const sortingKeys = ['sortBy', 'sortDirection']
 export const createQueryForFilters = (filters) => {
-	var queryByFilter = []
+	let queryByFilter = []
 	if (filters.length > 0) {
 		queryByFilter = filters?.map((filter) => {
 			if (

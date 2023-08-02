@@ -15,13 +15,13 @@ export const currencyFormat = (amount) => {
 }
 
 export const percentageFormated = (percentage) => {
-	var option = {
+	const option = {
 		style: 'percent',
 		minimumFractionDigits: 2,
 		maximumFractionDigits: 2,
 	}
-	var formatter = new Intl.NumberFormat('en-US', option)
-	var discountFormat = formatter.format(percentage)
+	const formatter = new Intl.NumberFormat('en-US', option)
+	const discountFormat = formatter.format(percentage)
 	return discountFormat
 }
 
