@@ -10,6 +10,12 @@ variables:
       value: ''
     - name: buildScript
       value: 'build'
+    - name: sonarOrganization
+      value: 'apsys-dev'
+    - name: sonar.ProjectKey
+      value: 'apsys-dev_apsys.frontend.base.turkey'
+    - name: sonar.ProjectName
+      value: 'apsys.frontend.base.turkey'
 
 pool:
     name: 'Azure Pipelines'
@@ -33,13 +39,14 @@ jobs:
         organization: 'apsys-dev'
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: 'apsys-dev_apsys.frontend.base.turkey'
-        cliProjectName: 'apsys.frontend.base.turkey'
+        cliProjectKey: $(sonar.ProjectKey)
+        cliProjectName: $(sonar.ProjectName)
         cliSources: '.'
         extraProperties: |
           # Additional properties that will be passed to the scanner, 
           sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
     - script: npm run build
+      displayName: 'Build project'
     - task: SonarCloudAnalyze@1
       inputs:
         jdkversion: 'JAVA_HOME_11_X64'
