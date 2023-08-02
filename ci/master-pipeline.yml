@@ -22,38 +22,43 @@ pool:
     vmImage: 'windows-latest'
 
 jobs:
-  - job: BuildTestsPack
-    displayName: Build, test and pack
-    steps:
-    - checkout: self
-      fetchDepth: 0
-    - task: NodeTool@0
-      displayName: 'Install Node.js'
-      inputs:
-          versionSpec: '18.x'
-    - script: npm install
-      displayName: 'Install packages'
-    - task: SonarCloudPrepare@1
-      inputs:
-        SonarCloud: 'SonarCloud Service'
-        organization: 'apsys-dev'
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: $(sonar.ProjectKey)
-        cliProjectName: $(sonar.ProjectName)
-        cliSources: '.'
-        extraProperties: |
-          # Additional properties that will be passed to the scanner, 
-          sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
-    - script: npm run build
-      displayName: 'Build project'
-    - task: SonarCloudAnalyze@1
-      inputs:
-        jdkversion: 'JAVA_HOME_11_X64'
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '300'    
-    - task: sonarcloud-buildbreaker@2
-      inputs:
-        SonarCloud: 'SonarCloud Service'
-        organization: 'apsys-dev'
+    - job: BuildTestsPack
+      displayName: Build, test and pack
+      steps:
+          - checkout: self
+            fetchDepth: 0
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+                versionSpec: '18.x'
+          - script: npm install
+            displayName: 'Install packages'
+          - task: SonarCloudPrepare@1
+            inputs:
+                SonarCloud: 'SonarCloud Service'
+                organization: 'apsys-dev'
+                scannerMode: 'CLI'
+                configMode: 'manual'
+                cliProjectKey: $(sonar.ProjectKey)
+                cliProjectName: $(sonar.ProjectName)
+                cliSources: '.'
+                extraProperties: |
+                    # Additional properties that will be passed to the scanner, 
+                    sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
+          - script: npm run build
+            displayName: 'Build project'
+          - task: SonarCloudAnalyze@1
+            inputs:
+                jdkversion: 'JAVA_HOME_11_X64'
+          - task: SonarCloudPublish@1
+            inputs:
+                pollingTimeoutSec: '300'
+          - task: sonarcloud-buildbreaker@2
+            inputs:
+                SonarCloud: 'SonarCloud Service'
+                organization: 'apsys-dev'
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Pack artifact for ${{parameters.projectName}}'
+            inputs:
+                script: 'octo pack --id="$(projectName)" --format="NuPkg" --version="$(Build.BuildNumber)$(packageSuffix)" --basePath="build" --author="APSYS" --title="$(projectName) package" --description="frontend package for $(projectName)"'
