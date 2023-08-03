@@ -61,4 +61,4 @@ jobs:
             enabled: true
             displayName: 'Pack artifact for $(projectName)'
             inputs:
-                script: '"ci/octo" pack --id="$(projectName)" --format="NuPkg" --version="$(Build.BuildNumber)$(packageSuffix)" --basePath="build" --author="APSYS" --title="$(projectName) package" --description="frontend package for $(projectName)"'
+                script: '"ci/octo" pack --id="$(projectName)" --format="NuPkg" --version="$(Build.BuildNumber)$(packageSuffix)" --basePath="dist" --author="APSYS" --title="$(projectName) package" --description="frontend package for $(projectName)"'
