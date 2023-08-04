@@ -1,30 +1,102 @@
 trigger:
-    - devel
+    - master
 
 pr: none
 
 variables:
     - group: project-variables-group
     - name: projectName
-      value: 'alpunto.vision360.frontend'
+      value: 'apsys.frontend.base.turkey'
     - name: packageSuffix
       value: '-beta'
-    - name: spaceName
-      value: 'AlPunto'
-    - name: channelName
-      value: 'Beta'
     - name: buildScript
-      value: 'build:qas'
+      value: 'build'
+    - name: sonar.organization
+      value: 'apsys-devops'
+    - name: sonar.projectKey
+      value: 'apsys-dev_apsys.frontend.base.turkey'
+    - name: sonar.projectName
+      value: 'apsys.frontend.base.turkey'
+    - name: octopus.spaceName
+      value: 'apsys-mx'
+    - name: octopus.server
+      value: 'https://apsys-fs-cloud.octopus.app'
+    - name: octopus.channel
+      value: 'Beta'
+    - name: octopus.developmentName
+      value: 'Development'
+    - name: octopus.testingName
+      value: 'Testing'
 
 pool:
     name: 'Default'
     vmImage: 'windows-latest'
 
-extends:
-    template: base-pipeline.yml
-    parameters:
-        projectName: $(projectName)
-        packageSuffix: $(packageSuffix)
-        spaceName: $(spaceName)
-        channelName: $(channelName)
-        buildScript: $(buildScript)
+jobs:
+    - job: BuildTestsPack
+      displayName: Build, test and pack
+      steps:
+          - checkout: self
+            fetchDepth: 0
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+                versionSpec: '18.x'
+          - script: npm install
+            displayName: 'Install packages'
+          - task: SonarCloudPrepare@1
+            inputs:
+                SonarCloud: 'SonarCloud Service'
+                organization: '$(sonar.organization)'
+                scannerMode: 'CLI'
+                configMode: 'manual'
+                cliProjectKey: $(sonar.projectKey)
+                cliProjectName: $(sonar.projectName)
+                cliSources: '.'
+                extraProperties: |
+                    # Additional properties that will be passed to the scanner, 
+                    sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
+          - script: npm run build
+            displayName: 'Build project'
+          - task: SonarCloudAnalyze@1
+            inputs:
+                jdkversion: 'JAVA_HOME_11_X64'
+          - task: SonarCloudPublish@1
+            inputs:
+                pollingTimeoutSec: '300'
+          - task: sonarcloud-buildbreaker@2
+            inputs:
+                SonarCloud: 'SonarCloud Service'
+                organization: 'apsys-devops'
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Pack artifact for $(projectName)'
+            inputs:
+                script: '"ci/octo" pack --id="$(projectName)" --format="NuPkg" --version="$(Build.BuildNumber)$(packageSuffix)" --basePath="dist" --author="APSYS" --title="$(projectName) package" --description="frontend package for $(projectName)"'
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Push $(projectName) package to Octopus'
+            inputs:
+                script: '"ci/octo" push --package="$(projectName).$(Build.BuildNumber)$(packageSuffix).nupkg" --server="$(octopus.server)" --space="$(octopus.spaceName)" --apiKey="$(OctopusAPIKey)"'
+
+    - job: DeployApplication
+      dependsOn:
+          - BuildTestsPack
+      displayName: Deploy to environments
+      steps:
+          - checkout: none
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Create releases'
+            inputs:
+                script: '"ci/octo" create-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)"'
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Deploy to $(octopus.developmentName)'
+            inputs:
+                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.developmentName)"  --waitForDeployment --progress'
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Deploy to $(octopus.testingName)'
+            inputs:
+                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.testingName)"  --waitForDeployment --progress'

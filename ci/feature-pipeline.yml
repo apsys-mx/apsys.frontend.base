@@ -1,5 +1,5 @@
 trigger:
-    - master
+    - feature/*
 
 pr: none
 
@@ -8,9 +8,9 @@ variables:
     - name: projectName
       value: 'apsys.frontend.base.turkey'
     - name: packageSuffix
-      value: ''
+      value: '-beta'
     - name: buildScript
-      value: 'build:prd'
+      value: 'build'
     - name: sonar.organization
       value: 'apsys-devops'
     - name: sonar.projectKey
@@ -22,7 +22,7 @@ variables:
     - name: octopus.server
       value: 'https://apsys-fs-cloud.octopus.app'
     - name: octopus.channel
-      value: 'Default'
+      value: 'Beta'
     - name: octopus.developmentName
       value: 'Development'
     - name: octopus.testingName
