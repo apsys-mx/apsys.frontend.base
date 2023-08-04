@@ -20,7 +20,7 @@ variables:
     - name: sonar.projectName
       value: 'apsys.frontend.base.turkey'
     - name: octopus.spaceName
-      value: 'apsys.frontend.base.turkey'
+      value: 'apsys-mx'
     - name: octopus.server
       value: 'https://apsys-fs-cloud.octopus.app'
 
