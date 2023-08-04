@@ -14,7 +14,7 @@ variables:
     - name: sonar.organization
       value: 'apsys-devops'
     - name: sonar.projectKey
-      value: 'apsys-dev_apsys.frontend.base.turkey'
+      value: 'apsys.frontend.base.turkey_apsys.frontend.base.turkey_AYnC3k4SPXhjRAIaTDfG'
     - name: sonar.projectName
       value: 'apsys.frontend.base.turkey'
     - name: octopus.spaceName
@@ -46,26 +46,26 @@ jobs:
             displayName: 'Install packages'
           - task: SonarQubePrepare@5
             inputs:
-              SonarQube: 'SonarQube Service'
-              scannerMode: 'CLI'
-              configMode: 'manual'
-              cliProjectKey: $(sonar.projectKey)
-              cliProjectName: $(sonar.projectName)
-              cliSources: '.'
-              extraProperties: |
-                # Additional properties that will be passed to the scanner, 
-                sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
+                SonarQube: 'SonarQube Service'
+                scannerMode: 'CLI'
+                configMode: 'manual'
+                cliProjectKey: $(sonar.projectKey)
+                cliProjectName: $(sonar.projectName)
+                cliSources: '.'
+                extraProperties: |
+                    # Additional properties that will be passed to the scanner, 
+                    sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
           - script: npm run build
             displayName: 'Build project'
           - task: SonarQubeAnalyze@5
             inputs:
-              jdkversion: 'JAVA_HOME_11_X64'
+                jdkversion: 'JAVA_HOME_11_X64'
           - task: SonarQubePublish@5
             inputs:
-              pollingTimeoutSec: '300'
+                pollingTimeoutSec: '300'
           - task: sonar-buildbreaker@8
             inputs:
-              SonarQube: 'SonarQube Service'
+                SonarQube: 'SonarQube Service'
           - task: CmdLine@2
             enabled: true
             displayName: 'Pack artifact for $(projectName)'
