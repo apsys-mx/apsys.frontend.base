@@ -13,9 +13,11 @@ variables:
       value: 'build'
     - name: sonarOrganization
       value: 'apsys-dev'
-    - name: sonar.ProjectKey
+    - name: sonar.organization
+      value: 'apsys-devops'
+    - name: sonar.projectKey
       value: 'apsys-dev_apsys.frontend.base.turkey'
-    - name: sonar.ProjectName
+    - name: sonar.projectName
       value: 'apsys.frontend.base.turkey'
     - name: octopus.spaceName
       value: 'apsys.frontend.base.turkey'
@@ -41,11 +43,11 @@ jobs:
           - task: SonarCloudPrepare@1
             inputs:
                 SonarCloud: 'SonarCloud Service'
-                organization: 'apsys-dev'
+                organization: '$(sonar.organization)'
                 scannerMode: 'CLI'
                 configMode: 'manual'
-                cliProjectKey: $(sonar.ProjectKey)
-                cliProjectName: $(sonar.ProjectName)
+                cliProjectKey: $(sonar.projectKey)
+                cliProjectName: $(sonar.projectName)
                 cliSources: '.'
                 extraProperties: |
                     # Additional properties that will be passed to the scanner, 
@@ -60,8 +62,8 @@ jobs:
                 pollingTimeoutSec: '300'
           - task: sonarcloud-buildbreaker@2
             inputs:
-              SonarCloud: 'SonarCloud Service'
-              organization: 'apsys-devops'
+                SonarCloud: 'SonarCloud Service'
+                organization: 'apsys-devops'
           - task: CmdLine@2
             enabled: true
             displayName: 'Pack artifact for $(projectName)'
