@@ -44,30 +44,28 @@ jobs:
                 versionSpec: '18.x'
           - script: npm install
             displayName: 'Install packages'
-          - task: SonarCloudPrepare@1
+          - task: SonarQubePrepare@5
             inputs:
-                SonarCloud: 'SonarCloud Service'
-                organization: '$(sonar.organization)'
-                scannerMode: 'CLI'
-                configMode: 'manual'
-                cliProjectKey: $(sonar.projectKey)
-                cliProjectName: $(sonar.projectName)
-                cliSources: '.'
-                extraProperties: |
-                    # Additional properties that will be passed to the scanner, 
-                    sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
+              SonarQube: 'SonarQube Service'
+              scannerMode: 'CLI'
+              configMode: 'manual'
+              cliProjectKey: $(sonar.projectKey)
+              cliProjectName: $(sonar.projectName)
+              cliSources: '.'
+              extraProperties: |
+                # Additional properties that will be passed to the scanner, 
+                sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
           - script: npm run build
             displayName: 'Build project'
-          - task: SonarCloudAnalyze@1
+          - task: SonarQubeAnalyze@5
             inputs:
-                jdkversion: 'JAVA_HOME_11_X64'
-          - task: SonarCloudPublish@1
+              jdkversion: 'JAVA_HOME_11_X64'
+          - task: SonarQubePublish@5
             inputs:
-                pollingTimeoutSec: '300'
-          - task: sonarcloud-buildbreaker@2
+              pollingTimeoutSec: '300'
+          - task: sonar-buildbreaker@8
             inputs:
-                SonarCloud: 'SonarCloud Service'
-                organization: 'apsys-devops'
+              SonarQube: 'SonarQube Service'
           - task: CmdLine@2
             enabled: true
             displayName: 'Pack artifact for $(projectName)'
