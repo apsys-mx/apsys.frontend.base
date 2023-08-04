@@ -23,6 +23,12 @@ variables:
       value: 'apsys-mx'
     - name: octopus.server
       value: 'https://apsys-fs-cloud.octopus.app'
+    - name: octopus.channel
+      value: 'Default'
+    - name: octopus.developmentName
+      value: 'Development'
+    - name: octopus.testingName
+      value: 'Testing'
 
 pool:
     name: 'Default'
@@ -74,3 +80,25 @@ jobs:
             displayName: 'Push $(projectName) package to Octopus'
             inputs:
                 script: '"ci/octo" push --package="$(projectName).$(Build.BuildNumber)$(packageSuffix).nupkg" --server="$(octopus.server)" --space="$(octopus.spaceName)" --apiKey="$(OctopusAPIKey)"'
+
+    - job: DeployApplication
+      dependsOn:
+          - BuildTestsPack
+      displayName: Deploy to environments
+      steps:
+          - checkout: none
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Create releases'
+            inputs:
+                script: '"ci/octo" create-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)"'
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Deploy to Development'
+            inputs:
+                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.developmentName)"  --waitForDeployment --progress'
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Deploy to Testing'
+            inputs:
+                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.testingName)"  --waitForDeployment --progress'
