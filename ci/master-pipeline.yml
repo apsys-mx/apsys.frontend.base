@@ -23,7 +23,7 @@ variables:
       value: 'https://apsys-fs-cloud.octopus.app'
 
 pool:
-    name: 'Azure Pipelines'
+    name: 'Default'
     vmImage: 'windows-latest'
 
 jobs:
