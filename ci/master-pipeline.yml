@@ -4,6 +4,7 @@ trigger:
 pr: none
 
 variables:
+    - group: project-variables-group
     - name: projectName
       value: 'apsys.frontend.base.turkey'
     - name: packageSuffix
@@ -16,6 +17,10 @@ variables:
       value: 'apsys-dev_apsys.frontend.base.turkey'
     - name: sonar.ProjectName
       value: 'apsys.frontend.base.turkey'
+    - name: octopus.spaceName
+      value: 'apsys.frontend.base.turkey'
+    - name: octopus.server
+      value: 'https://apsys-fs-cloud.octopus.app'
 
 pool:
     name: 'Azure Pipelines'
@@ -62,3 +67,8 @@ jobs:
             displayName: 'Pack artifact for $(projectName)'
             inputs:
                 script: '"ci/octo" pack --id="$(projectName)" --format="NuPkg" --version="$(Build.BuildNumber)$(packageSuffix)" --basePath="dist" --author="APSYS" --title="$(projectName) package" --description="frontend package for $(projectName)"'
+          - task: CmdLine@2
+            enabled: true
+            displayName: 'Push $(projectName) package to Octopus'
+            inputs:
+                script: '"ci/octo" push --package="$(projectName).$(Build.BuildNumber)$(packageSuffix).nupkg" --server="$(octopus.server)" --space="$(octopus.spaceName)" --apiKey="$(OctopusAPIKey)"'
