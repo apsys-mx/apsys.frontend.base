@@ -7,8 +7,6 @@ variables:
     - group: project-variables-group
     - name: projectName
       value: 'apsys.frontend.base.turkey'
-    - name: packageSuffix
-      value: '-beta'
     - name: buildScript
       value: 'build'
     - name: sonar.organization
@@ -17,16 +15,6 @@ variables:
       value: 'apsys-dev_apsys.frontend.base.turkey'
     - name: sonar.projectName
       value: 'apsys.frontend.base.turkey'
-    - name: octopus.spaceName
-      value: 'apsys-mx'
-    - name: octopus.server
-      value: 'https://apsys-fs-cloud.octopus.app'
-    - name: octopus.channel
-      value: 'Beta'
-    - name: octopus.developmentName
-      value: 'Development'
-    - name: octopus.testingName
-      value: 'Testing'
 
 pool:
     name: 'Default'
@@ -68,35 +56,3 @@ jobs:
             inputs:
                 SonarCloud: 'SonarCloud Service'
                 organization: 'apsys-devops'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Pack artifact for $(projectName)'
-            inputs:
-                script: '"ci/octo" pack --id="$(projectName)" --format="NuPkg" --version="$(Build.BuildNumber)$(packageSuffix)" --basePath="dist" --author="APSYS" --title="$(projectName) package" --description="frontend package for $(projectName)"'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Push $(projectName) package to Octopus'
-            inputs:
-                script: '"ci/octo" push --package="$(projectName).$(Build.BuildNumber)$(packageSuffix).nupkg" --server="$(octopus.server)" --space="$(octopus.spaceName)" --apiKey="$(OctopusAPIKey)"'
-
-    - job: DeployApplication
-      dependsOn:
-          - BuildTestsPack
-      displayName: Deploy to environments
-      steps:
-          - checkout: none
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Create releases'
-            inputs:
-                script: '"ci/octo" create-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)"'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Deploy to $(octopus.developmentName)'
-            inputs:
-                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.developmentName)"  --waitForDeployment --progress'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Deploy to $(octopus.testingName)'
-            inputs:
-                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.testingName)"  --waitForDeployment --progress'
