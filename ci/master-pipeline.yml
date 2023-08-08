@@ -14,7 +14,7 @@ variables:
     - name: sonar.organization
       value: 'apsys-devops'
     - name: sonar.projectKey
-      value: 'apsys.frontend.base.turkey_apsys.frontend.base.turkey_AYnC3k4SPXhjRAIaTDfG'
+      value: 'apsys-devops_apsys.frontend.base.turkey'
     - name: sonar.projectName
       value: 'apsys.frontend.base.turkey'
     - name: octopus.spaceName
@@ -44,9 +44,10 @@ jobs:
                 versionSpec: '18.x'
           - script: npm install
             displayName: 'Install packages'
-          - task: SonarQubePrepare@5
+          - task: SonarCloudPrepare@1
             inputs:
-                SonarQube: 'SonarQube Service'
+                SonarCloud: 'SonarCloud Service'
+                organization: '$(sonar.organization)'
                 scannerMode: 'CLI'
                 configMode: 'manual'
                 cliProjectKey: $(sonar.projectKey)
@@ -57,15 +58,16 @@ jobs:
                     sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
           - script: npm run build
             displayName: 'Build project'
-          - task: SonarQubeAnalyze@5
+          - task: SonarCloudAnalyze@1
             inputs:
                 jdkversion: 'JAVA_HOME_11_X64'
-          - task: SonarQubePublish@5
+          - task: SonarCloudPublish@1
             inputs:
                 pollingTimeoutSec: '300'
-          - task: sonar-buildbreaker@8
+          - task: sonarcloud-buildbreaker@2
             inputs:
-                SonarQube: 'SonarQube Service'
+                SonarCloud: 'SonarCloud Service'
+                organization: 'apsys-devops'
           - task: CmdLine@2
             enabled: true
             displayName: 'Pack artifact for $(projectName)'
