@@ -55,4 +55,4 @@ jobs:
           - task: sonarcloud-buildbreaker@2
             inputs:
                 SonarCloud: 'SonarCloud Service'
-                organization: 'apsys-devops'
+                organization: $(sonar.organization)

@@ -56,7 +56,7 @@ jobs:
                 extraProperties: |
                     # Additional properties that will be passed to the scanner, 
                     sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
-          - script: npm run build
+          - script: npm run $(buildScript)
             displayName: 'Build project'
           - task: SonarCloudAnalyze@1
             inputs:
@@ -67,7 +67,7 @@ jobs:
           - task: sonarcloud-buildbreaker@2
             inputs:
                 SonarCloud: 'SonarCloud Service'
-                organization: 'apsys-devops'
+                organization: $(sonar.organization)
           - task: CmdLine@2
             enabled: true
             displayName: 'Pack artifact for $(projectName)'

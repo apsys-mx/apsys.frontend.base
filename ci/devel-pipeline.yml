@@ -44,9 +44,10 @@ jobs:
                 versionSpec: '18.x'
           - script: npm install
             displayName: 'Install packages'
-          - task: SonarQubePrepare@5
+          - task: SonarCloudPrepare@1
             inputs:
-                SonarQube: 'SonarQube Service'
+                SonarCloud: 'SonarCloud Service'
+                organization: '$(sonar.organization)'
                 scannerMode: 'CLI'
                 configMode: 'manual'
                 cliProjectKey: $(sonar.projectKey)
@@ -55,17 +56,18 @@ jobs:
                 extraProperties: |
                     # Additional properties that will be passed to the scanner, 
                     sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
-          - script: npm run build
+          - script: npm run $(buildScript)
             displayName: 'Build project'
-          - task: SonarQubeAnalyze@5
+          - task: SonarCloudAnalyze@1
             inputs:
                 jdkversion: 'JAVA_HOME_11_X64'
-          - task: SonarQubePublish@5
+          - task: SonarCloudPublish@1
             inputs:
                 pollingTimeoutSec: '300'
-          - task: sonar-buildbreaker@8
+          - task: sonarcloud-buildbreaker@2
             inputs:
-                SonarQube: 'SonarQube Service'
+                SonarCloud: 'SonarCloud Service'
+                organization: $(sonar.organization)
           - task: CmdLine@2
             enabled: true
             displayName: 'Pack artifact for $(projectName)'
