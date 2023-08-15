@@ -14,7 +14,7 @@ variables:
     - name: sonar.organization
       value: 'apsys-devops'
     - name: sonar.projectKey
-      value: 'apsys-dev_apsys.frontend.base.turkey'
+      value: 'apsys-devops_apsys.frontend.base.turkey'
     - name: sonar.projectName
       value: 'apsys.frontend.base.turkey'
     - name: octopus.spaceName

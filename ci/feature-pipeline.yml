@@ -7,12 +7,14 @@ variables:
     - group: project-variables-group
     - name: projectName
       value: 'apsys.frontend.base.turkey'
+    - name: packageSuffix
+      value: '-feature'
     - name: buildScript
       value: 'build'
     - name: sonar.organization
       value: 'apsys-devops'
     - name: sonar.projectKey
-      value: 'apsys-dev_apsys.frontend.base.turkey'
+      value: 'apsys-devops_apsys.frontend.base.turkey'
     - name: sonar.projectName
       value: 'apsys.frontend.base.turkey'
 
@@ -44,7 +46,7 @@ jobs:
                 extraProperties: |
                     # Additional properties that will be passed to the scanner, 
                     sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
-          - script: npm run build
+          - script: npm run $(buildScript)
             displayName: 'Build project'
           - task: SonarCloudAnalyze@1
             inputs:
