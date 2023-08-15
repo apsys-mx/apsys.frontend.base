@@ -9,7 +9,7 @@ const userManagerConfig = {
 	redirect_uri: getAbsoluteUrlAddress('callback'),
 	post_logout_redirect_uri: getAbsoluteUrlAddress(''),
 	response_type: 'id_token token',
-	scope: 'openid profile userprofile',
+	scope: 'openid profile',
 	filterProtocolClaims: true,
 	loadUserInfo: true,
 	monitorSession: false,
