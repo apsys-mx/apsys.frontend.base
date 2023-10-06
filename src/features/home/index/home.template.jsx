@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, TablePagination } from '@mui/material'
 import TimesheetsTable from './home.table'
 import { defaultTableConfigurationTimeSheets } from './configurationTable'
 // import Pagination from '../../common/datagrid/pagination'
@@ -38,6 +38,26 @@ const HomeTemplate = ({
 						? sorting.sortDirection
 						: 'desc'
 				}
+			/>
+			<TablePagination
+				component='div'
+				count={100}
+				page={1}
+				onPageChange={(event, newPage) => onChangePage(newPage)}
+				rowsPerPageOptions={[5, 10, 20, 50, 100]}
+				rowsPerPage={20}
+				onRowsPerPageChange={(event) => {
+					handleChangeRowsPerPage(event.target.value, 10)
+					onChangePage(0)
+				}}
+				labelRowsPerPage={'paginacion'}
+				SelectProps={{
+					inputProps: {
+						'aria-label': 'page number',
+					},
+				}}
+				showFirstButton
+				showLastButton
 			/>
 			{/* <Pagination
 				pagination={[]}
