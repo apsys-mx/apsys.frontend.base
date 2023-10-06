@@ -6,7 +6,7 @@ export default {
     args: {  
         label: "Drop zone",
         error: false, 
-        helperText: "Descargar plantilla", 
+        helperText: "Additional Text", 
         dropzoneLabel: null }
 }
 

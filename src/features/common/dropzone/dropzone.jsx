@@ -12,24 +12,9 @@ import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutl
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 /**
- *
- * @param {string} text
- * @param {int} characterLimit
- * @returns text whit character limit
- */
-export const CharacterLimitTextConverter = (text, characterLimit) => {
-	var lengthText = text?.length
-	if (lengthText >= characterLimit) {
-		return text.substring(0, characterLimit) + '...'
-	}
-
-	return text
-}
-
-/**
  * Dropzone component
  */
-const DropZone = ({ onChange, acceptValue = {}, label, error, helperText, dropzoneLabel }) => {
+const DropZone = ({ onChange, acceptValue = {}, error, helperText, dropzoneLabel, icon }) => {
 	const [files, setFiles] = useState([])
 	const { t } = useTranslation()
 	const { getRootProps, getInputProps } = useDropzone({
@@ -53,14 +38,28 @@ const DropZone = ({ onChange, acceptValue = {}, label, error, helperText, dropzo
 		setFiles(filtered)
 		onChange(filtered)
 	}
+
+    /**
+     *
+     * @param {string} text
+     * @param {int} characterLimit
+     * @returns text whit character limit
+     */
+    const CharacterLimitTextConverter = (text, characterLimit) => {
+        var lengthText = text?.length
+        if (lengthText >= characterLimit) {
+            return text.substring(0, characterLimit) + '...'
+        }
+
+	return text
+}
 	return (
 		<Box component='section' className='container' sx={{ width: '50%' }}>
-			{/* {label && <FormHelperText>{label}</FormHelperText>} */}
 			<div {...getRootProps({ style })}>
 				<input {...getInputProps()} />
 				<Typography variant='subtitle2'>
 					<Stack direction={'column'} alignItems={'center'} spacing={0.5} >
-						<UploadFileIcon fontSize='small' />
+                    {icon ? icon : <UploadFileIcon fontSize='small' />}
 						<Box>{dropzoneLabel ? dropzoneLabel :"Seleccione o arrastre el catálogo de productos"}</Box>
 					</Stack>
 				</Typography>
