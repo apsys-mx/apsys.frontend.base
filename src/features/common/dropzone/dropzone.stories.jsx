@@ -5,9 +5,9 @@ export default {
     component: DropZone,
     args: {  
         label: "Drop zone",
-        error: false, 
-        helperText: "Descargar plantilla", 
-        dropzoneLabel: null }
+        action: "Additional Text", 
+        error: false,
+        icon :  null }
 }
 
 const Template = (args) => <DropZone {...args} />;

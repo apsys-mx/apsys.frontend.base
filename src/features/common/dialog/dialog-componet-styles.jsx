@@ -1,7 +1,6 @@
 import theme from '../../../assets/themes/default.theme'
 
 export const root = {
-	padding: '16px',
 	display: 'flex',
 	flexDirection: 'column',
 	gap: '32px',
