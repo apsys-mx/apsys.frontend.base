@@ -8,8 +8,8 @@ import { useDropzone } from 'react-dropzone'
 import * as styles from './dropzone.styles'
 import { Typography, FormHelperText, Chip, Stack, IconButton } from '@mui/material'
 import { Close, Upload, WarningRounded } from '@mui/icons-material'
-import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import FilePresentIcon from '@mui/icons-material/FilePresent';
 
 /**
  * Dropzone component
@@ -53,8 +53,8 @@ const DropZone = ({onChange, acceptValue = {}, error, action, label, icon }) => 
 	return text
     }
 	return (
-		<Box component='section' className='container' sx={{ width: '50%' }}>
-			<div {...getRootProps({ style })}>
+		<Box component='section' className='container' sx={{ width: '450px', height:'100px' }}>
+			{files.length == 0 &&<div {...getRootProps({ style })}>
 				<input {...getInputProps()} />
 				<Typography variant='subtitle2'>
 					<Stack direction={'column'} alignItems={'center'} spacing={0.5} >
@@ -62,28 +62,36 @@ const DropZone = ({onChange, acceptValue = {}, error, action, label, icon }) => 
 						<Box>{label ? label :"Seleccione o arrastre el catálogo de productos"}</Box>
 					</Stack>
 				</Typography>
-			</div>
-			<Box sx={styles.filesContainer}>
-				<Stack spacing={1}>
-					{files.map((file) => {
-						return (
-							<Box sx={styles.fileItem}>
-								<Stack direction={'row'} alignItems={'center'} spacing={1}>
-									<InsertDriveFileOutlinedIcon fontSize='small' />
-									<Typography variant='caption'>
-										{CharacterLimitTextConverter(file.name, 47)}
-									</Typography>
-								</Stack>
-								<Box>
-									<IconButton size='small' sx={styles.closeButton}>
-										<Close onClick={() => onDeleteFile(file)} />
-									</IconButton>
-								</Box>
-							</Box>
-						)
-					})}
-				</Stack>
-			</Box>
+			</div>}
+
+            { files.length >= 1 &&
+             <Box sx={styles.dropzoneUploaded}>
+                <Typography variant='subtitle2'>
+                    Archivo cargado:
+                </Typography>
+                <Box sx={ styles.filesContainer} >
+                    <Stack spacing={1}>
+                        {files.map((file) => {
+                            return (
+                                <Box sx={styles.fileItem}>
+                                    <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                                        <FilePresentIcon fontSize='small' />
+                                        <Typography variant='body2'>
+                                            {CharacterLimitTextConverter(file.name, 47)}
+                                        </Typography>
+                                    </Stack>
+                                    <Box>
+                                        <IconButton size='small' sx={styles.closeButton}>
+                                            <Close onClick={() => onDeleteFile(file)} />
+                                        </IconButton>
+                                    </Box>
+                                </Box>
+                            )
+                        })}
+                    </Stack>
+                </Box>
+            </Box>}
+
             <Stack alignItems={'center'} sx={styles.helperText}>
                     {action && files.length == 0 && <FormHelperText >{action}</FormHelperText>}
             </Stack>

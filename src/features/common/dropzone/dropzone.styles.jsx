@@ -24,6 +24,8 @@ export const rejectStyle = {
 
 export const filesContainer = {
 	marginTop: '5px',
+	overflowY: 'scroll',
+	maxHeight: '80px',
 }
 export const errorIcon = {
 	color: theme.palette.error.light,
@@ -42,8 +44,8 @@ export const justifyChip = {
 
 export const fileItem = {
 	backgroundColor: theme.palette.secondary.light,
-	color: theme.palette.background.paper,
-	borderRadius: '8px',
+	color: theme.palette.text.secondary,
+	borderRadius: '100px',
 	height: '26px',
 	display: 'flex',
 	alignItems: 'center',
@@ -52,7 +54,7 @@ export const fileItem = {
 	flexDirection: 'row',
 	marginTop: 2,
 	marginBottom: 1,
-	width: '360px',
+	width: '256px',
 }
 
 export const closeButton = {
@@ -67,4 +69,18 @@ export const icon ={
 
 export const helperText ={
 	color: theme.palette.primary.main,
+}
+export const dropzoneUploaded = {
+	backgroundColor: theme.palette.background.main,
+	width: '93%',
+	height: '70px',
+	display: 'flex',
+	flexDirection: 'row',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	padding: '16px',
+	borderWidth: 1,
+	borderRadius: '8px',
+	borderColor: theme.palette.text.secondary,
+	borderStyle: 'dashed',
 }
