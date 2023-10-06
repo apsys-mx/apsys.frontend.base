@@ -5,11 +5,13 @@ export default {
     component: DropZone,
     args: { 
         onChange, 
-        acceptValue = {}, 
+        acceptValue, 
         label, 
         error, 
         helperText, 
         dropzoneLabel }
 }
 
-const Template = (args) => <DropZone
+const Template = (args) => <DropZone {...{ onChange, acceptValue, label, error, helperText, dropzoneLabel }} />;
+
+export const Primary = Template.bind({});
