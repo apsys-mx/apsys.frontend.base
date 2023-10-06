@@ -1,4 +1,9 @@
-import { DataGrid } from './data-grid'
+import DataGrid from './data-grid'
+
+// const data = {
+//     number = 1
+//     text = 'uno',
+// }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

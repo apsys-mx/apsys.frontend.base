@@ -1,4 +1,4 @@
-import theme from '../../../resources/theme/default'
+import theme from '../../assets/themes/default.theme'
 
 export const mainContainer = {
 	marginTop: (theme) => theme.toolbarHeight,
@@ -21,8 +21,8 @@ export const configItem = {
 	border: 1,
 	borderColor: 'transparent',
 	marginBottom: '8px',
-	borderRadius: 2,
-	backgroundColor: theme.palette.text.secondary,
+	borderRadius: '8px',
+	backgroundColor: theme.palette.background.dark,
 }
 export const saveAndResetContainer = {
 	padding: '10px',
