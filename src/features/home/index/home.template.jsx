@@ -56,8 +56,6 @@ const HomeTemplate = ({
 						'aria-label': 'page number',
 					},
 				}}
-				showFirstButton
-				showLastButton
 			/>
 			{/* <Pagination
 				pagination={[]}
