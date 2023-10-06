@@ -45,8 +45,8 @@ const TimesheetsTable = ({ items, tableConfig, onchangeSorting, sortBy, sortDire
 				onchangeSorting={onchangeSorting}
 				sortBy={sortBy}
 				sortDirection={sortDirection}
-				minHeight={'80%'}
-				maxHeight={'100%'}
+				minHeight={'50vh'}
+				maxHeight={'80vh'}
 			/>
 		</div>
 	)

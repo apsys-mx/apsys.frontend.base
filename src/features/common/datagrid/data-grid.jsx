@@ -1,4 +1,5 @@
-import React, { useTransition } from 'react'
+import React, { useState } from 'react'
+
 import {
 	TableContainer,
 	Table,
@@ -12,16 +13,18 @@ import {
 	Box,
 	Skeleton,
 } from '@mui/material'
+import { FilterAlt } from '@mui/icons-material'
+
 import propTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
-import { tableConfigProps } from './config-prop-types'
 import moment from 'moment'
 import currency from 'currency.js'
+import { useTranslation } from 'react-i18next'
+
+import { tableConfigProps } from './config-prop-types'
 import defaultTheme from '../../../assets/themes/default.theme'
 import CheckTable from './check-table'
-import { FilterAlt } from '@mui/icons-material'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+
 const DataGrid = ({
 	headers,
 	data,
@@ -39,10 +42,10 @@ const DataGrid = ({
 	dictionaryTranlation,
 	isTranslatable,
 }) => {
-	var visibleHeaders = headers.filter((x) => x.visible !== false)
+	let visibleHeaders = headers.filter((x) => x.visible !== false)
 
 	const hasFilter = (dataSource) => {
-		var filtered = filters.find((x) => x === dataSource)
+		let filtered = filters.find((x) => x === dataSource)
 		return filtered ? true : false
 	}
 
@@ -167,7 +170,7 @@ const DagridTableHead = ({
 	const Stick = stick ? stick : false
 
 	const createSortHandler = (property) => () => {
-		var sortDirection = direction === 'asc' ? 'desc' : 'asc'
+		let sortDirection = direction === 'asc' ? 'desc' : 'asc'
 		if (onchangeSorting) onchangeSorting(property, sortDirection)
 	}
 
@@ -208,8 +211,8 @@ const DagridTableHead = ({
 				}}
 			>
 				<Typography
-					variant='h7'
-					color={defaultTheme.palette.primary.dark}
+					variant='subtitle2'
+					color={defaultTheme.palette.text.primary}
 					noWrap={noWrap}
 					sx={{ display: 'flex' }}
 				>
@@ -247,17 +250,43 @@ const DagridTableHead = ({
 DagridTableHead.protoTypes = {
 	onFilterButtonClick: propTypes.func.isRequired,
 	hasFilter: propTypes.bool.isRequired,
+	title: propTypes.string,
+	isCheck: propTypes.bool,
+	dataSource: propTypes.string,
+	sortable: propTypes.bool,
+	sortCriteria: propTypes.string,
+	sortDirection: propTypes.string,
+	onchangeSorting: propTypes.func.isRequired,
+	stick: propTypes.bool,
+	isActiveFilter: propTypes.bool,
+	noWrap: propTypes.bool,
+	width: propTypes.any,
+	dictionaryTranlation: propTypes.string,
+	isTranslatable: propTypes.bool,
 }
 DagridTableHead.defaultProps = {
 	onFilterButtonClick: () => console.warn('No [onFilterButtonClick] callback defined'),
 	hasFilter: false,
+	title: '',
+	isCheck: false,
+	dataSource: '',
+	sortable: false,
+	sortCriteria: '',
+	sortDirection: '',
+	onchangeSorting: () => console.warn('No [onchangeSorting] callback defined'),
+	stick: false,
+	isActiveFilter: false,
+	noWrap: false,
+	width: null,
+	dictionaryTranlation: '',
+	isTranslatable: false,
 }
 
 /**
  * Datagrid table cell
  */
-const DatagridTableCell = ({ config, item, property, noWrap, isFetching, hasFilter }) => {
-	var localDataType = config.dataType || 'string'
+const DatagridTableCell = ({ config, item, property, noWrap, isFetching, isCheck }) => {
+	let localDataType = config.dataType || 'string'
 	const onRenderItem = config.onRenderItem
 	const stick = config.stick
 	const getFormatedValue = (value) => {
@@ -284,7 +313,7 @@ const DatagridTableCell = ({ config, item, property, noWrap, isFetching, hasFilt
 	if (onRenderItem) {
 		return <TableCell key={uuidv4()}>{onRenderItem(item)}</TableCell>
 	}
-	var value = item[property]
+	let value = item[property]
 	if (stick) {
 		return (
 			<TableCell
@@ -302,6 +331,17 @@ const DatagridTableCell = ({ config, item, property, noWrap, isFetching, hasFilt
 			</TableCell>
 		)
 	}
+	if (property == 'check') {
+		return (
+			<TableCell key={uuidv4()}>
+				<CheckTable
+					isCheck={isCheck}
+					// checkValueName={}
+					isIndeterminate={false}
+				/>
+			</TableCell>
+		)
+	}
 	return (
 		<TableCell key={uuidv4()}>
 			<Typography variant='body2' noWrap={noWrap}>
@@ -309,6 +349,22 @@ const DatagridTableCell = ({ config, item, property, noWrap, isFetching, hasFilt
 			</Typography>{' '}
 		</TableCell>
 	)
+}
+DatagridTableCell.protoTypes = {
+	config: propTypes.arrayOf(tableConfigProps),
+	item: propTypes.arrayOf(tableConfigProps).dataType,
+	property: propTypes.string,
+	noWrap: propTypes.bool,
+	isFetching: propTypes.bool,
+	isCheck: propTypes.bool,
+}
+DatagridTableCell.defaultProps = {
+	config: [],
+	item: [],
+	property: '',
+	noWrap: false,
+	isFetching: false,
+	isCheck: false,
 }
 
 export default DataGrid
