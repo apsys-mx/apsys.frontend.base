@@ -2,7 +2,7 @@ import React from 'react'
 import { Box } from '@mui/material'
 import TimesheetsTable from './home.table'
 import { defaultTableConfigurationTimeSheets } from './configurationTable'
-import Pagination from '../../common/datagrid/pagination'
+// import Pagination from '../../common/datagrid/pagination'
 import * as styles from './home.styles'
 import SearchComponent from '../../common/search/search-component'
 
@@ -38,11 +38,11 @@ const HomeTemplate = ({
 						: 'desc'
 				}
 			/>
-			<Pagination
+			{/* <Pagination
 				pagination={response}
 				onPageChange={onChangePage}
 				onRowsPerPageChange={handleChangeRowsPerPage}
-			/>
+			/> */}
 		</Box>
 	)
 }

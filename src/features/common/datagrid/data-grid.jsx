@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { tableConfigProps } from './config-prop-types'
 import moment from 'moment'
 import currency from 'currency.js'
-import defaultTheme from '../../assets/themes/default.theme'
+import defaultTheme from '../../../assets/themes/default.theme'
 import CheckTable from './check-table'
 import { FilterAlt } from '@mui/icons-material'
 import { useState } from 'react'
@@ -80,7 +80,7 @@ const DataGrid = ({
 	return (
 		<TableContainer style={{ minHeight: minHeight, maxHeight: maxHeight }}>
 			<Table size={dense === true ? 'small' : ''} stickyHeader={true}>
-				<TableHead >
+				<TableHead>
 					<TableRow>
 						{visibleHeaders.map((header) => {
 							return (
@@ -125,7 +125,7 @@ DataGrid.propTypes = {
 	onFilterButtonClick: propTypes.func,
 	filters: propTypes.arrayOf(propTypes.string).isRequired,
 	dictionaryTranlation: propTypes.string,
-	isTranslatable: propTypes.bool
+	isTranslatable: propTypes.bool,
 }
 DataGrid.defaultProps = {
 	data: [],
@@ -133,7 +133,7 @@ DataGrid.defaultProps = {
 	dense: false,
 	noWrap: false,
 	filters: [],
-	dictionaryTranlation:'',
+	dictionaryTranlation: '',
 	isTranslatable: false,
 	onFilterButtonClick: () => console.warn('No [onFilterButtonClick] callback'),
 }
@@ -156,7 +156,7 @@ const DagridTableHead = ({
 	hasFilter,
 	width,
 	dictionaryTranlation,
-	isTranslatable
+	isTranslatable,
 }) => {
 	const [showFilter, setShowFilter] = useState(false)
 	const criteria = sortCriteria || ''
@@ -213,13 +213,7 @@ const DagridTableHead = ({
 					noWrap={noWrap}
 					sx={{ display: 'flex' }}
 				>
-					{
-						isTranslatable ? (
-							t(`${title}`, { ns: `${dictionaryTranlation}` })
-						):(
-							title
-						)
-					}
+					{isTranslatable ? t(`${title}`, { ns: `${dictionaryTranlation}` }) : title}
 					{isSortable && (
 						<TableSortLabel
 							active={isSortCriteria}
