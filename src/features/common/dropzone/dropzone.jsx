@@ -9,26 +9,12 @@ import * as styles from './dropzone.styles'
 import { Typography, FormHelperText, Chip, Stack, IconButton } from '@mui/material'
 import { Close, Upload, WarningRounded } from '@mui/icons-material'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
-
-/**
- *
- * @param {string} text
- * @param {int} characterLimit
- * @returns text whit character limit
- */
-export const CharacterLimitTextConverter = (text, characterLimit) => {
-	var lengthText = text?.length
-	if (lengthText >= characterLimit) {
-		return text.substring(0, characterLimit) + '...'
-	}
-
-	return text
-}
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 /**
  * Dropzone component
  */
-const DropZone = ({ onChange, acceptValue = {}, label, error, helperText, dropzoneLabel }) => {
+const DropZone = ({onChange, acceptValue = {}, error, action, label, icon }) => {
 	const [files, setFiles] = useState([])
 	const { t } = useTranslation()
 	const { getRootProps, getInputProps } = useDropzone({
@@ -52,15 +38,28 @@ const DropZone = ({ onChange, acceptValue = {}, label, error, helperText, dropzo
 		setFiles(filtered)
 		onChange(filtered)
 	}
+
+    /**
+     *
+     * @param {string} text
+     * @param {int} characterLimit
+     * @returns text whit character limit
+     */
+    const CharacterLimitTextConverter = (text, characterLimit) => {
+        var lengthText = text?.length
+        if (lengthText >= characterLimit) {
+            return text.substring(0, characterLimit) + '...'
+        }
+	return text
+    }
 	return (
-		<Box component='section' className='container' sx={{ width: '100%' }}>
-			{label && <FormHelperText>{label}</FormHelperText>}
+		<Box component='section' className='container' sx={{ width: '50%' }}>
 			<div {...getRootProps({ style })}>
 				<input {...getInputProps()} />
 				<Typography variant='subtitle2'>
-					<Stack direction={'row'} alignItems={'center'} spacing={0.5}>
-						<Upload fontSize='small' />
-						<Box>{dropzoneLabel}</Box>
+					<Stack direction={'column'} alignItems={'center'} spacing={0.5} >
+                    {icon ? icon : <UploadFileIcon sx={styles.icon}/>}
+						<Box>{label ? label :"Seleccione o arrastre el catálogo de productos"}</Box>
 					</Stack>
 				</Typography>
 			</div>
@@ -85,7 +84,9 @@ const DropZone = ({ onChange, acceptValue = {}, label, error, helperText, dropzo
 					})}
 				</Stack>
 			</Box>
-			{helperText && <FormHelperText error={true}>{helperText}</FormHelperText>}
+            <Stack alignItems={'center'} sx={styles.helperText}>
+                    {action && files.length == 0 && <FormHelperText >{action}</FormHelperText>}
+            </Stack>
 		</Box>
 	)
 }

@@ -9,14 +9,12 @@ export const baseStyle = {
 	padding: '10px',
 	borderWidth: 1,
 	borderRadius: '8px',
-	// borderColor: '#eeeeee',
-	borderColor: theme.palette.primary.main,
+	borderColor: theme.palette.text.secondary,
 	borderStyle: 'dashed',
-	// color: '#bdbdbd',
-	color: theme.palette.primary.main,
+	color: theme.palette.text.secondary,
 	outline: 'none',
 	transition: 'border .24s ease-in-out',
-	backgroundColor: theme.palette.background.light,
+	backgroundColor: theme.palette.background.main,
 	cursor: 'pointer',
 }
 
@@ -60,4 +58,13 @@ export const fileItem = {
 export const closeButton = {
 	color: theme.palette.background.paper,
 	transform: 'scale(.7)',
+}
+export const icon ={
+	fontSize :'60px',
+	marginBottom: '9px',
+	color: theme.palette.text.main,
+}
+
+export const helperText ={
+	color: theme.palette.primary.main,
 }
