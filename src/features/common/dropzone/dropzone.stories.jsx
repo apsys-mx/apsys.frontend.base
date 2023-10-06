@@ -3,15 +3,13 @@ import DropZone from "./dropzone";
 export default {
     title: "Dropzone",
     component: DropZone,
-    args: { 
-        onChange, 
-        acceptValue, 
-        label, 
-        error, 
-        helperText, 
-        dropzoneLabel }
+    args: {  
+        label: "Drop zone",
+        error: false, 
+        helperText: "Additional Text", 
+        dropzoneLabel: "Drop here" }
 }
 
-const Template = (args) => <DropZone {...{ onChange, acceptValue, label, error, helperText, dropzoneLabel }} />;
+const Template = (args) => <DropZone {...args} />;
 
 export const Primary = Template.bind({});
