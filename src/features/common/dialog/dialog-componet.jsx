@@ -9,7 +9,6 @@ import {
 } from '@mui/material'
 import React from 'react'
 import * as styles from './dialog-componet-styles'
-import InfoIcon from '@mui/icons-material/Info'
 import { Close } from '@mui/icons-material'
 
 const DialogComponet = (props) => {
@@ -22,9 +21,9 @@ const DialogComponet = (props) => {
 		primaryAction,
 		secondaryAction,
 		action,
-		subcontent,
 		content,
 		title,
+		icon
 	} = props
 	return (
 		<Dialog
@@ -35,7 +34,7 @@ const DialogComponet = (props) => {
 		>
 			<Box sx={styles.root}>
 				<DialogTitle sx={styles.dialogTitle}>
-					<InfoIcon sx={styles.dialogIcon} />
+					{icon}
 					<div style={styles.titles}>
 						<Typography variant='subtitle2' sx={styles.dialogTitleText}>{title} </Typography>
 						<Typography variant='caption' sx={styles.dialogSubTitleText}>{title} </Typography>
