@@ -10,7 +10,10 @@ const tableConfigProps = propTypes.shape({
 	onRenderItem: propTypes.func,
 	width: propTypes.any,
 	visible: propTypes.bool,
-	dataType: propTypes.oneOf(['string', 'date', 'currency', 'number', null, undefined]),
+	dataType: propTypes.oneOf(['string', 'date', 'currency', null, undefined]),
+	stick: propTypes.bool,
+	isTraslatable: propTypes.bool,
+	dictionaryTraslation: propTypes.string,
 })
 
 export { tableConfigProps }

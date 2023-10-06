@@ -17,53 +17,53 @@ const Home = () => {
 	/**
 	 * Selectors
 	 */
-	const viewPaginationState = useSelector((state) => selectors.getPagination(state))
-	const viewSortingState = useSelector((state) => selectors.getSorting(state))
-	const viewFilter = useSelector((state) => selectors.getFilters(state))
-	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
-	//:::::::::::::::::(API´s):::::::::::::::::::::::::::://
-	const {
-		data: timeSheetsResponse,
-		isLoading,
-		isError,
-		error,
-	} = useGetTimesheetsQuery({
-		pagination: {
-			pageNumber: viewPaginationState.page,
-			pageSize: viewPaginationState.rowsPerPage,
-		},
-		sorting: {
-			sortBy: viewSortingState.sortBy,
-			sortDirection: viewSortingState.sortDirection,
-		},
-		filters: viewFilter || '',
-	})
-	console.log('viewFilter', viewFilter)
+	// const viewPaginationState = useSelector((state) => selectors.getPagination(state))
+	// const viewSortingState = useSelector((state) => selectors.getSorting(state))
+	// const viewFilter = useSelector((state) => selectors.getFilters(state))
+	// //:::::::::::::::::::::::::::::::::::::::::::::::::::://
+	// //:::::::::::::::::(API´s):::::::::::::::::::::::::::://
+	// const {
+	// 	data: timeSheetsResponse,
+	// 	isLoading,
+	// 	isError,
+	// 	error,
+	// } = useGetTimesheetsQuery({
+	// 	pagination: {
+	// 		pageNumber: viewPaginationState.page,
+	// 		pageSize: viewPaginationState.rowsPerPage,
+	// 	},
+	// 	sorting: {
+	// 		sortBy: viewSortingState.sortBy,
+	// 		sortDirection: viewSortingState.sortDirection,
+	// 	},
+	// 	filters: viewFilter || '',
+	// })
+	// console.log('viewFilter', viewFilter)
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(Pagination)::::::::::::::::::::::://
 	const handleChangePage = (pageNumber) => {
-		dispatch(setPageNumber(pageNumber))
+		// dispatch(setPageNumber(pageNumber))
 	}
 	const handleChangeRowsPerPage = (pageSize) => {
-		dispatch(setPageSize(pageSize))
+		// dispatch(setPageSize(pageSize))
 	}
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(Sorting):::::::::::::::::::::::::://
 	const onchangeSorting = (sort, direction) => {
-		dispatch(setSorting({ sortBy: sort, sortDirection: direction }))
+		// dispatch(setSorting({ sortBy: sort, sortDirection: direction }))
 	}
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
-	if (isLoading) return <div>Loading...</div>
-	if (isError) {
+	if (false) return <div>Loading...</div>
+	if (false) {
 		return <ErrorViewQuery error={error} />
 	}
 	return (
 		<DesktopTemplate
-			response={timeSheetsResponse}
+			// response={timeSheetsResponse}
 			onChangePage={handleChangePage}
 			handleChangeRowsPerPage={handleChangeRowsPerPage}
 			onchangeSorting={onchangeSorting}
-			sorting={viewSortingState}
+			// sorting={viewSortingState}
 		/>
 	)
 }
