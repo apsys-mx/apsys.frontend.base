@@ -6,8 +6,8 @@ export default {
     args: {  
         label: "Drop zone",
         error: false, 
-        helperText: "Additional Text", 
-        dropzoneLabel: "Drop here" }
+        helperText: "Descargar plantilla", 
+        dropzoneLabel: null }
 }
 
 const Template = (args) => <DropZone {...args} />;

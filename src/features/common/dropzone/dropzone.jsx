@@ -9,6 +9,7 @@ import * as styles from './dropzone.styles'
 import { Typography, FormHelperText, Chip, Stack, IconButton } from '@mui/material'
 import { Close, Upload, WarningRounded } from '@mui/icons-material'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 /**
  *
@@ -53,14 +54,14 @@ const DropZone = ({ onChange, acceptValue = {}, label, error, helperText, dropzo
 		onChange(filtered)
 	}
 	return (
-		<Box component='section' className='container' sx={{ width: '100%' }}>
-			{label && <FormHelperText>{label}</FormHelperText>}
+		<Box component='section' className='container' sx={{ width: '50%' }}>
+			{/* {label && <FormHelperText>{label}</FormHelperText>} */}
 			<div {...getRootProps({ style })}>
 				<input {...getInputProps()} />
 				<Typography variant='subtitle2'>
-					<Stack direction={'row'} alignItems={'center'} spacing={0.5}>
-						<Upload fontSize='small' />
-						<Box>{dropzoneLabel}</Box>
+					<Stack direction={'column'} alignItems={'center'} spacing={0.5} >
+						<UploadFileIcon fontSize='small' />
+						<Box>{dropzoneLabel ? dropzoneLabel :"Seleccione o arrastre el catálogo de productos"}</Box>
 					</Stack>
 				</Typography>
 			</div>
