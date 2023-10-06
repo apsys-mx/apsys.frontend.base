@@ -1,15 +1,16 @@
 import React, { useMemo, useState, useEffect } from 'react'
+
 import propTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { v4 as uuidv4 } from 'uuid'
+import { useDropzone } from 'react-dropzone'
 
 import { Box } from '@mui/system'
-import { useDropzone } from 'react-dropzone'
-import * as styles from './dropzone.styles'
-import { Typography, FormHelperText, Chip, Stack, IconButton } from '@mui/material'
-import { Close, Upload, WarningRounded } from '@mui/icons-material'
+import { Typography, FormHelperText, Stack, IconButton } from '@mui/material'
+import { Close } from '@mui/icons-material'
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
+
+import * as styles from './dropzone.styles'
 
 /**
  * Dropzone component
@@ -65,7 +66,7 @@ const DropZone = ({onChange, acceptValue = {}, error, action, label, icon }) => 
 			</div>}
 
             { files.length >= 1 &&
-             <Box sx={styles.dropzoneUploaded}>
+            <Box sx={styles.dropzoneUploaded}>
                 <Typography variant='subtitle2'>
                     Archivo cargado:
                 </Typography>
