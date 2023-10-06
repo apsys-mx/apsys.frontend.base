@@ -208,8 +208,8 @@ const DagridTableHead = ({
 				}}
 			>
 				<Typography
-					variant='h7'
-					color={defaultTheme.palette.primary.dark}
+					variant='subtitle2'
+					color={defaultTheme.palette.text.primary}
 					noWrap={noWrap}
 					sx={{ display: 'flex' }}
 				>
@@ -256,7 +256,7 @@ DagridTableHead.defaultProps = {
 /**
  * Datagrid table cell
  */
-const DatagridTableCell = ({ config, item, property, noWrap, isFetching, hasFilter }) => {
+const DatagridTableCell = ({ config, item, property, noWrap, isFetching, hasFilter, isCheck }) => {
 	var localDataType = config.dataType || 'string'
 	const onRenderItem = config.onRenderItem
 	const stick = config.stick
@@ -299,6 +299,17 @@ const DatagridTableCell = ({ config, item, property, noWrap, isFetching, hasFilt
 				<Typography variant='body2' noWrap={noWrap}>
 					{getFormatedValue(value)}
 				</Typography>{' '}
+			</TableCell>
+		)
+	}
+	if (property == 'check') {
+		return (
+			<TableCell key={uuidv4()}>
+				<CheckTable
+					isCheck={isCheck}
+					// checkValueName={}
+					isIndeterminate={false}
+				/>
 			</TableCell>
 		)
 	}

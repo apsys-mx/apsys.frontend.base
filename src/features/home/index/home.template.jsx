@@ -64,14 +64,14 @@ const HomeTemplate = ({
 				onPageChange={onChangePage}
 				onRowsPerPageChange={handleChangeRowsPerPage}
 			/> */}
-			<DialogComponet
+			{/* <DialogComponet
 				open={true}
 				secondaryAction='Cancelar'
 				primaryAction='Aceptar'
 				title='Title modal'
 				content='Content Modal Content ModalContent ModalContent ModalContent Modal'
 				subcontent='SubContent SubContent SubContent SubContent SubContent'
-			/>
+			/> */}
 		</Box>
 	)
 }

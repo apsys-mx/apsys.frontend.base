@@ -1,5 +1,8 @@
 export const defaultTableConfigurationTimeSheets = [
 	{
+		dataSource: 'check',
+	},
+	{
 		title: 'Codigo del proyecto',
 		sortable: true,
 		dataSource: 'projectCode',
