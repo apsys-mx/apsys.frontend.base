@@ -30,13 +30,13 @@ const HomeTemplate = ({
 				tableConfig={defaultTableConfigurationTimeSheets}
 				{...response}
 				onchangeSorting={onchangeSorting}
-				sortBy={''
-					// sorting.sortBy && sorting.sortBy.length > 0 ? sorting.sortBy : 'projectName'
+				sortBy={
+					sorting.sortBy && sorting.sortBy.length > 0 ? sorting.sortBy : 'projectName'
 				}
-				sortDirection={'desc'
-					// sorting.sortDirection && sorting.sortDirection.length > 0
-					// 	? sorting.sortDirection
-					// 	: 'desc'
+				sortDirection={
+					sorting.sortDirection && sorting.sortDirection.length > 0
+						? sorting.sortDirection
+						: 'desc'
 				}
 			/>
 			{/* <Pagination
@@ -44,7 +44,14 @@ const HomeTemplate = ({
 				onPageChange={onChangePage}
 				onRowsPerPageChange={handleChangeRowsPerPage}
 			/> */}
-			<DialogComponet open={true} secondaryAction='Cancelar' primaryAction='Aceptar' title='Title modal' content='Content Modal Content ModalContent ModalContent ModalContent Modal' subcontent= 'SubContent SubContent SubContent SubContent SubContent' />
+			<DialogComponet
+				open={true}
+				secondaryAction='Cancelar'
+				primaryAction='Aceptar'
+				title='Title modal'
+				content='Content Modal Content ModalContent ModalContent ModalContent Modal'
+				subcontent='SubContent SubContent SubContent SubContent SubContent'
+			/>
 		</Box>
 	)
 }
