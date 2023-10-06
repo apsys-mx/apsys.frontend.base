@@ -38,7 +38,7 @@ const Home = () => {
 		},
 		filters: viewFilter || '',
 	})
-	console.log('viewFilter', viewFilter)
+	// console.log('viewFilter', viewFilter)
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	//:::::::::::::::::(Pagination)::::::::::::::::::::::://
 	const handleChangePage = (pageNumber) => {
