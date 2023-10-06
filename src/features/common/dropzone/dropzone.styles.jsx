@@ -10,10 +10,10 @@ export const baseStyle = {
 	borderWidth: 1,
 	borderRadius: '8px',
 	// borderColor: '#eeeeee',
-	borderColor: theme.palette.primary.main,
+	borderColor: theme.palette.text.main,
 	borderStyle: 'dashed',
-	// color: '#bdbdbd',
-	color: theme.palette.primary.main,
+	// // color: '#bdbdbd',
+	color: theme.palette.text.dark,
 	outline: 'none',
 	transition: 'border .24s ease-in-out',
 	backgroundColor: theme.palette.background.light,
@@ -60,4 +60,9 @@ export const fileItem = {
 export const closeButton = {
 	color: theme.palette.background.paper,
 	transform: 'scale(.7)',
+}
+export const icon ={
+	fontSize :'50px',
+	marginBottom: '5px',
+	color: theme.palette.text.main,
 }

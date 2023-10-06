@@ -14,7 +14,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 /**
  * Dropzone component
  */
-const DropZone = ({ onChange, acceptValue = {}, error, helperText, dropzoneLabel, icon }) => {
+const DropZone = ({ onChange, acceptValue = {}, error, action, label, icon }) => {
 	const [files, setFiles] = useState([])
 	const { t } = useTranslation()
 	const { getRootProps, getInputProps } = useDropzone({
@@ -50,17 +50,17 @@ const DropZone = ({ onChange, acceptValue = {}, error, helperText, dropzoneLabel
         if (lengthText >= characterLimit) {
             return text.substring(0, characterLimit) + '...'
         }
-
 	return text
-}
+    }
+
 	return (
 		<Box component='section' className='container' sx={{ width: '50%' }}>
 			<div {...getRootProps({ style })}>
 				<input {...getInputProps()} />
 				<Typography variant='subtitle2'>
 					<Stack direction={'column'} alignItems={'center'} spacing={0.5} >
-                    {icon ? icon : <UploadFileIcon fontSize='small' />}
-						<Box>{dropzoneLabel ? dropzoneLabel :"Seleccione o arrastre el catálogo de productos"}</Box>
+                    {icon ? icon : <UploadFileIcon sx={styles.icon}   />}
+						<Box>{label ? label :"Seleccione o arrastre el catálogo de productos"}</Box>
 					</Stack>
 				</Typography>
 			</div>
@@ -85,7 +85,11 @@ const DropZone = ({ onChange, acceptValue = {}, error, helperText, dropzoneLabel
 					})}
 				</Stack>
 			</Box>
-			{helperText && <FormHelperText error={true}>{helperText}</FormHelperText>}
+			
+            <Stack alignItems={'center'} spacing={0.5} >
+                {action && <FormHelperText >{action}</FormHelperText>}
+            </Stack>
+
 		</Box>
 	)
 }
