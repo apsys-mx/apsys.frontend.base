@@ -26,6 +26,16 @@ export const filesContainer = {
 	marginTop: '5px',
 	overflowY: 'scroll',
 	maxHeight: '150px',
+	'::-webkit-scrollbar': {
+		width: '8px',
+	  },
+	  '::-webkit-scrollbar-track': {
+		background: 'transparent'
+	  },
+	  '::-webkit-scrollbar-thumb': {
+		'background-color': theme.palette.text.secondary,
+		'border-radius': '20px',
+	  }
 }
 export const errorIcon = {
 	color: theme.palette.error.light,
