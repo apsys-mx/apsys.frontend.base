@@ -1,9 +1,10 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import propTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useDropzone } from 'react-dropzone'
 
+// Mui material imports
 import { Box } from '@mui/system'
 import { Typography, FormHelperText, Stack, IconButton } from '@mui/material'
 import { Close } from '@mui/icons-material'
@@ -15,11 +16,27 @@ import * as styles from './dropzone.styles'
 /**
  * Dropzone component
  */
-const DropZone = ({onChange, acceptValue = {}, error, action, label, icon }) => {
+const DropZone = (props) => {
+    const {
+        //Function type props
+        onChange,
+        //Object type props
+        acceptFiles = {},
+        //Bool type props
+        isMultipleFiles,
+        canUploadFiles,
+        canBeDelete,
+        isUploadFiles,
+        isDeletingFiles,
+        error,
+        // String types props
+        action,
+        title} = props;
+
 	const [files, setFiles] = useState([])
 	const { t } = useTranslation()
 	const { getRootProps, getInputProps } = useDropzone({
-		accept: acceptValue,
+		accept: acceptFiles,
 		onDrop: (acceptedFiles) => {
 			setFiles(acceptedFiles)
 			onChange(acceptedFiles)
@@ -59,8 +76,8 @@ const DropZone = ({onChange, acceptValue = {}, error, action, label, icon }) => 
 				<input {...getInputProps()} />
 				<Typography variant='subtitle2'>
 					<Stack direction={'column'} alignItems={'center'} spacing={0.5} >
-                    {icon ? icon : <UploadFileIcon sx={styles.icon}/>}
-						<Box>{label ? label :"Seleccione o arrastre el catálogo de productos"}</Box>
+                    <UploadFileIcon sx={styles.icon}/>
+						<Box>{title ? title :"Seleccione o arrastre el catálogo de productos"}</Box>
 					</Stack>
 				</Typography>
 			</div>}
@@ -100,12 +117,19 @@ const DropZone = ({onChange, acceptValue = {}, error, action, label, icon }) => 
 	)
 }
 DropZone.propTypes = {
-	error: propTypes.bool,
 	errorList: propTypes.array,
-	onChange: propTypes.func.isRequired,
+    title: propTypes.string,
+    onChange: propTypes.func.isRequired,
+	error: propTypes.bool,
+    canUploadFiles: propTypes.bool,
+    canBeDelete: propTypes.bool,
+    isUploadFiles: propTypes.bool,
+    isDeletingFiles: propTypes.bool,
+    isMultipleFiles: propTypes.bool.isRequired
 }
 DropZone.defaultProps = {
 	error: false,
+    isMultipleFiles: true,
 	errorList: [],
 	onChange: () => {
 		console.warn('onImagesChange callback not defined')
