@@ -1,63 +1,47 @@
-import Theme from '../../assets/themes/default.theme'
-export const carIcon = {
-	color: Theme.palette.primary.main,
+export const root = {
+	display: 'flex',
+	flexDirection: 'column',
+	padding: '1rem',
+	justifyContent: 'flex-end',
 }
-export const circularProgress = {
-	m: 2,
+export const dialogTitle = {
+	display: 'flex',
+	justifyContent: 'flex-start',
+	alignItems: 'center',
+	flex: '1 0 0',
 }
-export const dialogContent = (isMobile) => {
-	if (isMobile) {
-		return {
-			width: '318px',
-		}
-	}
-	return {
-		width: '600px',
-	}
+export const dialogIcon = {
+	color: theme.palette.secondary.main,
 }
-export const headerDialog = {
-	color: Theme.palette.primary.dark,
+export const closeIcon = {
+	md: '23px',
 }
-export const titleDialogText = {}
-export const message = {
-	marginBottom: '20px',
-	color: Theme.palette.primary.dark,
+export const titles = {
+	display: 'flex',
+	flexDirection: 'column',
+	width: '491px',
+	justifyContent: 'center',
+	alignItems: 'flex-start',
 }
-export const primaryButton = {
-	width: '100%',
-	boxShadow: 'none',
+export const dialogTitleText = {
+	color: theme.palette.text.dark,
+	marginLeft: '0.5rem',
+}
+export const dialogSubTitleText = {
+	color: theme.palette.text.dark,
+	marginLeft: '0.5rem',
+}
+export const content = {
+	color: theme.palette.text.dark,
+}
+
+export const acceptButton = {
 	textTransform: 'initial',
-	borderRadius: '8px',
-	fontSize: '12px',
-	color: Theme.palette.background.paper,
-	backgroundColor: Theme.palette.primary.main,
-	'&:hover': {
-		color: Theme.palette.primary.main,
-		border: '2px solid',
-		borderColor: Theme.palette.primary.main,
-	},
-	height: '35px',
-	padding: '18px',
-	'&.Mui-disabled': {
-		backgroundColor: Theme.palette.grey[75],
-	},
+	backgroundColor: theme.palette.primary.main,
+	borderRadius: '6px',
+	color: theme.palette.text.light,
 }
-export const secondButton = {
-	width: '100%',
-	boxShadow: 'none',
+
+export const cancelButton = {
 	textTransform: 'initial',
-	borderRadius: '8px',
-	fontSize: '12px',
-	color: Theme.palette.background.paper,
-	backgroundColor: Theme.palette.primary.light,
-	'&:hover': {
-		color: Theme.palette.primary.light,
-		border: '2px solid',
-		borderColor: Theme.palette.primary.light,
-	},
-	height: '35px',
-	padding: '18px',
-	'&.Mui-disabled': {
-		backgroundColor: Theme.palette.grey[75],
-	},
 }
