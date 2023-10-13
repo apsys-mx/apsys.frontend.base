@@ -25,7 +25,7 @@ export const rejectStyle = {
 export const filesContainer = {
 	marginTop: '5px',
 	overflowY: 'scroll',
-	maxHeight: '80px',
+	maxHeight: '150px',
 }
 export const errorIcon = {
 	color: theme.palette.error.light,
@@ -61,6 +61,9 @@ export const closeButton = {
 	color: theme.palette.background.paper,
 	transform: 'scale(.7)',
 }
+export const boxCloseButton = {
+	position:'fixed',
+}
 export const icon ={
 	fontSize :'60px',
 	marginBottom: '9px',
@@ -69,11 +72,13 @@ export const icon ={
 
 export const helperText ={
 	color: theme.palette.primary.main,
+	paddingBottom: '1rem',
 }
 export const dropzoneUploaded = {
 	backgroundColor: theme.palette.background.main,
-	width: '93%',
-	height: '70px',
+	width: '90%',
+	minHeight: '70px',
+	maxHeight: '200px',
 	display: 'flex',
 	flexDirection: 'row',
 	justifyContent: 'space-between',

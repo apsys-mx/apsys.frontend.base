@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
 
 import propTypes from 'prop-types'
-import { useTranslation } from 'react-i18next'
 import { useDropzone } from 'react-dropzone'
 
 // Mui material imports
@@ -20,8 +19,9 @@ const DropZone = (props) => {
     const {
         //Function type props
         onChange,
+        onDelete,
         //Object type props
-        acceptFiles = {},
+        acceptFiles = [],
         //Bool type props
         isMultipleFiles,
         canUploadFiles,
@@ -31,14 +31,20 @@ const DropZone = (props) => {
         error,
         // String types props
         action,
-        title} = props;
+        title
+    } = props;
 
 	const [files, setFiles] = useState([])
-	const { t } = useTranslation()
 	const { getRootProps, getInputProps } = useDropzone({
 		accept: acceptFiles,
 		onDrop: (acceptedFiles) => {
-			setFiles(acceptedFiles)
+            if(isMultipleFiles){
+                setFiles(acceptedFiles)
+            }else {
+                const fileslength = acceptedFiles.length
+                acceptedFiles = [acceptedFiles[fileslength - 1]]
+                setFiles(acceptedFiles)
+            }
 			onChange(acceptedFiles)
 		},
 	})
@@ -55,6 +61,7 @@ const DropZone = (props) => {
 		var filtered = files.filter((x) => x.name !== file.name)
 		setFiles(filtered)
 		onChange(filtered)
+        onDelete(filtered)
 	}
 
     /**
@@ -72,68 +79,82 @@ const DropZone = (props) => {
     }
 	return (
 		<Box component='section' className='container' sx={{ width: '450px', height:'100px' }}>
-			{files.length == 0 &&<div {...getRootProps({ style })}>
+                <div {...getRootProps({ style })}> 
 				<input {...getInputProps()} />
 				<Typography variant='subtitle2'>
 					<Stack direction={'column'} alignItems={'center'} spacing={0.5} >
                     <UploadFileIcon sx={styles.icon}/>
-						<Box>{title ? title :"Seleccione o arrastre el catálogo de productos"}</Box>
+						<Box>{title}</Box>
 					</Stack>
 				</Typography>
-			</div>}
-
-            { files.length >= 1 &&
-            <Box sx={styles.dropzoneUploaded}>
-                <Typography variant='subtitle2'>
-                    Archivo cargado:
-                </Typography>
-                <Box sx={ styles.filesContainer} >
-                    <Stack spacing={1}>
-                        {files.map((file) => {
-                            return (
-                                <Box sx={styles.fileItem}>
-                                    <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                                        <FilePresentIcon fontSize='small' />
-                                        <Typography variant='body2'>
-                                            {CharacterLimitTextConverter(file.name, 47)}
-                                        </Typography>
-                                    </Stack>
-                                    <Box>
-                                        <IconButton size='small' sx={styles.closeButton}>
-                                            <Close onClick={() => onDeleteFile(file)} />
-                                        </IconButton>
-                                    </Box>
-                                </Box>
-                            )
-                        })}
-                    </Stack>
-                </Box>
-            </Box>}
-
+			</div>
             <Stack alignItems={'center'} sx={styles.helperText}>
                     {action && files.length == 0 && <FormHelperText >{action}</FormHelperText>}
             </Stack>
+            {
+                files.length >= 1 && (
+                <Box sx={styles.dropzoneUploaded} disabled={isUploadFiles || !canUploadFiles}>
+                    <Typography variant='subtitle2'>
+                        Archivo cargado:
+                    </Typography>
+                    <Box sx={ styles.filesContainer} >
+                        <Stack spacing={1}>
+                            {files.map((file) => {
+                                return (
+                                    <Box sx={styles.fileItem}>
+                                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                                            <FilePresentIcon fontSize='small' />
+                                            <Typography variant='body2' maxWidth="10px">
+                                                {CharacterLimitTextConverter(file.name, 28)}
+                                            </Typography>
+                                        </Stack>
+                                        <IconButton size='small' sx={styles.closeButton} disabled={isDeletingFiles || !canBeDelete}>
+                                            <Close onClick={() => onDeleteFile(file)} />
+                                        </IconButton>
+                                    </Box>
+                                )
+                            })}
+                        </Stack>
+                    </Box>
+                </Box>
+                )
+            }
+            
+
 		</Box>
 	)
 }
 DropZone.propTypes = {
 	errorList: propTypes.array,
     title: propTypes.string,
+
     onChange: propTypes.func.isRequired,
+    onDelete: propTypes.func.isRequired,
+
 	error: propTypes.bool,
     canUploadFiles: propTypes.bool,
     canBeDelete: propTypes.bool,
-    isUploadFiles: propTypes.bool,
     isDeletingFiles: propTypes.bool,
+    isUploadFiles: propTypes.bool,
     isMultipleFiles: propTypes.bool.isRequired
 }
 DropZone.defaultProps = {
-	error: false,
-    isMultipleFiles: true,
-	errorList: [],
+    errorList: [],
+    title: "Seleccione o arrastre archivo",
+    
 	onChange: () => {
-		console.warn('onImagesChange callback not defined')
+        console.warn('onChange callback not defined')
 	},
+    onDelete: () => {
+        console.warn('onDelete callback not defined')
+	},
+
+    error: false,
+    canUploadFiles: true,
+    canBeDelete: true,
+    isDeletingFiles: false,
+    isUploadFiles: false,
+    isMultipleFiles: true,
 }
 
 export default DropZone
