@@ -10,7 +10,7 @@ export default {
 		disabled: true,
 		title: 'Titulo',
 		subtitle: 'Subtitle',
-		icon: <ErrorIcon sx={{ color: 'secondary.main' }} />,
+		icon: <ErrorIcon sx={{ color: 'primary.main' }} />,
 		primaryActionTitle: 'Guardar',
 		secondaryActionTitle: 'Cancelar',
 		children: (
