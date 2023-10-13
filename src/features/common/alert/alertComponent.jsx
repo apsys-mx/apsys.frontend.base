@@ -15,7 +15,6 @@ const AlertComponent = (props) => {
         autoHideDuration
     } = props
 
-    // const [open, setOpen] = React.useState(false);
     const [state, setState] = React.useState({
         open: true,
         vertical: 'top',
@@ -40,7 +39,7 @@ const AlertComponent = (props) => {
             {/* <Button variant="outlined" onClick={handleClick({ vertical: 'top', horizontal: 'right' })}>
                 Open alert
             </Button> */}
-            <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={handleClose}  anchorOrigin={{ vertical, horizontal }}sx={{ width: '25%'}} >
+            <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={handleClose}  anchorOrigin={{ vertical, horizontal }} sx={{ width: '25%'}} >
             <Stack sx={{ width: '100%' }} spacing={2}>
                 <Alert severity={severityType}  onClose={handleClose} sx={{ width: '100%'}}>
                     {title && ( <AlertTitle>{title}</AlertTitle>)}

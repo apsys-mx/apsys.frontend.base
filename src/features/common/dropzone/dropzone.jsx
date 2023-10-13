@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone'
 
 // Mui material imports
 import { Box } from '@mui/system'
-import { Typography, FormHelperText, Stack, IconButton, Hidden } from '@mui/material'
+import { Typography, FormHelperText, Stack, IconButton } from '@mui/material'
 import { Close } from '@mui/icons-material'
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
@@ -80,6 +80,8 @@ const DropZone = (props) => {
     }
 	return (
 		<Box component='section' className='container' sx={{ width: '450px', height:'100px' }}>
+            {
+                files.length !== 1 && (
                 <div {...getRootProps({ style })}> 
 				<input {...getInputProps()} />
 				<Typography variant='subtitle2'>
@@ -88,7 +90,7 @@ const DropZone = (props) => {
 						<Box>{title}</Box>
 					</Stack>
 				</Typography>
-			</div>
+			</div> )}
             <Stack alignItems={'center'} sx={styles.helperText}>
                     {action && files.length == 0 && <FormHelperText >{action}</FormHelperText>}
             </Stack>
@@ -127,16 +129,16 @@ const DropZone = (props) => {
 }
 DropZone.propTypes = {
 	errorList: propTypes.array,
-    title: propTypes.string,
+    title: propTypes.string.isRequired,
 
     onChange: propTypes.func.isRequired,
     onDelete: propTypes.func.isRequired,
 
 	error: propTypes.bool,
-    canUploadFiles: propTypes.bool,
     canBeDelete: propTypes.bool,
     isDeletingFiles: propTypes.bool,
     isUploadFiles: propTypes.bool,
+    canUploadFiles: propTypes.bool.isRequired,
     isMultipleFiles: propTypes.bool.isRequired
 }
 DropZone.defaultProps = {

@@ -6,7 +6,7 @@ export default {
     args: {  
         title: "Alert Title",
         description: "This is an Alert",
-        severityType: "success",
+        severityType: "warning",
     }
 }
 
