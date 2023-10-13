@@ -3,29 +3,28 @@ import theme from '../../../assets/themes/default.theme'
 export const root = {
 	display: 'flex',
 	flexDirection: 'column',
-	gap: '32px',
+	padding: '16px',
 	justifyContent: 'flex-end',
 }
 export const dialogTitle = {
 	display: 'flex',
 	justifyContent: 'flex-start',
 	alignItems: 'center',
-	gap: '16x',
-	flex:'1 0 0',
+	flex: '1 0 0',
 }
 export const dialogIcon = {
 	color: theme.palette.secondary.main,
 }
-export const closeIcon ={
+export const closeIcon = {
 	md: '23px',
 }
 
 export const titles = {
 	display: 'flex',
-	flexDirection:'column',
-	width:'491px',
-	justifyContent:'center',
-	alignItems:'flex-start'
+	flexDirection: 'column',
+	width: '491px',
+	justifyContent: 'center',
+	alignItems: 'flex-start',
 }
 export const dialogTitleText = {
 	color: 'var(--Text-Dark, #2C2C2C)',
@@ -43,7 +42,7 @@ export const acceptButton = {
 	textTransform: 'initial',
 	backgroundColor: 'var(--Red-PTM, #C0003B)',
 	borderRadius: '8px',
-	color:'var(--m-3-sys-light-on-primary, #FFF)',
+	color: 'var(--m-3-sys-light-on-primary, #FFF)',
 }
 export const denyButton = {
 	textTransform: 'none',
@@ -52,5 +51,4 @@ export const denyButton = {
 }
 export const cancelButton = {
 	textTransform: 'initial',
-	
 }
