@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone'
 
 // Mui material imports
 import { Box } from '@mui/system'
-import { Typography, FormHelperText, Stack, IconButton } from '@mui/material'
+import { Typography, FormHelperText, Stack, IconButton, Hidden } from '@mui/material'
 import { Close } from '@mui/icons-material'
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
@@ -71,9 +71,10 @@ const DropZone = (props) => {
      * @returns text whit character limit
      */
     const CharacterLimitTextConverter = (text, characterLimit) => {
-        var lengthText = text?.length
+        const replaceText = text.replace(" ","_")
+        var lengthText = replaceText?.length
         if (lengthText >= characterLimit) {
-            return text.substring(0, characterLimit) + '...'
+            return replaceText.substring(0, characterLimit) + '...'
         }
 	return text
     }
@@ -104,8 +105,8 @@ const DropZone = (props) => {
                                     <Box sx={styles.fileItem}>
                                         <Stack direction={'row'} alignItems={'center'} spacing={1}>
                                             <FilePresentIcon fontSize='small' />
-                                            <Typography variant='body2' maxWidth="10px">
-                                                {CharacterLimitTextConverter(file.name, 28)}
+                                            <Typography variant='body2' maxWidth="400px" overflow ={'hidden'}>
+                                                {CharacterLimitTextConverter(file.name, 22)}
                                             </Typography>
                                         </Stack>
                                         <IconButton size='small' sx={styles.closeButton} disabled={isDeletingFiles || !canBeDelete}>
