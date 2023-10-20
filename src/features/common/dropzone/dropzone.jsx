@@ -6,33 +6,30 @@ import { useDropzone } from 'react-dropzone'
 // Mui material imports
 import { Box } from '@mui/system'
 import { Typography, FormHelperText, Stack, IconButton } from '@mui/material'
-import { Close } from '@mui/icons-material'
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import FilePresentIcon from '@mui/icons-material/FilePresent';
+import { Close, UploadFile, FilePresent } from '@mui/icons-material'
 
+// Styles import
 import * as styles from './dropzone.styles'
 
 /**
  * Dropzone component
  */
 const DropZone = (props) => {
+    //Function type props
+    const { onChange, onDelete } = props
+    //Object type props
+    const { acceptFiles = [] } = props
+    //Bool type props
     const {
-        //Function type props
-        onChange,
-        onDelete,
-        //Object type props
-        acceptFiles = [],
-        //Bool type props
         isMultipleFiles,
         canUploadFiles,
         canBeDelete,
         isUploadFiles,
         isDeletingFiles,
-        error,
-        // String types props
-        action,
-        title
-    } = props;
+        error
+    } = props
+    //String types props
+    const { action, title } = props
 
 	const [files, setFiles] = useState([])
 	const { getRootProps, getInputProps } = useDropzone({
@@ -56,7 +53,6 @@ const DropZone = (props) => {
 		}),
 		[error]
 	)
-
 	const onDeleteFile = (file) => {
 		var filtered = files.filter((x) => x.name !== file.name)
 		setFiles(filtered)
@@ -79,51 +75,57 @@ const DropZone = (props) => {
 	return text
     }
 	return (
-		<Box component='section' className='container' sx={{ width: '450px', height:'100px' }}>
+		<Box component='section' className='container' sx={styles.dopzoneContainer}>
             {
                 files.length !== 1 && (
                 <div {...getRootProps({ style })}> 
-				<input {...getInputProps()} />
-				<Typography variant='subtitle2'>
-					<Stack direction={'column'} alignItems={'center'} spacing={0.5} >
-                    <UploadFileIcon sx={styles.icon}/>
-						<Box>{title}</Box>
-					</Stack>
-				</Typography>
-			</div> )}
+                    <input {...getInputProps()} />
+                    <Typography variant='subtitle2'>
+                        <Stack direction={'column'} alignItems={'center'} spacing={0.5} >
+                        <UploadFile sx={styles.icon}/>
+                            <Box>{title}</Box>
+                        </Stack>
+                    </Typography>
+                </div> )
+            }
             <Stack alignItems={'center'} sx={styles.helperText}>
                     {action && files.length == 0 && <FormHelperText >{action}</FormHelperText>}
             </Stack>
             {
                 files.length >= 1 && (
-                <Box sx={styles.dropzoneUploaded} disabled={isUploadFiles || !canUploadFiles}>
-                    <Typography variant='subtitle2'>
-                        Archivo cargado:
-                    </Typography>
-                    <Box sx={ styles.filesContainer} >
-                        <Stack spacing={1}>
-                            {files.map((file) => {
-                                return (
-                                    <Box sx={styles.fileItem}>
-                                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                                            <FilePresentIcon fontSize='small' />
-                                            <Typography variant='body2' maxWidth="400px" overflow ={'hidden'}>
-                                                {CharacterLimitTextConverter(file.name, 22)}
-                                            </Typography>
-                                        </Stack>
-                                        <IconButton size='small' sx={styles.closeButton} disabled={isDeletingFiles || !canBeDelete}>
-                                            <Close onClick={() => onDeleteFile(file)} />
-                                        </IconButton>
-                                    </Box>
-                                )
-                            })}
-                        </Stack>
-                    </Box>
-                </Box>
+                    <> 
+                        <Typography variant='subtitle2'>
+                            {files.length == 1 ? "Archivo cargado:" : 
+                            files.length > 1 ? "Archivos cargados:" : ""}
+                        </Typography>
+                        <Box sx={styles.dropzoneUploaded} disabled={isUploadFiles || !canUploadFiles}>
+                            <Box sx={ styles.filesContainer} >
+                                <Stack spacing={1}>
+                                    {files.map((file) => {
+                                        return (
+                                            <Box sx={styles.fileItem}>
+                                                <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                                                    <FilePresent fontSize='small' />
+                                                    <Typography variant='body2' sx={styles.fileChipText}>
+                                                        {CharacterLimitTextConverter(file.name, 35)}
+                                                    </Typography>
+                                                </Stack>
+                                                {
+                                                    canBeDelete && (
+                                                        <IconButton size='small' sx={styles.closeButton} disabled={isDeletingFiles}>
+                                                            <Close onClick={() => onDeleteFile(file)} />
+                                                        </IconButton>
+                                                    )
+                                                }
+                                            </Box>
+                                        )
+                                    })}
+                                </Stack>
+                            </Box>
+                        </Box>
+                    </>
                 )
             }
-            
-
 		</Box>
 	)
 }

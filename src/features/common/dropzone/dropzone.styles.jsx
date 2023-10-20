@@ -22,20 +22,31 @@ export const rejectStyle = {
 	borderColor: theme.palette.error.light,
 }
 
+export const dopzoneContainer ={
+	width: '450px',
+	height:'100px' 
+}
+
 export const filesContainer = {
 	marginTop: '5px',
 	overflowY: 'scroll',
+	overflowX:'hidden',
 	maxHeight: '150px',
 	'::-webkit-scrollbar': {
 		width: '8px',
-	  },
-	  '::-webkit-scrollbar-track': {
-		background: 'transparent'
-	  },
-	  '::-webkit-scrollbar-thumb': {
-		'background-color': theme.palette.text.secondary,
-		'border-radius': '20px',
-	  }
+	},
+	'::-webkit-scrollbar-track': {
+	background: 'transparent'
+	},
+	'::-webkit-scrollbar-thumb': {
+	'background-color': theme.palette.text.secondary,
+	'border-radius': '20px',
+	}
+}
+
+export const fileChipText ={
+	maxWidth: '350px',
+	overflow :'hidden'
 }
 export const errorIcon = {
 	color: theme.palette.error.light,
@@ -46,10 +57,6 @@ export const errorUploadFile = {
 	color: 'white',
 	borderRadius: '8px',
 	padding: '1px 15px',
-}
-export const justifyChip = {
-	justifyContent: 'space-between',
-	width: '100%',
 }
 
 export const fileItem = {
@@ -62,9 +69,9 @@ export const fileItem = {
 	justifyContent: 'space-between',
 	p: 1,
 	flexDirection: 'row',
-	marginTop: 2,
+	marginTop: 1,
 	marginBottom: 1,
-	width: '256px',
+	width: '370px',
 }
 
 export const closeButton = {
@@ -90,8 +97,7 @@ export const dropzoneUploaded = {
 	minHeight: '70px',
 	maxHeight: '200px',
 	display: 'flex',
-	flexDirection: 'row',
-	justifyContent: 'space-between',
+	justifyContent: 'center',
 	alignItems: 'center',
 	padding: '16px',
 	borderWidth: 1,
