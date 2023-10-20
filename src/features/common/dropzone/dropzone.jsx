@@ -9,7 +9,7 @@ import { Typography, FormHelperText, Stack, IconButton } from '@mui/material'
 import { Close, UploadFile, FilePresent } from '@mui/icons-material'
 
 // Styles import
-import * as styles from './dropzone.styles'
+import * as styles from './Dropzone.styles'
 
 /**
  * Dropzone component
