@@ -1,4 +1,4 @@
-import DropZone from "./dropzone";
+import DropZone from "./Dropzone";
 
 export default {
     title: "Dropzone",
