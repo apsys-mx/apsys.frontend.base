@@ -1,66 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types'
 
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Stack from '@mui/material/Stack';
-import Snackbar from '@mui/material/Snackbar';
-import Button from '@mui/material/Button';
+// Mui material imports
+import { Alert, AlertTitle, Stack, Snackbar } from '@mui/material'
+
+// Styles import
+import * as styles from './AlertComponent.styles' 
 
 const AlertComponent = (props) => {
-    const {
-        title,
-        description,
-        severityType,
-        autoHideDuration
-    } = props
+    // String type props
+    const { title, description, severityType } = props
+    // Number type props
+    const { autoHideDuration } = props
+    // Bool type props
+    const { open } = props
 
-    const [state, setState] = React.useState({
-        open: true,
-        vertical: 'top',
-        horizontal: 'right',
-      });
-      const { vertical, horizontal, open } = state;
+    const [openAlert, setOpenAlert] = useState(open)
+    
+    // Set alet position
+    const vertical = 'top'
+    const horizontal = 'right'
 
-    const handleClick = (newState)=>() => {
-        setState({ ...newState, open: true });
+    const handleClose = () => {
+        setOpenAlert(false)
     };
-  
-    const handleClose = (event, reason) => {
-        setState({ ...state, open: false });
-    };
-
-
-
-
 
     return (
         <div>
-            {/* <Button variant="outlined" onClick={handleClick({ vertical: 'top', horizontal: 'right' })}>
-                Open alert
-            </Button> */}
-            <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={handleClose}  anchorOrigin={{ vertical, horizontal }} sx={{ width: '25%'}} >
-            <Stack sx={{ width: '100%' }} spacing={2}>
-                <Alert severity={severityType}  onClose={handleClose} sx={{ width: '100%'}}>
-                    {title && ( <AlertTitle>{title}</AlertTitle>)}
-                    {description}
-                </Alert>
-            </Stack>
+            <Snackbar open={openAlert} autoHideDuration={autoHideDuration} onClose={handleClose}  anchorOrigin={{ vertical, horizontal }} sx={styles.alertWidth} >
+                <Stack sx={styles.fullWidth} spacing={2}>
+                    <Alert severity={severityType}  onClose={handleClose} sx={styles.fullWidth}>
+                        {title && ( <AlertTitle>{title}</AlertTitle>)}
+                        {description}
+                    </Alert>
+                </Stack>
             </Snackbar>
         </div>
     );
 }
 
 AlertComponent.propTypes={
+    open: propTypes.bool.isRequired,
+    
+    autoHideDuration: propTypes.number
+,
     title: propTypes.string,
     description: propTypes.string.isRequired,
-    severityType: propTypes.string.isRequired,
-    autoHideDuration: propTypes.number
+    severityType: propTypes.string.isRequired
 }
 
 AlertComponent.defaultProps ={
+    open: false,
+    autoHideDuration: null,
+    
     description: "Alert description",
     severityType: "info",
-    autoHideDuration: null
 }
 export default AlertComponent;

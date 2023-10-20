@@ -1,4 +1,4 @@
-import AlertComponent from "./alertComponent";
+import AlertComponent from "./AlertComponent";
 
 export default {
     title: "AlertComponent",
@@ -7,6 +7,7 @@ export default {
         title: "Alert Title",
         description: "This is an Alert",
         severityType: "warning",
+        open: false,
     }
 }
 
