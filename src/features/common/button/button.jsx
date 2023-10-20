@@ -6,6 +6,7 @@ import Button from '@mui/material/Button'
 
 // Styles import
 import * as styles from './buttonStyles'
+import { Add } from '@mui/icons-material'
 
 /**
  * Button
@@ -13,19 +14,23 @@ import * as styles from './buttonStyles'
  * @returns 
  */
 const StyledButton = (props) => {
+    // object type props
+    const { icon } = props
     // string type props
-    const { name } = props
+    const { name, variant } = props
     return (
-        <Button variant = 'contained'>{name}</Button>
+        <Button variant={variant === 'prymary' ? 'contained' : variant === 'secondary' ? 'outlined' : variant === 'tertiary' ? 'text' : 'contained'} endIcon={icon ? icon : <Add />}>{name}</Button>
     )
 }
 
 StyledButton.propTypes = {
-    name: propTypes.string.isRequired
+    name: propTypes.string.isRequired,
+    variant: propTypes.string
 }
 
 StyledButton.defaultProps = {
-    name: 'Insert name'
+    name: 'Insert name',
+    variant : 'primary'
 }
 
-export default Button
+export default StyledButton
