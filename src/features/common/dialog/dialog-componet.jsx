@@ -2,8 +2,8 @@ import React from 'react'
 import propTypes from 'prop-types'
 
 import { Box, Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material'
-import * as styles from './dialog-componet-styles'
 import { Close } from '@mui/icons-material'
+import * as styles from './dialog-componet-styles'
 
 const DialogComponet = (props) => {
 	//Function props
@@ -14,7 +14,7 @@ const DialogComponet = (props) => {
 	const { open, disabled } = props
 	//Content Props
 	const { children, contentTitle } = props
-	//icon
+	//Icon
 	const { icon } = props
 	return (
 		<Dialog
@@ -65,27 +65,24 @@ const DialogComponet = (props) => {
 	)
 }
 DialogComponet.propTypes = {
-	open: propTypes.bool,
+	open: propTypes.bool.isRequired,
 	close: propTypes.func.isRequired,
+	title: propTypes.string.isRequired,
 	primaryAction: propTypes.func.isRequired,
-	title: propTypes.string,
+	primaryActionTitle: propTypes.string.isRequired,
+	secondaryActionTitle: propTypes.string.isRequired,
 	subtitle: propTypes.string,
-	primaryActionTitle: propTypes.string,
-	secondaryActionTitle: propTypes.string,
 	contentTitle: propTypes.string,
 	isLoading: propTypes.bool,
 	disabled: propTypes.bool,
 }
 DialogComponet.defaultProps = {
 	title: '',
-	subtitle: '',
 	primaryActionTitle: '',
 	secondaryActionTitle: '',
-	contentTitle: '',
 	disabled: false,
-	open: () => {
-		console.warn('open callback not defined')
-	},
+	open: false,
+
 	close: () => {
 		console.warn('close callback not defined')
 	},

@@ -18,7 +18,7 @@ const defaultTheme = {
 		text: {
 			light: '#FCFCFC',
 			main: '#A1A19F',
-			dark: '#585656',
+			dark: '#000000',
 		},
 		background: {
 			light: '#FCFCFC',
