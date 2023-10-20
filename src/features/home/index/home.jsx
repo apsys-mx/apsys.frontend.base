@@ -9,6 +9,7 @@ import * as selectors from '../home.selectors'
 /** Import templates */
 import DesktopTemplate from './home.template'
 import ErrorViewQuery from '../../common/errorInfo/errorViewQuery'
+import StyledButton from '../../common/button/button'
 /**
  * Home component
  */
@@ -55,7 +56,8 @@ const Home = () => {
 	//:::::::::::::::::::::::::::::::::::::::::::::::::::://
 	if (isLoading) return <div>Loading...</div>
 	if (isError) {
-		return <ErrorViewQuery error={error} />
+		// return <ErrorViewQuery error={error} />
+		return (<><StyledButton name='primario' variant='primary'/><br/><StyledButton name='secondary' variant = 'secondary'/><br/><StyledButton name='terciario' variant='tertiary'/></>)
 	}
 	return (
 		<DesktopTemplate
