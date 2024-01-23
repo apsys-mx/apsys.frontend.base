@@ -9,8 +9,12 @@ import SearchIcon from '@mui/icons-material/Search'
 
 import * as styles from './search.styles'
 
-const SearchComponent = (props) => {
+/**
+ * SearchInput component
+ */
+const SearchInput = (props) => {
 	const [value, setValue] = useState(props.value || '')
+	const { placeholder} = props
 
 	/**
 	 * Update the value when the props value change
@@ -29,11 +33,11 @@ const SearchComponent = (props) => {
 	}
 
 	return (
-		<div sx={styles.root}>
+		<Box sx={styles.root}>
 			<Box component='form' sx={styles.inputHolder} onSubmit={onSubmit}>
 				<InputBase
 					sx={styles.input}
-					placeholder={'Buscar...'}
+					placeholder={placeholder}
 					inputProps={{ 'aria-label': 'search' }}
 					value={value}
 					onChange={(event) => setValue(event.target.value)}
@@ -42,25 +46,21 @@ const SearchComponent = (props) => {
 					<SearchIcon />
 				</IconButton>
 			</Box>
-		</div>
+		</Box>
 	)
 }
-SearchComponent.propTypes = {
+SearchInput.propTypes = {
 	/**
 	 * The placeholder shown in the search box
 	 */
 	placeholder: propTypes.string,
 	/**
-	 * Callback executed when the user press search
-	 */
-	onChange: propTypes.func.isRequired,
-	/**
 	 * Initial searchbox value
 	 */
 	value: propTypes.string,
 }
-SearchComponent.defaultProps = {
-	onChange: () => console.warn('No [onChangeValue] callback defined'),
+SearchInput.defaultProps = {
+	placeholder: 'Buscar...'
 }
 
-export default SearchComponent
+export default SearchInput
