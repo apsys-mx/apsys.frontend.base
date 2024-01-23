@@ -1,8 +1,8 @@
 variables:
-  octopusSpaceName: 'apsys-mx'
   octopusServer: 'https://apsys-fs-cloud.octopus.app'
-  octopusChannel: 'Beta'
+  octopusSpaceName: 'apsys-mx'
   octopusDevelopmentName: 'Development'
   octopusTestingName: 'Testing'
   packageName: 'apsys.frontend.base.turkey'
+  projectName: 'apsys.frontend.base.turkey'
 

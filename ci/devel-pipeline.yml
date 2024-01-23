@@ -11,6 +11,8 @@ variables:
       value: '-beta'
     - name: buildScript
       value: 'build'
+    - name: octopusChannel
+      value: 'Beta'
     - template: 'templates-sonar/sonar-config.yml'
     - template: 'templates-octopus/octopus-config.yml'
 
@@ -55,18 +57,10 @@ jobs:
       displayName: Deploy to environments
       steps:
           - checkout: none
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Create releases'
-            inputs:
-                script: '"ci/octo" create-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)"'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Deploy to $(octopus.developmentName)'
-            inputs:
-                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.developmentName)"  --waitForDeployment --progress'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Deploy to $(octopus.testingName)'
-            inputs:
-                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.testingName)"  --waitForDeployment --progress'
+          - template: 'templates-octopus/octopus-deploy.yml'
+            parameters:
+              server: ${{variables.octopusServer}}
+              space: ${{variables.octopusSpaceName}}
+              channel: $(octopusChannel)
+              project: ${{variables.projectName}}
+              version: $(Build.BuildNumber)$(packageSuffix)
