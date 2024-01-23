@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import {
 	TableContainer,
 	Table,
@@ -9,7 +9,6 @@ import {
 	TableSortLabel,
 	Typography,
 	Box,
-	IconButton,
 } from '@mui/material'
 import Skeleton from '@mui/material/Skeleton'
 
@@ -18,7 +17,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { tableConfigProps } from './config-prop-types'
 import moment from 'moment'
 import { currencyFormat, numberFormat } from './helpers/currency-helper'
-import FilterListIcon from '@mui/icons-material/FilterList'
 
 /** Datagrid component */
 const DataGrid = ({
@@ -155,7 +153,6 @@ const DagridTableHead = ({
 	sortCriteria,
 	sortDirection,
 	onchangeSorting,
-	filterType,
 }) => {
 	const criteria = sortCriteria || ''
 	const isSortable = sortable || false
@@ -165,27 +162,6 @@ const DagridTableHead = ({
 	const createSortHandler = (property) => () => {
 		const sortDirection = direction === 'asc' ? 'desc' : 'asc'
 		if (onchangeSorting) onchangeSorting(property, sortDirection)
-	}
-
-	const [filterSettings, setFilterSettings] = useState({
-		open: false,
-		handleClose: null,
-		anchorEl: null,
-	})
-	const openContextMenu = (event) => {
-		setFilterSettings((prevState) => ({
-			...prevState,
-			open: true,
-			handleClose: handleClose,
-			anchorEl: event.currentTarget,
-		}))
-	}
-	const handleClose = () => {
-		setFilterSettings((prevState) => ({
-			...prevState,
-			open: false,
-			anchorEl: null,
-		}))
 	}
 
 	return (
@@ -206,9 +182,14 @@ const DagridTableHead = ({
 						{title}
 					</Typography>
 				)}
-				<IconButton onClick={openContextMenu}>
-					{<FilterListIcon fontSize='small' />}
-				</IconButton>
+				
+				{
+				/* TODO: Implements filter button
+					<IconButton onClick={openContextMenu}>
+						{<FilterListIcon fontSize='small' />}
+					</IconButton> 
+				*/
+				}
 			</Box>
 		</TableCell>
 	)
@@ -244,11 +225,6 @@ DagridTableHead.propTypes = {
 	 * Callback executed when the sorting criteria button is pressed
 	 */
 	onchangeSorting: propTypes.func,
-
-	/**
-	 * Set the datatype of the property contained in the column
-	 */
-	filterType: propTypes.string,
 }
 
 /**
