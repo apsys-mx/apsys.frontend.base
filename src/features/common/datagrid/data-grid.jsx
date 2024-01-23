@@ -19,7 +19,6 @@ import { tableConfigProps } from './config-prop-types'
 import moment from 'moment'
 import { currencyFormat, numberFormat } from './filters/helper/currency-helper'
 import FilterListIcon from '@mui/icons-material/FilterList'
-import FilterMenu from './filters/menu-filter/filter-menu'
 
 /** Datagrid component */
 const DataGrid = ({
@@ -211,13 +210,6 @@ const DagridTableHead = ({
 					{<FilterListIcon fontSize='small' />}
 				</IconButton>
 			</Box>
-
-			<FilterMenu
-				filterTypeActive={filterType}
-				{...filterSettings}
-				title={title}
-				dataSource={dataSource}
-			/>
 		</TableCell>
 	)
 }
