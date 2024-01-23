@@ -1,4 +1,5 @@
 import React from 'react'
+import propTypes from 'prop-types'
 import { Button, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
@@ -23,5 +24,10 @@ const LandingTemplate = ({ languages, onLoginClick, onChangeLanguage }) => {
 			<Button onClick={onLoginClick}>{t('login', { ns: 'landing' })}</Button>
 		</div>
 	)
+}
+LandingTemplate.propTypes = {
+	languages: propTypes.array,
+	onLoginClick: propTypes.func,
+	onChangeLanguage: propTypes.func,
 }
 export default LandingTemplate
