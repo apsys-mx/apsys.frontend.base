@@ -1,0 +1,14 @@
+steps:
+  - task: SonarCloudAnalyze@1
+    enabled: false
+    inputs:
+        jdkversion: 'JAVA_HOME'
+  - task: SonarCloudPublish@1
+    enabled: false
+    inputs:
+        pollingTimeoutSec: '300'
+  - task: sonarcloud-buildbreaker@2
+    enabled: false
+    inputs:
+      SonarCloud: 'apsys-sonar-cloud-service'
+      organization: 'apsys-devops'
