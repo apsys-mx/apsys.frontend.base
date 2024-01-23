@@ -32,7 +32,7 @@ jobs:
             displayName: 'Install packages'
           - template: 'templates-sonar/sonar-cloud-prepare.yml'
             parameters:
-              enabled: false
+              enabled: true
               sonarServiceName: ${{variables.sonarServiceName}}
               sonarProjectKey: ${{variables.sonarProjectKey}}
               sonarProjectName: ${{variables.sonarProjectName}}
@@ -41,7 +41,7 @@ jobs:
             displayName: 'Build project'
           - template: 'templates-sonar/sonar-cloud-execute.yml'
             parameters:
-              enabled: false
+              enabled: true
               sonarServiceName: ${{variables.sonarServiceName}}
               sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
           - template: 'templates-octopus/octopus-pack-push.yml'
