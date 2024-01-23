@@ -1,7 +1,8 @@
 /**Mui resources */
 import { Box } from '@mui/material'
 import TablePagination from '@mui/material/TablePagination'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
+
 /**Resources */
 import * as styles from './pagination.styles'
 
@@ -33,14 +34,17 @@ const Pagination = (props) => {
 }
 
 Pagination.propTypes = {
-	pagination: PropTypes.shape({
-		enabled: PropTypes.bool.isRequired,
-		page: PropTypes.number.isRequired,
-		rowsPerPage: PropTypes.number.isRequired,
-		rowsCount: PropTypes.number.isRequired,
+	pagination: propTypes.shape({
+		enabled: propTypes.bool.isRequired,
+		page: propTypes.number.isRequired,
+		rowsPerPage: propTypes.number.isRequired,
+		rowsCount: propTypes.number.isRequired,
+		pageSize: propTypes.number.isRequired,
+		pageNumber: propTypes.number.isRequired,
+		total: propTypes.number.isRequired,
 	}),
-	onPageChange: PropTypes.func,
-	onRowsPerPageChange: PropTypes.func,
+	onPageChange: propTypes.func,
+	onRowsPerPageChange: propTypes.func,
 }
 
 Pagination.defaultProps = {
@@ -49,6 +53,9 @@ Pagination.defaultProps = {
 		page: 0,
 		rowsPerPage: 50,
 		rowsCount: 1000,
+		pageSize: 10,
+		pageNumber: 1,
+		total:0
 	},
 	onPageChange: () => console.warn('Callback [onPageChange] no defined'),
 	onRowsPerPageChange: () => console.warn('Callback [onPageChange] no defined'),
