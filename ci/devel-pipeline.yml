@@ -12,7 +12,7 @@ variables:
     - name: buildScript
       value: 'build'
     - template: 'templates-sonar/sonar-config.yml'
-    - template: 'templates-sonar/octopus-config.yml'
+    - template: 'templates-octopus/octopus-config.yml'
 
 pool:
     name: 'Default'
