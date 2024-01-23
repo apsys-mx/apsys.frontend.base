@@ -4,7 +4,7 @@ import TimesheetsTable from './home.table'
 import { defaultTableConfigurationTimeSheets } from './configurationTable'
 import Pagination from '../../common/datagrid/pagination'
 import * as styles from './home.styles'
-import SearchComponent from '../../common/search/search-component'
+import SearchInput from '../../common/search/search-input'
 
 /**
  * Home component
@@ -19,7 +19,7 @@ const HomeTemplate = ({
 	return (
 		<Box>
 			<Box sx={styles.searchContainer}>
-				<SearchComponent
+				<SearchInput
 					placeholder={''}
 					value={''}
 					onChange={console.warn('No [onChangeValue] callback defined')}
