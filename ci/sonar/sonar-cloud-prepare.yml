@@ -1,9 +1,13 @@
+variables:
+- name: sonarCloudServiceName
+  value: 'apsys-sonar-cloud-service'
+
 steps:
     - task: SonarCloudPrepare@1
       enabled: true
       inputs:
-        SonarCloud: 'apsys-sonar-cloud-service'
-        organization: ''
+        SonarCloud: $(sonarCloudServiceName)
+        organization: 'apsys-devops'
         scannerMode: 'CLI'
         configMode: 'manual'
         cliProjectKey: 'apsys-devops_apsys.frontend.base.turkey'
