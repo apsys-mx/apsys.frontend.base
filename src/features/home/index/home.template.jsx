@@ -1,4 +1,5 @@
 import React from 'react'
+import propTypes from 'prop-types'
 import { Box } from '@mui/material'
 
 /**
@@ -13,5 +14,7 @@ const HomeTemplate = ({data}) => {
 		</Box>
 	)
 }
-
+HomeTemplate.propTypes = {
+	data : propTypes.any
+}
 export default HomeTemplate

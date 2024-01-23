@@ -12,11 +12,9 @@ const Toaster = (props) => {
 	const { onClose, severity, message } = props
 
 	const action = (
-		<React.Fragment>
-			<IconButton size='small' aria-label='close' color='inherit' onClick={onClose}>
-				<CloseIcon fontSize='small' />
-			</IconButton>
-		</React.Fragment>
+		<IconButton size='small' aria-label='close' color='inherit' onClick={onClose}>
+			<CloseIcon fontSize='small' />
+		</IconButton>
 	)
 
 	return (

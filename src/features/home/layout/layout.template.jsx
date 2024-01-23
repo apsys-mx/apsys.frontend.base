@@ -52,53 +52,51 @@ const AppToolbar = ({ profile, onLogoutClick }) => {
 	const isProfileMenuOpen = Boolean(profileAnchorEl)
 
 	return (
-		<Fragment>
-			<AppBar>
-				<Toolbar>
-					<IconButton color='inherit'>
-						<MenuIcon />
-					</IconButton>
-					<Box sx={styles.appToolbar.space} />
-					<IconButton onClick={(event) => setProfileAnchorEl(event.currentTarget)}>
-						<Avatar src={profile.avatar_url} />
-					</IconButton>
-					<CustomizedMenu
-						id='profile-menu'
-						anchorEl={profileAnchorEl}
-						open={isProfileMenuOpen}
-						onClose={() => setProfileAnchorEl(null)}
-					>
-						<Box>
-							<Stack>
-								<List>
-									<ListItem>
-										<ListItemIcon>
-											<PersonOutline />
-										</ListItemIcon>
-										<ListItemText primary={profile.name} />
-									</ListItem>
-									<ListItem>
-										<ListItemIcon>
-											<AssignmentIndOutlined />
-										</ListItemIcon>
-										<ListItemText primary={profile.user_name} />
-									</ListItem>
-									<ListItem>
-										<ListItemIcon>
-											<MailOutline />
-										</ListItemIcon>
-										<ListItemText primary={profile.email} />
-									</ListItem>
-								</List>
-								<Button onClick={onLogoutClick}>
-									{t('logout', { ns: 'home' })}
-								</Button>
-							</Stack>
-						</Box>
-					</CustomizedMenu>
-				</Toolbar>
-			</AppBar>
-		</Fragment>
+		<AppBar>
+			<Toolbar>
+				<IconButton color='inherit'>
+					<MenuIcon />
+				</IconButton>
+				<Box sx={styles.appToolbar.space} />
+				<IconButton onClick={(event) => setProfileAnchorEl(event.currentTarget)}>
+					<Avatar src={profile.avatar_url} />
+				</IconButton>
+				<CustomizedMenu
+					id='profile-menu'
+					anchorEl={profileAnchorEl}
+					open={isProfileMenuOpen}
+					onClose={() => setProfileAnchorEl(null)}
+				>
+					<Box>
+						<Stack>
+							<List>
+								<ListItem>
+									<ListItemIcon>
+										<PersonOutline />
+									</ListItemIcon>
+									<ListItemText primary={profile.name} />
+								</ListItem>
+								<ListItem>
+									<ListItemIcon>
+										<AssignmentIndOutlined />
+									</ListItemIcon>
+									<ListItemText primary={profile.user_name} />
+								</ListItem>
+								<ListItem>
+									<ListItemIcon>
+										<MailOutline />
+									</ListItemIcon>
+									<ListItemText primary={profile.email} />
+								</ListItem>
+							</List>
+							<Button onClick={onLogoutClick}>
+								{t('logout', { ns: 'home' })}
+							</Button>
+						</Stack>
+					</Box>
+				</CustomizedMenu>
+			</Toolbar>
+		</AppBar>
 	)
 }
 
