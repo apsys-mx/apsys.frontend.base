@@ -1,14 +1,20 @@
+variables:
+- template: sonar-variables.yml  # Template reference
+
 steps:
   - task: SonarCloudAnalyze@1
+    displayName: 'SonarCloud Analyze'
     enabled: true
     inputs:
         jdkversion: 'JAVA_HOME'
   - task: SonarCloudPublish@1
+    displayName: 'SonarCloud Publish'
     enabled: true
     inputs:
         pollingTimeoutSec: '300'
   - task: sonarcloud-buildbreaker@2
+    displayName: 'SonarCloud Buildbreaker'
     enabled: true
     inputs:
       SonarCloud: 'apsys-sonar-cloud-service'
-      organization: 'apsys-devops'
+      organization: ${{ variables.organization }}
