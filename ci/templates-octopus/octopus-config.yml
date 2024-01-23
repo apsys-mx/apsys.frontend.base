@@ -4,5 +4,5 @@ variables:
   octopusDevelopmentName: 'Development'
   octopusTestingName: 'Testing'
   packageName: 'apsys.frontend.base.turkey'
-  projectName: 'apsys.frontend.base.turkey'
+  octopusProjectName: 'apsys.frontend.base.turkey'
 
