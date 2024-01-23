@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
 /** Redux imports section */
 import { useDispatch, useSelector } from 'react-redux'
@@ -236,7 +236,12 @@ const FilterMenu = (props) => {
 }
 
 FilterMenu.propTypes = {
-	dataSource: PropTypes.string.isRequired,
+	dataSource: propTypes.string.isRequired,
+	id: propTypes.string, 
+	open: propTypes.bool.isRequired, 
+	anchorEl: propTypes.string.isRequired, 
+	handleClose: propTypes.func.isRequired, 
+	filterTypeActive: propTypes.string
 }
 
 export default FilterMenu
