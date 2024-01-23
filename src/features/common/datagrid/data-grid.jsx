@@ -181,15 +181,7 @@ const DagridTableHead = ({
 					<Typography component='span' variant='subtitle2' color='secondary.dark'>
 						{title}
 					</Typography>
-				)}
-				
-				{
-				/* TODO: Implements filter button
-					<IconButton onClick={openContextMenu}>
-						{<FilterListIcon fontSize='small' />}
-					</IconButton> 
-				*/
-				}
+				)}				
 			</Box>
 		</TableCell>
 	)

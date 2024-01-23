@@ -1,4 +1,5 @@
 import React from 'react'
+import propTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 
@@ -24,5 +25,8 @@ const RootView = (props) => {
 			</OidcProvider>
 		</ThemeProvider>
 	)
+}
+RootView.propTypes = {
+	children: propTypes.element.isRequired
 }
 export default RootView
