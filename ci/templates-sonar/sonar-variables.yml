@@ -1,0 +1,5 @@
+variables:
+  sonarServiceName: 'apsys-sonar-cloud-service'
+  sonarProjectKey: 'apsys-devops_apsys.frontend.base.turkey'
+  sonarProjectName: 'apsys.frontend.base.turkey'  
+  sonarCloudOrganization: 'apsys-devops'

@@ -1,0 +1,27 @@
+parameters:
+- name: sonarServiceName
+  type: string
+- name: sonarCloudOrganization
+  type: string
+- name: sonarProjectKey
+  type: string
+- name: sonarProjectName
+  type: string
+- name: enabled
+  type: string
+  default: ''
+
+steps:
+    - task: SonarCloudPrepare@1
+      enabled: true
+      inputs:
+        SonarCloud: ${{ parameters.sonarServiceName }}
+        organization: ${{ parameters.sonarCloudOrganization }}
+        cliProjectKey: ${{ parameters.sonarProjectKey }}
+        cliProjectName: ${{ parameters.sonarProjectName }}
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliSources: '.'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner, 
+          sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt

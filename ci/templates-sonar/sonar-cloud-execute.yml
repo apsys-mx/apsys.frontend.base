@@ -1,4 +1,6 @@
 parameters:
+- name: sonarServiceName
+  type: string
 - name: sonarCloudOrganization
   type: string
 
@@ -17,5 +19,5 @@ steps:
     displayName: 'SonarCloud Buildbreaker'
     enabled: true
     inputs:
-      SonarCloud: 'apsys-sonar-cloud-service'
+      SonarCloud: ${{ parameters.sonarServiceName }}
       organization: ${{ parameters.sonarCloudOrganization }}
