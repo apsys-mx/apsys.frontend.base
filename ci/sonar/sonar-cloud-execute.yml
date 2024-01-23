@@ -1,5 +1,6 @@
-variables:
-- template: sonar-variables.yml  # Template reference
+parameters:
+- name: sonarCloudOrganization
+  type: string
 
 steps:
   - task: SonarCloudAnalyze@1
@@ -17,4 +18,4 @@ steps:
     enabled: true
     inputs:
       SonarCloud: 'apsys-sonar-cloud-service'
-      organization: ${{ variables.organization }}
+      organization: ${{ parameters.sonarCloudOrganization }}

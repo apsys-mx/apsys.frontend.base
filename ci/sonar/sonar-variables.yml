@@ -1,2 +1,2 @@
 variables:
-  organization: 'apsys-devops'
+  sonarCloudOrganization: 'apsys-devops'
