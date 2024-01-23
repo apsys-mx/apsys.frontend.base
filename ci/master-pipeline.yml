@@ -5,23 +5,14 @@ pr: none
 
 variables:
     - group: project-variables-group
-    - name: projectName
-      value: 'apsys.frontend.base.turkey'
     - name: packageSuffix
       value: ''
     - name: buildScript
       value: 'build:prd'
-    - name: octopus.spaceName
-      value: 'apsys-mx'
-    - name: octopus.server
-      value: 'https://apsys-fs-cloud.octopus.app'
-    - name: octopus.channel
+    - name: octopusChannel
       value: 'Default'
-    - name: octopus.developmentName
-      value: 'Development'
-    - name: octopus.testingName
-      value: 'Testing'
     - template: 'templates-sonar/sonar-config.yml'
+    - template: 'templates-octopus/octopus-config.yml'
 
 pool:
     name: 'Default'
@@ -41,6 +32,7 @@ jobs:
             displayName: 'Install packages'
           - template: 'templates-sonar/sonar-cloud-prepare.yml'
             parameters:
+              enabled: false
               sonarServiceName: ${{variables.sonarServiceName}}
               sonarProjectKey: ${{variables.sonarProjectKey}}
               sonarProjectName: ${{variables.sonarProjectName}}
@@ -49,13 +41,14 @@ jobs:
             displayName: 'Build project'
           - template: 'templates-sonar/sonar-cloud-execute.yml'
             parameters:
+              enabled: false
               sonarServiceName: ${{variables.sonarServiceName}}
               sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
           - template: 'templates-octopus/octopus-pack-push.yml'
             parameters:
-              server: 'https://apsys-fs-cloud.octopus.app'
-              space: 'apsys-mx'
-              packageName: 'apsys.frontend.base.turkey'
+              server: ${{variables.octopusServer}}
+              space: ${{variables.octopusSpaceName}}
+              packageName: ${{variables.packageName}}
               version: $(Build.BuildNumber)$(packageSuffix)
 
     - job: DeployApplication
@@ -64,18 +57,10 @@ jobs:
       displayName: Deploy to environments
       steps:
           - checkout: none
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Create releases'
-            inputs:
-                script: '"ci/octo" create-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)"'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Deploy to $(octopus.developmentName)'
-            inputs:
-                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.developmentName)"  --waitForDeployment --progress'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Deploy to $(octopus.testingName)'
-            inputs:
-                script: '"ci/octo" deploy-release --project $(projectName) --server "$(octopus.server)" --apiKey="$(OctopusAPIKey)" --space="$(octopus.spaceName)" --channel "$(octopus.channel)" --version "$(Build.BuildNumber)$(packageSuffix)" --deployto "$(octopus.testingName)"  --waitForDeployment --progress'
+          - template: 'templates-octopus/octopus-deploy.yml'
+            parameters:
+              server: ${{variables.octopusServer}}
+              space: ${{variables.octopusSpaceName}}
+              channel: $(octopusChannel)
+              projectName: ${{variables.octopusProjectName}}
+              version: $(Build.BuildNumber)$(packageSuffix)
