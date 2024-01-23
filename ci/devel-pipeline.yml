@@ -32,10 +32,6 @@ pool:
     name: 'Default'
     vmImage: 'windows-latest'
 
-pool:
-    name: 'Default'
-    vmImage: 'windows-latest'
-
 jobs:
     - job: BuildTestsPack
       displayName: Build, test and pack
