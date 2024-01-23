@@ -8,7 +8,7 @@ parameters:
 - name: sonarProjectName
   type: string
 - name: enabled
-  type: bool
+  type: boolean
   default: true
 
 steps:
