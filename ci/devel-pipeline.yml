@@ -41,7 +41,7 @@ jobs:
           - template: 'sonar/sonar-cloud-prepare.yml'
           - script: npm run $(buildScript)
             displayName: 'Build project'
-          - template: 'sonarsonar-cloud-execute.yml'
+          - template: 'sonar/sonarsonar-cloud-execute.yml'
           - task: CmdLine@2
             enabled: true
             displayName: 'Pack artifact for $(projectName)'
