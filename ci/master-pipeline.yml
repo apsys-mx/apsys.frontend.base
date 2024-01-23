@@ -51,16 +51,12 @@ jobs:
             parameters:
               sonarServiceName: ${{variables.sonarServiceName}}
               sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Pack artifact for $(projectName)'
-            inputs:
-                script: '"ci/octo" pack --id="$(projectName)" --format="NuPkg" --version="$(Build.BuildNumber)$(packageSuffix)" --basePath="dist" --author="APSYS" --title="$(projectName) package" --description="frontend package for $(projectName)"'
-          - task: CmdLine@2
-            enabled: true
-            displayName: 'Push $(projectName) package to Octopus'
-            inputs:
-                script: '"ci/octo" push --package="$(projectName).$(Build.BuildNumber)$(packageSuffix).nupkg" --server="$(octopus.server)" --space="$(octopus.spaceName)" --apiKey="$(OctopusAPIKey)"'
+          - template: 'templates-octopus/octopus-pack-push.yml'
+            parameters:
+              server: 'https://apsys-fs-cloud.octopus.app'
+              space: 'apsys-mx'
+              packageName: 'apsys.frontend.base.turkey'
+              version: $(Build.BuildNumber)$(packageSuffix)
 
     - job: DeployApplication
       dependsOn:

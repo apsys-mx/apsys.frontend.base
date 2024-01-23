@@ -1,18 +1,28 @@
 parameters:
-- name: projectName
+- name: server
+  type: string
+- name: space
+  type: string
+- name: packageName
   type: string
 - name: version
   type: string
+- name: author
+  type: string
+  default: 'apsys-mx'
+- name: basePath
+  type: string
+  default: 'dist'
 
 steps:
   - task: CmdLine@2
     enabled: true
-    displayName: 'Pack ${{ parameters.projectName }} package'
+    displayName: 'Pack ${{ parameters.packageName }} package'
     inputs:
-        script: '"ci/octo" pack --id="${{ parameters.projectName }}" --format="NuPkg" --version="${{ parameters.version }}" --basePath="dist" --author="APSYS" --title="${{ parameters.projectName }} package" --description="frontend package for ${{ parameters.projectName }}"'
+        script: '"ci/octo" pack --id=${{ parameters.packageName }} --format="NuPkg" --version=${{ parameters.version }} --basePath=${{ parameters.basePath }} --author=${{ parameters.author }} --title="${{ parameters.packageName }} package" --description="Frontend package for ${{ parameters.packageName }}"'
   - task: CmdLine@2
     enabled: true
-    displayName: 'Push ${{ parameters.projectName }} package'
+    displayName: 'Push ${{ parameters.packageName }} package'
     inputs:
-        script: '"ci/octo" push --package="${{ parameters.projectName }}.${{ parameters.version }}.nupkg" --server="$(octopus.server)" --space="$(octopus.spaceName)" --apiKey="$(OctopusAPIKey)"'
+        script: '"ci/octo" push --package="${{ parameters.packageName }}.${{ parameters.version }}.nupkg" --server=${{ parameters.server }} --space=${{ parameters.space }} --apiKey=$(OctopusAPIKey)'
 

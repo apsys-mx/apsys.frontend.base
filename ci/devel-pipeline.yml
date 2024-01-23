@@ -11,17 +11,8 @@ variables:
       value: '-beta'
     - name: buildScript
       value: 'build'
-    - name: octopus.spaceName
-      value: 'apsys-mx'
-    - name: octopus.server
-      value: 'https://apsys-fs-cloud.octopus.app'
-    - name: octopus.channel
-      value: 'Beta'
-    - name: octopus.developmentName
-      value: 'Development'
-    - name: octopus.testingName
-      value: 'Testing'
-    - template: 'templates-sonar/sonar-variables.yml'
+    - template: 'templates-sonar/sonar-config.yml'
+    - template: 'templates-sonar/octopus-config.yml'
 
 pool:
     name: 'Default'
@@ -53,8 +44,10 @@ jobs:
               sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
           - template: 'templates-octopus/octopus-pack-push.yml'
             parameters:
-              projectName: 'apsys.frontend.base.turkey'
-              version: "$(Build.BuildNumber)$(packageSuffix)"
+              server: ${{variables.octopusServer}}
+              space: ${{variables.octopusSpaceName}}
+              packageName: ${{variables.packageName}}
+              version: $(Build.BuildNumber)$(packageSuffix)
 
     - job: DeployApplication
       dependsOn:
