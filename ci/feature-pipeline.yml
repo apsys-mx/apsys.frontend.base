@@ -36,16 +36,16 @@ jobs:
             displayName: 'Install packages'
           - task: SonarCloudPrepare@1
             inputs:
-                SonarCloud: 'SonarCloud Service'
-                organization: '$(sonar.organization)'
-                scannerMode: 'CLI'
-                configMode: 'manual'
-                cliProjectKey: $(sonar.projectKey)
-                cliProjectName: $(sonar.projectName)
-                cliSources: '.'
-                extraProperties: |
-                    # Additional properties that will be passed to the scanner, 
-                    sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
+              SonarCloud: 'apsys-sonar-cloud-service'
+              organization: $(sonar.organization)
+              scannerMode: 'CLI'
+              configMode: 'manual'
+              cliProjectKey: '$(sonar.projectKey)'
+              cliProjectName: '$(sonar.projectName)'
+              cliSources: '.'
+              extraProperties: |
+                # Additional properties that will be passed to the scanner, 
+                sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
           - script: npm run $(buildScript)
             displayName: 'Build project'
           - task: SonarCloudAnalyze@1
@@ -56,5 +56,5 @@ jobs:
                 pollingTimeoutSec: '300'
           - task: sonarcloud-buildbreaker@2
             inputs:
-                SonarCloud: 'SonarCloud Service'
-                organization: $(sonar.organization)
+              SonarCloud: 'apsys-sonar-cloud-service'
+              organization: 'apsys-devops'
