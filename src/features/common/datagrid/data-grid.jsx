@@ -20,6 +20,7 @@ import moment from 'moment'
 import { currencyFormat, numberFormat } from './filters/helper/currency-helper'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import FilterMenu from './filters/menu-filter/filter-menu'
+
 /** Datagrid component */
 const DataGrid = ({
 	headers,
@@ -100,17 +101,49 @@ DataGrid.propTypes = {
 	/**
 	 * The configuration of the tables
 	 */
-	headers: propTypes.arrayOf(tableConfigProps),
+	headers: propTypes.arrayOf(tableConfigProps).isRequired,
+
+	/**
+	 * The name of the property sorted
+	 */
 	sortCriteria: propTypes.string,
+
+	/**
+	 * The sorting criteria 'asc' or 'desc'
+	 */
 	sortDirection: propTypes.oneOf(['asc', 'desc']),
-	onchangeSorting: propTypes.func,
+
+	/**
+	 * Callback executed when the sorting criteria button is pressed
+	 */
+	onchangeSorting: propTypes.func.isRequired,
+
+	/**
+	 * Determine if the table is shown in a dense (small) configuration
+	 */
 	dense: propTypes.bool,
+
+	/**
+	 * This property is used to set the max datagrid height. Use when the container has a defined height
+	 */
 	maxHeight: propTypes.any,
+
+	/**
+	 * Determine if the text in the colums use an ellipsis for large text 
+	 */
+	noWrap: propTypes.bool,
+
+	/**
+	 * Determine if the datagrid shows a 'loading' state
+	 */
+	isLoading: propTypes.bool.isRequired,
+
 }
 DataGrid.defaultPropTypes = {
 	data: [],
 	headers: [],
 	dense: false,
+	isLoading: false,
 }
 
 /**
@@ -184,10 +217,46 @@ const DagridTableHead = ({
 				{...filterSettings}
 				title={title}
 				dataSource={dataSource}
-				//	onRenderFilterOptions={filtering.onRenderFilterOptions}
 			/>
 		</TableCell>
 	)
+}
+DagridTableHead.propTypes = {
+
+	/**
+	 * The title show in the column header
+	 */
+	title: propTypes.string,
+
+	/**
+	 * The name of the item's property show in the column
+	 */
+	dataSource: propTypes.string,
+
+	/**
+	 * Determine if the column can be sorted
+	 */
+	sortable: propTypes.bool,
+
+	/**
+	 * The datagrid's sort criteria. Used to determine if the column must show the sorting control
+	 */
+	sortCriteria: propTypes.string,
+
+	/**
+	 * The datagrid's sort direction
+	 */
+	sortDirection: propTypes.string,
+
+	/**
+	 * Callback executed when the sorting criteria button is pressed
+	 */
+	onchangeSorting: propTypes.func,
+
+	/**
+	 * Set the datatype of the property contained in the column
+	 */
+	filterType: propTypes.string,
 }
 
 /**
@@ -228,6 +297,12 @@ const DatagridTableCell = ({ config, item, property }) => {
 			</Typography>{' '}
 		</TableCell>
 	)
+}
+DatagridTableCell.propTypes = {
+	config: propTypes.shape({
+		dataType: propTypes.string,
+		onRenderProperty: propTypes.func
+	})
 }
 
 export default DataGrid
