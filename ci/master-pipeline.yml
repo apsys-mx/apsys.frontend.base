@@ -66,8 +66,8 @@ jobs:
                 pollingTimeoutSec: '300'
           - task: sonarcloud-buildbreaker@2
             inputs:
-                SonarCloud: 'SonarCloud Service'
-                organization: $(sonar.organization)
+              SonarCloud: 'apsys-sonar-cloud-service'
+              organization: 'apsys-devops'
           - task: CmdLine@2
             enabled: true
             displayName: 'Pack artifact for $(projectName)'
