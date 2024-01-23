@@ -21,7 +21,7 @@ variables:
       value: 'Development'
     - name: octopus.testingName
       value: 'Testing'
-    - template: 'sonar/sonar-variables.yml'
+    - template: 'templates-sonar/sonar-variables.yml'
 
 pool:
     name: 'Default'
