@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import * as selectors from './oidc.selectors'
+import propTypes from 'prop-types';
 
 /**
  * Define protected route
@@ -13,9 +14,13 @@ const ProtectedRoute = ({ children }) => {
 
 	if (profile.two_factor_enabled !== 'true') {
 		console.warn(`The [two_factor_enabled] has invalid value: [${profile.two_factor_enabled}]`)
-		return <Navigate to='/forbidden' replace state={{}} />
+		//return <Navigate to='/forbidden' replace state={{}} />
 	}
 
 	return children
 }
+ProtectedRoute.propTypes = {
+	children: propTypes.element.isRequired
+  };
+  
 export default ProtectedRoute

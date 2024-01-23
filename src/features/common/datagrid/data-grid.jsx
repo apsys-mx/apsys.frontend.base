@@ -299,10 +299,25 @@ const DatagridTableCell = ({ config, item, property }) => {
 	)
 }
 DatagridTableCell.propTypes = {
+
+	/**
+	 * The configuration of the value to render
+	 * dataType: 'string', 'date', 'currency', 'number'
+	 */
 	config: propTypes.shape({
 		dataType: propTypes.string,
 		onRenderProperty: propTypes.func
-	})
+	}),
+
+	/**
+	 * The item to render
+	 */
+	item: propTypes.object.isRequired,
+
+	/**
+	 * The item's property to render
+	 */
+	property: propTypes.string.isRequired
 }
 
 export default DataGrid
