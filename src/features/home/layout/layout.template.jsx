@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
@@ -45,6 +45,10 @@ const LayoutTemplate = ({ profile, onLogoutClick }) => {
 LayoutTemplate.propTypes = profilePropTypes
 LayoutTemplate.defaultProps = defaultProfilePropTypes
 
+
+/**
+ * App toolbar template
+ */
 const AppToolbar = ({ profile, onLogoutClick }) => {
 	const { t } = useTranslation()
 	const [profileAnchorEl, setProfileAnchorEl] = useState(null)
@@ -89,9 +93,7 @@ const AppToolbar = ({ profile, onLogoutClick }) => {
 									<ListItemText primary={profile.email} />
 								</ListItem>
 							</List>
-							<Button onClick={onLogoutClick}>
-								{t('logout', { ns: 'home' })}
-							</Button>
+							<Button onClick={onLogoutClick}>{t('logout', { ns: 'home' })}</Button>
 						</Stack>
 					</Box>
 				</CustomizedMenu>
@@ -99,6 +101,8 @@ const AppToolbar = ({ profile, onLogoutClick }) => {
 		</AppBar>
 	)
 }
+AppToolbar.propTypes = profilePropTypes
+AppToolbar.defaultProps = defaultProfilePropTypes
 
 const CustomizedMenu = styled(Menu)`
 	& .MuiMenu-list {
