@@ -1,0 +1,18 @@
+parameters:
+- name: projectName
+  type: string
+- name: version
+  type: string
+
+steps:
+  - task: CmdLine@2
+    enabled: true
+    displayName: 'Pack ${{ parameters.projectName }} package'
+    inputs:
+        script: '"ci/octo" pack --id="${{ parameters.projectName }}" --format="NuPkg" --version="${{ parameters.version }}" --basePath="dist" --author="APSYS" --title="${{ parameters.projectName }} package" --description="frontend package for ${{ parameters.projectName }}"'
+  - task: CmdLine@2
+    enabled: true
+    displayName: 'Push ${{ parameters.projectName }} package'
+    inputs:
+        script: '"ci/octo" push --package="${{ parameters.projectName }}.${{ parameters.version }}.nupkg" --server="$(octopus.server)" --space="$(octopus.spaceName)" --apiKey="$(OctopusAPIKey)"'
+
