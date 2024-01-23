@@ -26,9 +26,10 @@ const Toaster = (props) => {
 	)
 }
 Toaster.propTypes = {
-	severity: propTypes.oneOf(['success', 'info', 'warning', 'error']).isRequired,
-	open: propTypes.bool.isRequired,
+	severity: propTypes.oneOf(['success', 'info', 'warning', 'error']),
+	open: propTypes.bool,
 	onClose: propTypes.func,
+	message: propTypes.string.isRequired,
 	anchorOrigin: propTypes.shape({
 		vertical: propTypes.string.isRequired,
 		horizontal: propTypes.string.isRequired,
