@@ -8,12 +8,12 @@ parameters:
 - name: sonarProjectName
   type: string
 - name: enabled
-  type: string
-  default: ''
+  type: bool
+  default: true
 
 steps:
     - task: SonarCloudPrepare@1
-      enabled: true
+      enabled: ${{ parameters.enabled }}
       inputs:
         SonarCloud: ${{ parameters.sonarServiceName }}
         organization: ${{ parameters.sonarCloudOrganization }}

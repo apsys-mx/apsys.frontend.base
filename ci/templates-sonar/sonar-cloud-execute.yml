@@ -3,21 +3,24 @@ parameters:
   type: string
 - name: sonarCloudOrganization
   type: string
+- name: enabled
+  type: bool
+  default: true
 
 steps:
   - task: SonarCloudAnalyze@1
     displayName: 'SonarCloud Analyze'
-    enabled: true
+    enabled: ${{ parameters.enabled }}
     inputs:
         jdkversion: 'JAVA_HOME'
   - task: SonarCloudPublish@1
     displayName: 'SonarCloud Publish'
-    enabled: true
+    enabled: ${{ parameters.enabled }}
     inputs:
         pollingTimeoutSec: '300'
   - task: sonarcloud-buildbreaker@2
     displayName: 'SonarCloud Buildbreaker'
-    enabled: true
+    enabled: ${{ parameters.enabled }}
     inputs:
       SonarCloud: ${{ parameters.sonarServiceName }}
       organization: ${{ parameters.sonarCloudOrganization }}
