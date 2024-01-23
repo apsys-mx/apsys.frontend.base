@@ -62,5 +62,5 @@ jobs:
               server: ${{variables.octopusServer}}
               space: ${{variables.octopusSpaceName}}
               channel: $(octopusChannel)
-              project: ${{variables.octopusProjectName}}
+              projectName: ${{variables.octopusProjectName}}
               version: $(Build.BuildNumber)$(packageSuffix)
