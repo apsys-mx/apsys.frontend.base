@@ -67,11 +67,26 @@ parameters:
 Open the  `ci\templates-sonar\sonar-config.yml` file
 
 ```yml
-# Change the variable values according to your sonarconfiguration
+# Change the variable values according to your sonar configuration
 variables:
   sonarServiceName: 'sonar-service-name'    # Service name from Azure Service connections. Use SonarCloud or SonarQube service connection 
   sonarProjectKey: 'apsys-devops_apsys.frontend.base.turkey'
   sonarProjectName: 'apsys.frontend.base.turkey'  
   sonarCloudOrganization: 'apsys-devops'    # This value is required only for SonarCloud configuration
 
+```
+
+## Configure Octopus deploy
+
+Open the  `ci\templates-octopus\octopus-config.yml` file
+
+```yml
+# Change the variable values according to your octopus deploy configuration
+variables:
+  octopusServer: 'octopus-server-url'
+  octopusSpaceName: 'octopus-space-name'
+  octopusDevelopmentName: 'development-environment-name'
+  octopusTestingName: 'testing-environment-name'
+  packageName: 'package-name'
+  octopusProjectName: 'octopus-project-name'
 ```
