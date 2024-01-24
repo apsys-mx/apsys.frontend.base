@@ -37,6 +37,12 @@ jobs:
               sonarProjectKey: ${{variables.sonarProjectKey}}
               sonarProjectName: ${{variables.sonarProjectName}}
               sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
+#          - template: 'templates-sonar/sonarqube-prepare.yml'
+#            parameters:
+#              enabled: true
+#              sonarServiceName: ${{variables.sonarServiceName}}
+#              sonarProjectKey: ${{variables.sonarProjectKey}}
+#              sonarProjectName: ${{variables.sonarProjectName}}
           - script: npm run $(buildScript)
             displayName: 'Build project'
           - template: 'templates-sonar/sonar-cloud-execute.yml'
@@ -44,6 +50,10 @@ jobs:
               enabled: true
               sonarServiceName: ${{variables.sonarServiceName}}
               sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
+#          - template: 'templates-sonar/sonarqube-execute.yml'
+#            parameters:
+#              enabled: true
+#              sonarServiceName: ${{variables.sonarServiceName}}
           - template: 'templates-octopus/octopus-pack-push.yml'
             parameters:
               server: ${{variables.octopusServer}}

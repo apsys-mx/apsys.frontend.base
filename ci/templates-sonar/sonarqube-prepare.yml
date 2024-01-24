@@ -1,0 +1,23 @@
+parameters:
+- name: sonarServiceName
+  type: string
+- name: sonarProjectKey
+  type: string
+- name: sonarProjectName
+  type: string
+- name: enabled
+  type: boolean
+  default: true
+
+steps:
+  - task: SonarQubePrepare@5
+    enabled: ${{ parameters.enabled }}
+    inputs:
+      SonarQube: ${{ parameters.sonarServiceName }}
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: ${{ parameters.sonarProjectKey }}
+      cliProjectName: ${{ parameters.sonarProjectName }}
+      cliSources: '.'
+      extraProperties: |
+        # Additional properties that will be passed to the scanner, 

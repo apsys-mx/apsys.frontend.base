@@ -1,0 +1,23 @@
+parameters:
+- name: sonarServiceName
+  type: string
+- name: enabled
+  type: boolean
+  default: true
+
+steps:
+  - task: SonarQubeAnalyze@5
+    displayName: 'SonarCloud Analyze'
+    enabled: ${{ parameters.enabled }}
+    inputs:
+        jdkversion: 'JAVA_HOME'
+  - task: SonarQubePublish@5
+    displayName: 'SonarCloud Publish'
+    enabled: ${{ parameters.enabled }}
+    inputs:
+        pollingTimeoutSec: '300'
+#  - task: sonarcloud-buildbreaker@2
+#    displayName: 'SonarCloud Buildbreaker'
+#    enabled: ${{ parameters.enabled }}
+#    inputs:
+#      SonarQube: ${{ parameters.sonarServiceName }}
