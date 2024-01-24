@@ -16,8 +16,8 @@ steps:
     enabled: ${{ parameters.enabled }}
     inputs:
         pollingTimeoutSec: '300'
-#  - task: sonarcloud-buildbreaker@2
-#    displayName: 'SonarCloud Buildbreaker'
-#    enabled: ${{ parameters.enabled }}
-#    inputs:
-#      SonarQube: ${{ parameters.sonarServiceName }}
+  - task: sonar-buildbreaker@8
+    displayName: 'SonarQube Buildbreaker'
+    enabled: ${{ parameters.enabled }}
+    inputs:
+      SonarQube: ${{ parameters.sonarServiceName }}
