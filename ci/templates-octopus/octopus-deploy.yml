@@ -15,20 +15,23 @@ parameters:
 - name: testingName
   type: string
   default: 'Testing'
+- name: enabled
+  type: boolean
+  default: true
 
 steps:
     - task: CmdLine@2
-      enabled: true
+      enabled: ${{ parameters.enabled }}
       displayName: 'Create releases'
       inputs:
           script: '"ci/octo" create-release --project ${{ parameters.projectName }} --server ${{ parameters.server }} --apiKey=$(OctopusAPIKey) --space=${{ parameters.space }} --channel ${{ parameters.channel }} --version ${{ parameters.version }}'
     - task: CmdLine@2
-      enabled: true
+      enabled: ${{ parameters.enabled }}
       displayName: 'Deploy to ${{ parameters.developmentName }}'
       inputs:
           script: '"ci/octo" deploy-release --project ${{ parameters.projectName }} --server ${{ parameters.server }} --apiKey=$(OctopusAPIKey) --space=${{ parameters.space }} --channel ${{ parameters.channel }} --version ${{ parameters.version }} --deployto ${{ parameters.developmentName }}  --waitForDeployment --progress'
     - task: CmdLine@2
-      enabled: true
+      enabled: ${{ parameters.enabled }}
       displayName: 'Deploy to ${{ parameters.testingName }}'
       inputs:
           script: '"ci/octo" deploy-release --project ${{ parameters.projectName }} --server ${{ parameters.server }} --apiKey=$(OctopusAPIKey) --space=${{ parameters.space }} --channel ${{ parameters.channel }} --version ${{ parameters.version }} --deployto ${{ parameters.testingName }}  --waitForDeployment --progress'
