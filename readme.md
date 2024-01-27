@@ -90,3 +90,16 @@ variables:
   packageName: 'package-name'
   octopusProjectName: 'octopus-project-name'
 ```
+
+
+## Configure Identity authority and backend connection
+
+Open the  `.env`, `.env.qas` and `.env.prd` files
+
+```
+# Change the variable values according to your identity authority and backend connection
+VITE_APP_ROOT='/'
+VITE_APP_CLIENT_ID='app-client-id'
+VITE_IDENTITY_SERVER_URL='https://identity-server-url'
+VITE_BACKEND_URL=http://backend-url
+```
