@@ -30,30 +30,30 @@ jobs:
                 versionSpec: '18.x'
           - script: npm install
             displayName: 'Install packages'
-          - template: 'templates-sonar/sonar-cloud-prepare.yml'
-            parameters:
-              enabled: false
-              sonarServiceName: ${{variables.sonarServiceName}}
-              sonarProjectKey: ${{variables.sonarProjectKey}}
-              sonarProjectName: ${{variables.sonarProjectName}}
-              sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
-#          - template: 'templates-sonar/sonarqube-prepare.yml'
-#            parameters:
-#              enabled: false
-#              sonarServiceName: ${{variables.sonarServiceName}}
-#              sonarProjectKey: ${{variables.sonarProjectKey}}
-#              sonarProjectName: ${{variables.sonarProjectName}}
+          # - template: 'templates-sonar/sonar-cloud-prepare.yml'
+          #   parameters:
+          #     enabled: false
+          #     sonarServiceName: ${{variables.sonarServiceName}}
+          #     sonarProjectKey: ${{variables.sonarProjectKey}}
+          #     sonarProjectName: ${{variables.sonarProjectName}}
+          #     sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
+          # - template: 'templates-sonar/sonarqube-prepare.yml'
+          #   parameters:
+          #     enabled: false
+          #     sonarServiceName: ${{variables.sonarServiceName}}
+          #     sonarProjectKey: ${{variables.sonarProjectKey}}
+          #     sonarProjectName: ${{variables.sonarProjectName}}
           - script: npm run $(buildScript)
             displayName: 'Build project'
-          - template: 'templates-sonar/sonar-cloud-execute.yml'
-            parameters:
-              enabled: false
-              sonarServiceName: ${{variables.sonarServiceName}}
-              sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
-#          - template: 'templates-sonar/sonarqube-execute.yml'
-#            parameters:
-#              enabled: false
-#              sonarServiceName: ${{variables.sonarServiceName}}
+          # - template: 'templates-sonar/sonar-cloud-execute.yml'
+          #   parameters:
+          #     enabled: false
+          #     sonarServiceName: ${{variables.sonarServiceName}}
+          #     sonarCloudOrganization: ${{variables.sonarCloudOrganization}}
+          # - template: 'templates-sonar/sonarqube-execute.yml'
+          #   parameters:
+          #     enabled: false
+          #     sonarServiceName: ${{variables.sonarServiceName}}
           - template: 'templates-octopus/octopus-pack-push.yml'
             parameters:
               server: ${{variables.octopusServer}}
