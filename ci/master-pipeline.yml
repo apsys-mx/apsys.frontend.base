@@ -69,6 +69,7 @@ jobs:
           - checkout: none
           - template: 'templates-octopus/octopus-deploy.yml'
             parameters:
+              enabled: true
               server: ${{variables.octopusServer}}
               space: ${{variables.octopusSpaceName}}
               channel: $(octopusChannel)
