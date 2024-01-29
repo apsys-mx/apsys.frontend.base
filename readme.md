@@ -8,7 +8,7 @@ This project contains the template for all the frontend projects with:
 
 ## Create the new frontend repository
 - In Github create a new repository
-- In `Repository template` selector choose `apsys-mx/apsys.frontend.base.turkey`
+- In `Repository template` selector choose `apsys-mx/apsys.frontend.base`
 - Complete the additional information and create the repository
 - In your development environment, clone the new created repository
 - Open the files using any text editor like Visual Code or any other tool
