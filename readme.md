@@ -69,10 +69,10 @@ Open the  `ci\templates-sonar\sonar-config.yml` file
 ```yml
 # Change the variable values according to your sonar configuration
 variables:
-  sonarServiceName: 'sonar-service-name'    # Service name from Azure Service connections. Use SonarCloud or SonarQube service connection 
-  sonarProjectKey: 'apsys-devops_apsys.frontend.base.turkey'
-  sonarProjectName: 'apsys.frontend.base.turkey'  
-  sonarCloudOrganization: 'apsys-devops'    # This value is required only for SonarCloud configuration
+  sonarServiceName: 'sonar-service-name'              # Service name from Azure Service connections. Use SonarCloud or SonarQube service connection 
+  sonarProjectKey: 'sonar-project-key'
+  sonarProjectName: 'sonar-project-name'  
+  sonarCloudOrganization: 'sonar-cloud-organization'  # This value is required only for SonarCloud configuration
 
 ```
 
