@@ -1,6 +1,6 @@
 ## Install vitejs
 
--   Create a folder with name `apsys.frontend.base.turkey`
+-   Create a folder with name `apsys.frontend.base`
 -   Run the command `npm create vite@latest .`
 -   Run the command `npm install`
 -   Run the command `npm run dev`
